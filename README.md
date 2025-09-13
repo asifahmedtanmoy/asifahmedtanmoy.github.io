@@ -32,30 +32,6 @@ Higher Secondary Board Scholarship Recipient
 
 ---
 
-## Work Experiences
-### Industrial Attachment (June 2024)
-**DBL Ceramics Ltd., Sreepur Upazila, Dhaka**  
-As part of a mandatory BUET sessional course, I completed an industrial attachment at DBL Ceramics Ltd., where I gained hands-on exposure to tile manufacturing processes, material characterization, raw material sourcing, and quality control. I also developed practical skills in process optimization, industrial safety, sorting & packaging, and time management while observing large-scale production workflows.
-
----
-
-## Extracurriculars & Leadership Roles (BUET)
-
-**BUET Debating Club (BUETDC, 3 years)**  
-- Vice President: Sep 2024 – Apr 2025 (8 months)  
-- Joint Secretary: Jun 2023 – Sep 2024 (1 yr 4 mos)  
-- Information Secretary: May 2022 – Jun 2023 (1 yr 2 mos)  
-
-**BUET Automobile Club (BAC)**  
-- Logistics Secretary: Sep 2022 – Jun 2023 (10 months)  
-
-**BUET Dance Club (3 years)**  
-- General Secretary: Sep 2024 – May 2025 (9 months)  
-- Assistant Secretary of Documentation & Treasure: Jun 2023 – Sep 2024 (1 yr 4 mos)  
-- Executive of Communication & Public Affairs: Jun 2022 – Jun 2023 (1 yr 1 mo)
-
----
-
 ## Undergrad Projects
 
 ### 1. BUET Undergrad Thesis: Effect of La³⁺ Substitution on the Structural and Magnetic Properties of NiFe₂O₄ Nanoparticles
@@ -85,6 +61,37 @@ Therefore, our MgFe₂O₄–TiO₂/UV system porous ceramic is designed to poss
 
 ---
 
+## Test Scores
+### International English Language Testing System (IELTS)
+Score: 7 (Listening - 7.5, Reading - 6.5, Writing - 7.0, Speaking - 6.0)
+Oct 2024
+
+---
+
+## Work Experiences
+### Industrial Attachment (June 2024)
+**DBL Ceramics Ltd., Sreepur Upazila, Dhaka**  
+As part of a mandatory BUET sessional course, I completed an industrial attachment at DBL Ceramics Ltd., where I gained hands-on exposure to tile manufacturing processes, material characterization, raw material sourcing, and quality control. I also developed practical skills in process optimization, industrial safety, sorting & packaging, and time management while observing large-scale production workflows.
+
+---
+
+## Extracurriculars & Leadership Roles (BUET)
+
+**BUET Debating Club (BUETDC, 3 years)**  
+- Vice President: Sep 2024 – Apr 2025 (8 months)  
+- Joint Secretary: Jun 2023 – Sep 2024 (1 yr 4 mos)  
+- Information Secretary: May 2022 – Jun 2023 (1 yr 2 mos)  
+
+**BUET Automobile Club (BAC)**  
+- Logistics Secretary: Sep 2022 – Jun 2023 (10 months)  
+
+**BUET Dance Club (3 years)**  
+- General Secretary: Sep 2024 – May 2025 (9 months)  
+- Assistant Secretary of Documentation & Treasure: Jun 2023 – Sep 2024 (1 yr 4 mos)  
+- Executive of Communication & Public Affairs: Jun 2022 – Jun 2023 (1 yr 1 mo)
+
+---
+
 ## Volunteer Experiences
 
 **Executive Committee Member, BADHAN**  
@@ -100,13 +107,6 @@ May 2023 – May 2024 (1 year 1 month)
 Ministry of Education, Bangladesh  
 2019  
 In recognition of exceptional academic excellence during higher secondary education, this award is conferred upon the most meritorious students, to be honored throughout the four-year course of their bachelor’s degree.
-
----
-
-## Test Scores
-### International English Language Testing System (IELTS)
-Score: 7 (Listening - 7.5, Reading - 6.5, Writing - 7.0, Speaking - 6.0)
-Oct 2024
 
 ---
 
