@@ -16,21 +16,32 @@
       display: flex;
     }
 
+    a {
+      color: #007acc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #005f99;
+      text-decoration: underline;
+    }
+
     /* Sidebar */
     nav.sidebar {
       position: fixed;
       top: 0;
       left: 0;
-      width: 220px;
+      width: 160px; /* Slimmer width */
       height: 100vh;
       background-color: #ffffff;
       border-right: 1px solid #e0e0e0;
-      padding: 30px 20px;
+      padding: 30px 15px;
       box-shadow: 2px 0 5px rgba(0,0,0,0.05);
     }
 
     nav.sidebar h2 {
-      font-size: 1.2em;
+      font-size: 1.1em;
       margin-bottom: 20px;
       color: #007acc;
     }
@@ -41,7 +52,7 @@
       font-weight: 500;
       color: #007acc;
       text-decoration: none;
-      padding: 5px;
+      padding: 4px 5px;
       border-radius: 4px;
       transition: background 0.3s ease;
     }
@@ -52,7 +63,7 @@
 
     /* Main Content */
     main {
-      margin-left: 220px;
+      margin-left: 160px; /* Match sidebar width */
       padding: 40px 30px;
       max-width: 900px;
     }
