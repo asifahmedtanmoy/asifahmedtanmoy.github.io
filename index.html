@@ -32,7 +32,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 160px; /* Slimmer width */
+      width: 160px;
       height: 100vh;
       background-color: #ffffff;
       border-right: 1px solid #e0e0e0;
@@ -63,9 +63,10 @@
 
     /* Main Content */
     main {
-      margin-left: 160px; /* Match sidebar width */
-      padding: 40px 30px;
+      margin-left: 200px; /* space from sidebar */
+      padding: 50px 40px; /* internal spacing for content */
       max-width: 900px;
+      width: 100%;
     }
 
     section {
@@ -111,6 +112,9 @@
 
     /* Responsive */
     @media (max-width: 900px) {
+      body {
+        flex-direction: column;
+      }
       nav.sidebar {
         position: relative;
         width: 100%;
@@ -121,12 +125,9 @@
         justify-content: space-around;
         padding: 15px 10px;
       }
-      nav.sidebar a {
-        margin: 0 10px;
-      }
       main {
         margin-left: 0;
-        padding: 20px 15px;
+        padding: 30px 20px;
       }
     }
   </style>
