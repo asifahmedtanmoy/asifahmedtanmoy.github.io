@@ -14,15 +14,16 @@ Currently preparing for graduate studies in Materials Science (Fall 2026) in the
 ## Education
 **Bangladesh University of Engineering and Technology (BUET)**  
 B.Sc in Materials & Metallurgical Engineering  
-CGPA: 3.39  
+CGPA: 3.39/4.0  
 
-**Higher Secondary Education:** [Notre Dame College, Dhaka], Board Scholarship Recipient  
+**Higher Secondary Education:** 
+[Notre Dame College, Dhaka]
+GPA 5.00/5.00
+Higher Secondary Board Scholarship Recipient  
 
 ---
 
 ## Research Interests
-
-### Core (Thesis & Skills)
 
 - **Energy and Electrode Materials** 
 - **2D and Advanced Materials:** Carbon nanotubes, graphene, and hybrid composites
@@ -40,11 +41,6 @@ As part of a mandatory BUET sessional course, I completed an industrial attachme
 
 ## Extracurriculars & Leadership Roles (BUET)
 
-**BUET Dance Club (3 years)**  
-- General Secretary: Sep 2024 – May 2025 (9 months)  
-- Assistant Secretary of Documentation & Treasure: Jun 2023 – Sep 2024 (1 yr 4 mos)  
-- Executive of Communication & Public Affairs: Jun 2022 – Jun 2023 (1 yr 1 mo)  
-
 **BUET Debating Club (BUETDC, 3 years)**  
 - Vice President: Sep 2024 – Apr 2025 (8 months)  
 - Joint Secretary: Jun 2023 – Sep 2024 (1 yr 4 mos)  
@@ -52,6 +48,11 @@ As part of a mandatory BUET sessional course, I completed an industrial attachme
 
 **BUET Automobile Club (BAC)**  
 - Logistics Secretary: Sep 2022 – Jun 2023 (10 months)  
+
+**BUET Dance Club (3 years)**  
+- General Secretary: Sep 2024 – May 2025 (9 months)  
+- Assistant Secretary of Documentation & Treasure: Jun 2023 – Sep 2024 (1 yr 4 mos)  
+- Executive of Communication & Public Affairs: Jun 2022 – Jun 2023 (1 yr 1 mo)
 
 ---
 
@@ -71,9 +72,10 @@ As (V) can be removed from water through various techniques such as coagulation 
 
 **Background:**  
 There are two main forms of arsenic in water: trivalent [As (III)] and pentavalent [As (V)]. Usually, As (III) is prevalent in anoxic conditions such as in groundwater and is in uncharged form in nature, whereas As (V) is thermodynamically stable in surface water. As (III) is reported to have a low adsorption performance to various adsorbents compared with that of As (V) while the toxicity of As (III) is about 25–60 times higher than that of As (V). So, a pretreatment for As (III) to the less toxic As (V) is usually required for adsorption processes. Many oxidants have been applied for oxidation of As (III) to As (V) including O₃, H₂O₂, MnO₂ and TiO₂/UV. The TiO₂/UV system was an effective and low-cost approach.  
+
 Therefore, our MgFe₂O₄–TiO₂/UV system porous ceramic is designed to possess synergistic effect:  
 1. TiO₂ oxidizes toxic As (III) to less toxic As (V) - Photocatalytic Oxidation  
-2. MgFe₂O₄ adsorbs As (V)  
+2. Then MgFe₂O₄ adsorbs As (V)  
 
 </details>
 
@@ -83,7 +85,32 @@ Therefore, our MgFe₂O₄–TiO₂/UV system porous ceramic is designed to poss
 
 ---
 
-## Contact
+## Volunteer Experiences
+
+**Executive Committee Member, BADHAN**  
+Feb 2022 – May 2023 (1 year 4 months)  
+
+**Office Secretary, BADHAN**  
+May 2023 – May 2024 (1 year 1 month)  
+
+---
+
+## Honors & Awards
+### Higher Secondary Board Scholarship
+Ministry of Education, Bangladesh  
+2019  
+In recognition of exceptional academic excellence during higher secondary education, this award is conferred upon the most meritorious students, to be honored throughout the four-year course of their bachelor’s degree.
+
+---
+
+## Test Scores
+### International English Language Testing System (IELTS)
+Score: 7 (Listening - 7.5, Reading - 6.5, Writing - 7.0, Speaking - 6.0)
+Oct 2024
+
+---
+
+## Contacts
 - **Email:** tanmoy4036@gmail.com  
 - **LinkedIn:** [https://www.linkedin.com/in/asif-ahmed-tanmoy](https://www.linkedin.com/in/asif-ahmed-tanmoy)  
 - **GitHub:** [https://github.com/asifahmedtanmoy](https://github.com/asifahmedtanmoy)
