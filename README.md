@@ -19,7 +19,8 @@ CGPA: 3.39/4.0 (2020 – 2025)
 **Notre Dame College, Dhaka**  
 Higher Secondary Education  
 GPA: 5.00/5.00  
-Higher Secondary Board Scholarship Recipient 
+Higher Secondary Board Scholarship Recipient
+
 ---
 
 ## Research Interests
