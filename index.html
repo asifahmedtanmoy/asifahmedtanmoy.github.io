@@ -5,19 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Asif Ahmed Tanmoy – Materials Science Portfolio</title>
   <style>
+    /* Theme variables */
     :root {
       --bg-color: #f7f8fa;
       --text-color: #333;
       --accent-color: #007acc;
-      --card-bg: #ffffff;
-      --card-shadow: rgba(0,0,0,0.05);
     }
     [data-theme="dark"] {
-      --bg-color: #1e1e1e;
-      --text-color: #eee;
-      --accent-color: #4da6ff;
-      --card-bg: #2a2a2a;
-      --card-shadow: rgba(0,0,0,0.5);
+      --bg-color: #121212;
+      --text-color: #f0f0f0;
+      --accent-color: #1e90ff;
     }
 
     body {
@@ -28,29 +25,36 @@
       background-color: var(--bg-color);
       scroll-behavior: smooth;
       display: flex;
+      transition: background-color 0.5s ease, color 0.5s ease;
     }
 
     a {
       color: var(--accent-color);
       text-decoration: none;
-      transition: color 0.3s ease;
+      transition: color 0.5s ease;
     }
-    a:hover { color: #005f99; text-decoration: underline; }
+    a:hover {
+      text-decoration: underline;
+    }
 
-    /* Sidebar */
     nav.sidebar {
       position: fixed;
       top: 0;
       left: 0;
-      width: 200px;
+      width: 160px;
       height: 100vh;
-      background-color: var(--card-bg);
+      background-color: var(--bg-color);
       border-right: 1px solid #e0e0e0;
       padding: 30px 15px;
-      box-shadow: 2px 0 5px var(--card-shadow);
-      transition: transform 0.3s ease;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+      transition: background-color 0.5s ease;
     }
-    nav.sidebar h2 { font-size: 1.1em; margin-bottom: 20px; color: var(--accent-color); }
+    nav.sidebar h2 {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      transition: color 0.5s ease;
+    }
     nav.sidebar a {
       display: block;
       margin: 12px 0;
@@ -59,103 +63,182 @@
       text-decoration: none;
       padding: 4px 5px;
       border-radius: 4px;
-      transition: background 0.3s ease;
+      transition: background 0.3s ease, color 0.5s ease;
     }
-    nav.sidebar a.active { background-color: #e0f0ff; font-weight: 600; }
-    nav.sidebar a:hover { background-color: #f0f8ff; }
-
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      cursor: pointer;
-      font-size: 28px;
-      margin-bottom: 20px;
+    nav.sidebar a.active {
+      background-color: #e0f0ff;
+      font-weight: 600;
     }
 
-    main { margin-left: 200px; padding: 50px 40px; max-width: 900px; width: 100%; }
+    main {
+      margin-left: 200px;
+      padding: 50px 40px;
+      max-width: 900px;
+      width: 100%;
+    }
 
-    .top-section { display: flex; align-items: center; margin-bottom: 40px; flex-wrap: wrap; }
+    .top-section {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
     .top-section img {
-      width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
-      margin-right: 25px; border: 2px solid var(--accent-color); cursor: pointer;
-      transition: transform 0.3s ease;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 25px;
+      border: 2px solid var(--accent-color);
+      cursor: pointer;
+      transition: transform 0.3s ease, border-color 0.5s ease;
     }
-    .top-section img:hover { transform: scale(1.05); }
-    .top-text h1 { margin: 0; font-size: 2em; color: var(--text-color); }
-    .top-text p { margin: 5px 0 0 0; font-weight: 400; color: #555; font-size: 1em; }
+    .top-section img:hover {
+      transform: scale(1.05);
+    }
+    .top-text h1 {
+      margin: 0;
+      font-size: 2em;
+      color: var(--text-color);
+    }
+    .top-text p {
+      margin: 5px 0 0 0;
+      font-weight: 400;
+      color: var(--text-color);
+      font-size: 1em;
+    }
 
-    section { margin-bottom: 60px; }
-    section h2 { border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 25px; color: var(--accent-color); }
+    section {
+      margin-bottom: 60px;
+    }
+    section h2 {
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+      color: var(--accent-color);
+      transition: color 0.5s ease;
+    }
 
-    ul { padding-left: 20px; }
+    ul {
+      padding-left: 20px;
+    }
 
     .project-card {
-      background-color: var(--card-bg);
+      background-color: #ffffff;
       border: 1px solid #ddd;
       border-radius: 8px;
       padding: 20px;
       margin-bottom: 20px;
-      box-shadow: 0 4px 10px var(--card-shadow);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .project-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 15px var(--card-shadow);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
     }
 
-    /* Timeline */
-    .timeline { position: relative; padding-left: 20px; border-left: 2px solid var(--accent-color); margin-bottom: 40px; }
-    .timeline-item { position: relative; margin-bottom: 20px; padding-left: 15px; }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -9px;
+    .contact-list li {
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 0;
+      border-top: 2px solid #e0e0e0;
+      color: var(--text-color);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 1000; 
+      padding-top: 60px; 
+      left: 0;
       top: 0;
-      width: 14px;
-      height: 14px;
-      background-color: var(--accent-color);
-      border-radius: 50%;
+      width: 100%; 
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.8); 
+    }
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    .close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #ddd;
     }
 
-    .contact-list li { margin-bottom: 10px; }
-
-    footer { text-align: center; padding: 25px 0; border-top: 2px solid #e0e0e0; color: #555; }
-
-    /* Modal */
-    .modal { display: none; position: fixed; z-index: 1000; padding-top: 60px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8); }
-    .modal-content { margin: auto; display: block; max-width: 90%; max-height: 90%; border-radius: 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
-    .close { position: absolute; top: 30px; right: 40px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; }
-    .close:hover { color: #ddd; }
+    /* Theme toggle button */
+    #themeToggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background-color: var(--accent-color);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    #themeToggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
 
     @media (max-width: 900px) {
-      body { flex-direction: column; }
-      nav.sidebar { position: fixed; width: 220px; height: 100%; transform: translateX(-240px); box-shadow: 2px 0 5px var(--card-shadow); padding: 15px; z-index: 1000; }
-      nav.sidebar.show { transform: translateX(0); }
-      main { margin-left: 0; padding: 30px 20px; }
-      .hamburger { display: block; }
-    }
-
-    /* Project hover tooltip */
-    .project-card h3 { position: relative; }
-    .project-card h3:hover::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      left: 0;
-      bottom: -40px;
-      background: var(--accent-color);
-      color: #fff;
-      padding: 6px 10px;
-      border-radius: 6px;
-      white-space: nowrap;
-      font-size: 0.85em;
-      z-index: 10;
+      body {
+        flex-direction: column;
+      }
+      nav.sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        border-right: none;
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 10px;
+      }
+      main {
+        margin-left: 0;
+        padding: 30px 20px;
+      }
+      .top-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .top-section img {
+        margin: 0 0 20px 0;
+      }
     }
   </style>
 </head>
 <body data-theme="light">
 
+  <!-- Sidebar -->
   <nav class="sidebar">
-    <span class="hamburger">&#9776;</span>
     <h2>Navigation</h2>
     <a href="#about">About</a>
     <a href="#education">Education</a>
@@ -167,11 +250,10 @@
     <a href="#volunteer">Volunteer Experiences</a>
     <a href="#honors">Honors & Awards</a>
     <a href="#contact">Contacts</a>
-    <button id="themeToggle">🌙</button>
   </nav>
 
+  <!-- Main Content -->
   <main>
-    <!-- Top Section -->
     <div class="top-section">
       <img id="profileImg" src="assets/asif.jpg" alt="Asif Ahmed Tanmoy">
       <div class="top-text">
@@ -186,28 +268,29 @@
       <img class="modal-content" id="modalImg">
     </div>
 
+    <!-- About Me -->
     <section id="about">
       <h2>About Me</h2>
       <p>Currently preparing for graduate studies in Materials Science (Fall 2026) in the USA with a foundation in nanomaterial synthesis and advanced characterization developed through undergraduate research. I am particularly drawn to exploring how emerging and functional materials can be designed and engineered for applications in energy, electronics, and healthcare. Passionate about contributing to innovative research in Materials Science and Engineering, with the goal of driving impactful academic discoveries and technological progress.</p>
     </section>
 
+    <!-- Education -->
     <section id="education">
       <h2>Education</h2>
       <div class="edu-item">
         <h3>Bangladesh University of Engineering and Technology (BUET)</h3>
         <p>B.Sc in Materials & Metallurgical Engineering</p>
         <p>CGPA: 3.39/4.0 (2020 – 2025)</p>
-        <p><a href="assets/BUET_transcript.pdf" download>Download Transcript (PDF)</a></p>
       </div>
       <div class="edu-item">
         <h3>Notre Dame College, Dhaka</h3>
         <p>Higher Secondary Education</p>
         <p>GPA: 5.00/5.00</p>
         <p>Higher Secondary Board Scholarship Recipient</p>
-        <p><a href="assets/NDC_transcript.pdf" download>Download Transcript (PDF)</a></p>
       </div>
     </section>
 
+    <!-- Research Interests -->
     <section id="research">
       <h2>Research Interests</h2>
       <ul>
@@ -218,32 +301,38 @@
       </ul>
     </section>
 
+    <!-- Undergrad Projects -->
     <section id="undergrad-projects">
       <h2>Undergrad Projects</h2>
-      <div class="project-card">
-        <h3 data-tooltip="La³⁺-doped NiFe₂O₄ nanoparticles synthesis and characterization">1. BUET Undergrad Thesis: Effect of La³⁺ Substitution on the Structural and Magnetic Properties of NiFe₂O₄ Nanoparticles</h3>
-        <ul>
-          <li>Synthesized La³⁺-doped NiFe₂O₄ nanoparticles using the citrate-gel method.</li>
-          <li>Characterized structural, morphological, and magnetic properties using XRD, SEM/EDX, and VSM.</li>
-          <li>Investigated the effect of La³⁺ substitution on crystallite size, saturation magnetization, and coercivity, establishing structure–property correlations.</li>
-        </ul>
-      </div>
-      <div class="project-card">
-        <h3 data-tooltip="Arsenic removal using MgFe₂O₄–TiO₂/UV system">2. Capstone Project of 3-2: Arsenic Removal from Ground Water by Adsorption and Photocatalytic Oxidation Method Using MgFe₂O₄-TiO₂ Porous Ceramic</h3>
-        <details>
-          <summary>Open full description</summary>
-          <p><strong>Why did we choose adsorption-based method?</strong><br>...full text...</p>
-        </details>
-      </div>
-      <div class="project-card">
-        <h3 data-tooltip="SolidWorks HP LaserJet Pro M15W project">3. SolidWorks Project of 2-1: HP LaserJet Pro M15W</h3>
-        <ul>
-          <li>An undergrad project of IPE 204 course</li>
-          <li>Software used: SolidWorks 2013 x64 edition</li>
-        </ul>
-      </div>
+      <h3>1. BUET Undergrad Thesis: Effect of La³⁺ Substitution on the Structural and Magnetic Properties of NiFe₂O₄ Nanoparticles</h3>
+      <ul>
+        <li>Synthesized La³⁺-doped NiFe₂O₄ nanoparticles using the citrate-gel method.</li>
+        <li>Characterized structural, morphological, and magnetic properties using XRD, SEM/EDX, and VSM.</li>
+        <li>Investigated the effect of La³⁺ substitution on crystallite size, saturation magnetization, and coercivity, establishing structure–property correlations.</li>
+      </ul>
+
+      <h3>2. Capstone Project of 3-2: Arsenic Removal from Ground Water by Adsorption and Photocatalytic Oxidation Method Using MgFe₂O₄-TiO₂ Porous Ceramic</h3>
+      <details>
+        <summary>Open full description</summary>
+        <p><strong>Why did we choose adsorption-based method?</strong><br>
+        As (V) can be removed from water through various techniques such as coagulation and ion exchange processes. However, most of these methods are rather expensive for large-scale water treatment systems in remote and underdeveloped areas. Arsenic removal by adsorption has attracted enormous attention due to its easy operation, low cost, and little interference with water. Previous studies have shown that MgFe₂O₄ possesses excellent adsorption of arsenic because it is capable of forming special complexes with As (V), allowing As (V) to be efficiently adsorbed onto the surface of MgFe₂O₄. Furthermore, MgFe₂O₄ could be incorporated onto the surface of TiO₂ lattice, due to the same Pauli radius with TiO₂.</p>
+
+        <p><strong>Background:</strong><br>
+        There are two main forms of arsenic in water: trivalent [As (III)] and pentavalent [As (V)]. Usually, As (III) is prevalent in anoxic conditions such as in groundwater and is in uncharged form in nature, whereas As (V) is thermodynamically stable in surface water. As (III) is reported to have a low adsorption performance to various adsorbents compared with that of As (V) while the toxicity of As (III) is about 25–60 times higher than that of As (V). So, a pretreatment for As (III) to the less toxic As (V) is usually required for adsorption processes. Many oxidants have been applied for oxidation of As (III) to As (V) including O₃, H₂O₂, MnO₂ and TiO₂/UV. The TiO₂/UV system was an effective and low-cost approach.</p>
+
+        <p>Therefore, our MgFe₂O₄–TiO₂/UV system porous ceramic is designed to possess synergistic effect:<br>
+        1. TiO₂ oxidizes toxic As (III) to less toxic As (V) - Photocatalytic Oxidation<br>
+        2. Then MgFe₂O₄ adsorbs As (V)</p>
+      </details>
+
+      <h3>3. SolidWorks Project of 2-1: HP LaserJet Pro M15W</h3>
+      <ul>
+        <li>An undergrad project of IPE 204 course</li>
+        <li>Software used: SolidWorks 2013 x64 edition</li>
+      </ul>
     </section>
 
+    <!-- Test Scores -->
     <section id="test-scores">
       <h2>Test Scores</h2>
       <div class="project-card">
@@ -253,31 +342,61 @@
       </div>
     </section>
 
+    <!-- Work Experiences -->
     <section id="projects">
       <h2>Work Experiences</h2>
-      <div class="timeline">
-        <div class="timeline-item">
-          <strong>Industrial Attachment (June 2024) – DBL Ceramics Ltd., Sreepur Upazila, Dhaka</strong>
-          <p>Hands-on exposure to tile manufacturing processes, material characterization, raw material sourcing, and quality control. Developed practical skills in process optimization, industrial safety, sorting & packaging, and time management.</p>
-        </div>
+      <div class="project-card">
+        <strong>Industrial Attachment (June 2024)<br>DBL Ceramics Ltd., Sreepur Upazila, Dhaka</strong>
+        <p>As part of a mandatory BUET sessional course, I completed an industrial attachment at DBL Ceramics Ltd., where I gained hands-on exposure to tile manufacturing processes, material characterization, raw material sourcing, and quality control. I also developed practical skills in process optimization, industrial safety, sorting & packaging, and time management while observing large-scale production workflows.</p>
       </div>
     </section>
 
+    <!-- Extracurriculars -->
     <section id="extracurriculars">
       <h2>Extracurriculars & Leadership Roles (BUET)</h2>
-      ...same as before...
+      <ul>
+        <li><strong>BUET Debating Club (BUETDC, 3 years)</strong>
+          <ul>
+            <li>Vice President: Sep 2024 – Apr 2025 (8 months)</li>
+            <li>Joint Secretary: Jun 2023 – Sep 2024 (1 yr 4 mos)</li>
+            <li>Information Secretary: May 2022 – Jun 2023 (1 yr 2 mos)</li>
+          </ul>
+        </li>
+        <li><strong>BUET Automobile Club (BAC)</strong>
+          <ul>
+            <li>Logistics Secretary: Sep 2022 – Jun 2023 (10 months)</li>
+          </ul>
+        </li>
+        <li><strong>BUET Dance Club (3 years)</strong>
+          <ul>
+            <li>General Secretary: Sep 2024 – May 2025 (9 months)</li>
+            <li>Assistant Secretary of Documentation & Treasure: Jun 2023 – Sep 2024 (1 yr 4 mos)</li>
+            <li>Executive of Communication & Public Affairs: Jun 2022 – Jun 2023 (1 yr 1 mo)</li>
+          </ul>
+        </li>
+      </ul>
     </section>
 
+    <!-- Volunteer Experiences -->
     <section id="volunteer">
       <h2>Volunteer Experiences</h2>
-      ...same as before...
+      <ul>
+        <li><strong>Executive Committee Member, BADHAN</strong><br>Feb 2022 – May 2023 (1 yr 4 mos)</li>
+        <li><strong>Office Secretary, BADHAN</strong><br>May 2023 – May 2024 (1 yr 1 mo)</li>
+      </ul>
     </section>
 
+    <!-- Honors & Awards -->
     <section id="honors">
       <h2>Honors & Awards</h2>
-      ...same as before...
+      <div class="project-card">
+        <strong>Higher Secondary Board Scholarship</strong><br>
+        Ministry of Education, Bangladesh (2019)
+        <p>In recognition of exceptional academic excellence during higher secondary education, this award is conferred upon the most meritorious students, to be honored throughout the four-year course of their bachelor’s degree.</p>
+      </div>
     </section>
 
+    <!-- Contacts -->
     <section id="contact">
       <h2>Contacts</h2>
       <ul class="contact-list">
@@ -286,18 +405,31 @@
         <li><strong>GitHub:</strong> <a href="https://github.com/asifahmedtanmoy" target="_blank">https://github.com/asifahmedtanmoy</a></li>
       </ul>
     </section>
+
   </main>
 
-  <script>
-    // Hamburger toggle
-    const hamburger = document.querySelector('.hamburger');
-    const sidebar = document.querySelector('.sidebar');
-    hamburger.addEventListener('click', () => {
-      sidebar.classList.toggle('show');
-    });
+  <!-- Dark/Light Toggle -->
+  <button id="themeToggle" aria-label="Toggle dark/light mode">🌙</button>
 
-    // Dark/Light Mode
+  <script>
+    // Profile image modal
+    const modal = document.getElementById("imgModal");
+    const img = document.getElementById("profileImg");
+    const modalImg = document.getElementById("modalImg");
+    const closeBtn = document.getElementsByClassName("close")[0];
+
+    img.onclick = function(){
+      modal.style.display = "block";
+      modalImg.src = this.src;
+    }
+
+    closeBtn.onclick = function() { 
+      modal.style.display = "none";
+    }
+
+    // Dark/Light theme toggle
     const themeToggle = document.getElementById('themeToggle');
+
     themeToggle.addEventListener('click', () => {
       if(document.body.getAttribute('data-theme') === 'light') {
         document.body.setAttribute('data-theme','dark');
@@ -307,34 +439,11 @@
         themeToggle.textContent = '🌙';
       }
     });
-
-    // Profile image modal
-    var modal = document.getElementById("imgModal");
-    var img = document.getElementById("profileImg");
-    var modalImg = document.getElementById("modalImg");
-    var span = document.getElementsByClassName("close")[0];
-
-    img.onclick = function(){ modal.style.display = "block"; modalImg.src = this.src; }
-    span.onclick = function() { modal.style.display = "none"; }
-    window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
-
-    // Sidebar active link highlighting
-    window.addEventListener('scroll', function() {
-      var sections = document.querySelectorAll('section');
-      var scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
-      sections.forEach(function(section) {
-        if(scrollPos >= section.offsetTop - 60) {
-          var id = section.getAttribute('id');
-          document.querySelectorAll('nav.sidebar a').forEach(function(link) {
-            link.classList.remove('active');
-            if(link.getAttribute('href') === '#' + id) { link.classList.add('active'); }
-          });
-        }
-      });
-    });
-
-    // Analytics Placeholder (replace with GA or Plausible snippet)
-    console.log("Analytics snippet goes here");
   </script>
+
+  <footer>
+    &copy; 2025 Asif Ahmed Tanmoy. All Rights Reserved.
+  </footer>
+
 </body>
 </html>
