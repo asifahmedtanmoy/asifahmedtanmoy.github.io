@@ -17,7 +17,7 @@ B.Sc in Materials & Metallurgical Engineering
 CGPA: 3.39/4.0  
 
 **Higher Secondary Education:** 
-[Notre Dame College, Dhaka]
+Notre Dame College, Dhaka
 GPA 5.00/5.00
 Higher Secondary Board Scholarship Recipient  
 
