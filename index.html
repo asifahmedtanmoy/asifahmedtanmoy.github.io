@@ -64,9 +64,39 @@
     /* Main Content */
     main {
       margin-left: 200px; /* space from sidebar */
-      padding: 50px 40px; /* internal spacing for content */
+      padding: 50px 40px;
       max-width: 900px;
       width: 100%;
+    }
+
+    /* Top Section: Name + Title + Picture */
+    .top-section {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .top-section img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 25px;
+      border: 2px solid #007acc;
+    }
+
+    .top-text h1 {
+      margin: 0;
+      font-size: 2em;
+      color: #222;
+    }
+
+    .top-text p {
+      margin: 5px 0 0 0;
+      font-weight: 400;
+      color: #555;
+      font-size: 1em;
     }
 
     section {
@@ -129,6 +159,14 @@
         margin-left: 0;
         padding: 30px 20px;
       }
+      .top-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .top-section img {
+        margin: 0 0 20px 0;
+      }
     }
   </style>
 </head>
@@ -144,6 +182,15 @@
   </nav>
 
   <main>
+    <!-- Top Section: Picture + Name + Title -->
+    <div class="top-section">
+      <img src="your-picture.jpg" alt="Asif Ahmed Tanmoy"> <!-- Replace with your image file -->
+      <div class="top-text">
+        <h1>Asif Ahmed Tanmoy</h1>
+        <p>B.Sc in Materials & Metallurgical Engineering, BUET | Aspiring Materials Science Researcher</p>
+      </div>
+    </div>
+
     <section id="about">
       <h2>About Me</h2>
       <p>Currently preparing for graduate studies in Materials Science (Fall 2026) in the USA with a foundation in nanomaterial synthesis and advanced characterization developed through undergraduate research. I am particularly drawn to exploring how emerging and functional materials can be designed and engineered for applications in energy, electronics, and healthcare. Passionate about contributing to innovative research in materials science and engineering, with the goal of driving impactful academic discoveries and technological progress.</p>
