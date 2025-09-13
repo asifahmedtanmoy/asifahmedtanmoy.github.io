@@ -80,6 +80,12 @@
       object-fit: cover;
       margin-right: 25px;
       border: 2px solid #007acc;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .top-section img:hover {
+      transform: scale(1.05);
     }
 
     .top-text h1 {
@@ -136,6 +142,43 @@
       color: #555;
     }
 
+    /* Modal Styles */
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 1000; 
+      padding-top: 60px; 
+      left: 0;
+      top: 0;
+      width: 100%; 
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.8); 
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+
+    .close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #ddd;
+    }
+
     @media (max-width: 900px) {
       body {
         flex-direction: column;
@@ -179,11 +222,17 @@
   <main>
     <!-- Top Section: Picture + Name + Title -->
     <div class="top-section">
-      <img src="assets/asif.jpg" alt="Asif Ahmed Tanmoy">
+      <img id="profileImg" src="assets/asif.jpg" alt="Asif Ahmed Tanmoy">
       <div class="top-text">
         <h1>Asif Ahmed Tanmoy</h1>
         <p>B.Sc in Materials & Metallurgical Engineering, BUET | Aspiring Materials Science Researcher</p>
       </div>
+    </div>
+
+    <!-- Modal for enlarged image -->
+    <div id="imgModal" class="modal">
+      <span class="close">&times;</span>
+      <img class="modal-content" id="modalImg">
     </div>
 
     <section id="about">
@@ -232,6 +281,29 @@
       &copy; 2025 Asif Ahmed Tanmoy
     </footer>
   </main>
+
+  <script>
+    // Modal functionality
+    var modal = document.getElementById("imgModal");
+    var img = document.getElementById("profileImg");
+    var modalImg = document.getElementById("modalImg");
+    var span = document.getElementsByClassName("close")[0];
+
+    img.onclick = function(){
+      modal.style.display = "block";
+      modalImg.src = this.src;
+    }
+
+    span.onclick = function() { 
+      modal.style.display = "none";
+    }
+
+    modal.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
 
 </body>
 </html>
