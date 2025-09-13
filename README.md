@@ -93,11 +93,11 @@ As part of a mandatory BUET sessional course, I completed an industrial attachme
 
 ## Volunteer Experiences
 
-**Executive Committee Member, BADHAN**  
-Feb 2022 – May 2023 (1 year 4 months)  
-
 **Office Secretary, BADHAN**  
 May 2023 – May 2024 (1 year 1 month)  
+
+**Executive Committee Member, BADHAN**  
+Feb 2022 – May 2023 (1 year 4 months)  
 
 ---
 
