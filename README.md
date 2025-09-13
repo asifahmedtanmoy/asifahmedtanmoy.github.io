@@ -16,8 +16,8 @@ Currently preparing for graduate studies in Materials Science (Fall 2026) in the
 B.Sc in Materials & Metallurgical Engineering  
 CGPA: 3.39/4.0 (2020 – 2025)
 
-**Higher Secondary Education:** 
-Notre Dame College, Dhaka
+**Notre Dame College, Dhaka** 
+Higher Secondary Education
 GPA 5.00/5.00
 Higher Secondary Board Scholarship Recipient  
 
