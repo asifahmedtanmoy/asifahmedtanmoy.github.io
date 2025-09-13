@@ -7,14 +7,14 @@ B.Sc in Materials & Metallurgical Engineering, BUET | Aspiring Materials Science
 ---
 
 ## About Me
-Currently preparing for graduate studies in Materials Science (Fall 2026) in the USA with a foundation in nanomaterial synthesis and advanced characterization developed through undergraduate research. I am particularly drawn to exploring how emerging and functional materials can be designed and engineered for applications in energy, electronics, and healthcare. Passionate about contributing to innovative research in materials science and engineering, with the goal of driving impactful academic discoveries and technological progress. 
+Currently preparing for graduate studies in Materials Science (Fall 2026) in the USA with a foundation in nanomaterial synthesis and advanced characterization developed through undergraduate research. I am particularly drawn to exploring how emerging and functional materials can be designed and engineered for applications in energy, electronics, and healthcare. Passionate about contributing to innovative research in Materials Science and Engineering, with the goal of driving impactful academic discoveries and technological progress. 
 
 ---
 
 ## Education
 **Bangladesh University of Engineering and Technology (BUET)**  
 B.Sc in Materials & Metallurgical Engineering  
-CGPA: 3.39/4.0  
+CGPA: 3.39/4.0 (2020 – 2025)
 
 **Higher Secondary Education:** 
 Notre Dame College, Dhaka
