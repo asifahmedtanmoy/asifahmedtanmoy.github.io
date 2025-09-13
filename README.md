@@ -16,15 +16,13 @@ Currently preparing for graduate studies in Materials Science (Fall 2026) in the
 B.Sc in Materials & Metallurgical Engineering  
 CGPA: 3.39/4.0 (2020 – 2025)
 
-**Notre Dame College, Dhaka**
-Higher Secondary Education
-GPA 5.00/5.00
-Higher Secondary Board Scholarship Recipient  
-
+**Notre Dame College, Dhaka**  
+Higher Secondary Education  
+GPA: 5.00/5.00  
+Higher Secondary Board Scholarship Recipient 
 ---
 
 ## Research Interests
-
 - **Energy and Electrode Materials** 
 - **2D and Advanced Materials:** Carbon nanotubes, graphene, and hybrid composites
 - **Photonics and Semiconductor Materials:** Silicon engineering, chip processing
@@ -63,7 +61,7 @@ Therefore, our MgFe₂O₄–TiO₂/UV system porous ceramic is designed to poss
 
 ## Test Scores
 ### International English Language Testing System (IELTS)
-Score: 7 (Listening - 7.5, Reading - 6.5, Writing - 7.0, Speaking - 6.0)
+Score: 7 (Listening - 7.5, Reading - 6.5, Writing - 7.0, Speaking - 6.0)  
 Oct 2024
 
 ---
