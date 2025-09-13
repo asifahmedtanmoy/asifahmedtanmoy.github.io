@@ -1,29 +1,32 @@
 # asifahmedtanmoy.github.io
 Academic portfolio and research profile of Asif Ahmed Tanmoy – aspiring PhD student in Materials Science (Fall 2026).
 # Asif Ahmed Tanmoy
-B.Sc in Materials & Metallurgical Engineering | Aspiring Materials Science Researcher
+B.Sc in Materials & Metallurgical Engineering,BUET | Aspiring Materials Science Researcher
 
 ---
 
 ## About Me
-Passionate about functional & structural materials, energy storage, and multiferroics.  
-Currently preparing for graduate studies in Materials Science (Fall 2026) in the USA.  
+Currently preparing for graduate studies in Materials Science (Fall 2026) in the USA with a foundation in nanomaterial synthesis and advanced characterization developed through undergraduate research. I am particularly drawn to exploring how emerging and functional materials can be designed and engineered for applications in energy, electronics, and healthcare. Passionate about contributing to innovative research in materials science and engineering, with the goal of driving impactful academic discoveries and technological progress. 
 
 ---
 
 ## Education
 **Bangladesh University of Engineering and Technology (BUET)**  
-B.Sc in Materials & Metallurgical Engineering, CGPA: 3.39  
+B.Sc in Materials & Metallurgical Engineering 
+CGPA: 3.39  
 
 **Higher Secondary Education:** [Notre Dame College, Dhaka], Board Scholarship Recipient  
 
 ---
 
-## Research Interests & Skills
-- **Research Interests:** Multiferroics, Energy & Data Storage, Advanced ceramics, Functional Materials  
-- **Materials Characterization:** XRD, SEM, TEM, EDS, VSM  
-- **Software & Tools:** MATLAB, SolidWorks, ImageJ, HighScore Plus  
-- **Other Skills:** Experimental Design  
+## Research Interests
+
+### Core (Thesis & Skills)
+
+- **Energy and Electrode Materials** 
+- **2D and Advanced Materials:** Carbon nanotubes, graphene, and hybrid composites.
+- **Photonics and Semiconductor Materials:** Silicon engineering, chip processing.
+- **Ferrite & Spinel Oxides** 
 
 ---
 
