@@ -23,13 +23,20 @@
   <!-- Home Section -->
   <div class="container home-section">
     <!-- Replace "your-photo.jpg" with the actual filename of your picture -->
-    <img src="your-photo.jpg" alt="My Picture" class="clickable-image">
+    <img id="profileImg" src="assets/asif.jpg" alt="Asif Ahmed Tanmoy">
     
     <div class="home-text">
       <h1>Asif Ahmed Tanmoy</h1>
       <p>Welcome to my portfolio! Explore my journey through academics, research, and experiences.</p>
+     <p>B.Sc in Materials & Metallurgical Engineering, BUET | Aspiring Materials Science Researcher</p>
     </div>
   </div>
+
+  <!-- Modal for profile image -->
+<div id="imgModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="modalImg">
+</div>
 
   <!-- Script -->
   <script src="script.js"></script>
