@@ -24,14 +24,19 @@ window.addEventListener("click", (event) => {
   }
 });
 
-// ===== Collapsible functionality for Activities page =====
 document.addEventListener("DOMContentLoaded", () => {
   const coll = document.querySelectorAll(".collapsible");
+
   coll.forEach(button => {
     button.addEventListener("click", function () {
       this.classList.toggle("active");
       const content = this.nextElementSibling;
-      content.style.display = content.style.display === "block" ? "none" : "block";
+
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null; // collapse
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px"; // expand
+      }
     });
   });
 });
