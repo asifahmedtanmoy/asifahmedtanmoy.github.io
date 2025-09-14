@@ -234,14 +234,14 @@ h2 {
 }
 
 .content {
-  padding: 0 15px;
-  display: none;
+  max-height: 0;              /* hidden initially */
   overflow: hidden;
-  background-color: #f9f9f9;
+  transition: max-height 0.3s ease-out;
+  padding-left: 15px;
   border-left: 3px solid #00adb5;
   margin-bottom: 10px;
-  border-radius: 0 0 6px 6px;
 }
+
 
 .content ul {
   margin: 10px 0;
