@@ -209,6 +209,45 @@ h2 {
   }
 }
 
+/* ===== Collapsible Groups ===== */
+.collapsible {
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 1.1em;
+  margin: 6px 0;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.collapsible:hover {
+  background-color: #00adb5;
+}
+
+.collapsible.active {
+  background-color: #00adb5;
+}
+
+.content {
+  padding: 0 15px;
+  display: none;
+  overflow: hidden;
+  background-color: #f9f9f9;
+  border-left: 3px solid #00adb5;
+  margin-bottom: 10px;
+  border-radius: 0 0 6px 6px;
+}
+
+.content ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
 /* ========== Responsive Adjustments ========== */
 @media (max-width: 900px) {
   .home-section {
