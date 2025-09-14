@@ -1,35 +1,25 @@
-// Enlarge image when clicked
-document.addEventListener("DOMContentLoaded", () => {
-  const profileImage = document.querySelector(".clickable-image");
+// ========== Profile Image Modal ==========
 
-  if (profileImage) {
-    profileImage.addEventListener("click", () => {
-      const overlay = document.createElement("div");
-      overlay.style.position = "fixed";
-      overlay.style.top = "0";
-      overlay.style.left = "0";
-      overlay.style.width = "100%";
-      overlay.style.height = "100%";
-      overlay.style.background = "rgba(0,0,0,0.8)";
-      overlay.style.display = "flex";
-      overlay.style.alignItems = "center";
-      overlay.style.justifyContent = "center";
-      overlay.style.zIndex = "1000";
+// Get modal elements
+const modal = document.getElementById("imgModal");
+const img = document.getElementById("profileImg");
+const modalImg = document.getElementById("modalImg");
+const closeBtn = document.getElementsByClassName("close")[0];
 
-      const bigImage = document.createElement("img");
-      bigImage.src = profileImage.src;
-      bigImage.style.maxWidth = "90%";
-      bigImage.style.maxHeight = "90%";
-      bigImage.style.borderRadius = "10px";
-      bigImage.style.boxShadow = "0 4px 15px rgba(0,0,0,0.5)";
+// Open modal on image click
+img.addEventListener("click", () => {
+  modal.style.display = "block";
+  modalImg.src = img.src; // show the same image
+});
 
-      overlay.appendChild(bigImage);
-      document.body.appendChild(overlay);
+// Close modal when clicking the 'x'
+closeBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+});
 
-      // Close overlay on click
-      overlay.addEventListener("click", () => {
-        document.body.removeChild(overlay);
-      });
-    });
+// Close modal when clicking outside the image
+window.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    modal.style.display = "none";
   }
 });
