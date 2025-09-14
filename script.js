@@ -24,11 +24,11 @@ window.addEventListener("click", (event) => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function() {
   const coll = document.querySelectorAll(".collapsible");
 
   coll.forEach(button => {
-    button.addEventListener("click", function () {
+    button.addEventListener("click", function() {
       this.classList.toggle("active");
       const content = this.nextElementSibling;
 
@@ -40,4 +40,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
