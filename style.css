@@ -71,9 +71,8 @@ nav ul li a:hover {
   transform: scale(1.05);
 }
 
-/* Text next to image */
 .home-text {
-  flex: 1; /* occupies remaining space on desktop */
+  flex: 1; /* occupy remaining space on desktop */
 }
 
 /* Modal */
@@ -165,16 +164,23 @@ h2 {
 /* ========== Responsive Adjustments ========== */
 @media (max-width: 900px) {
   .home-section {
-    flex-direction: column; /* stack image and text vertically */
-   text-align: center;     /* center text under image */
-    align-items: center;    /* center the whole section horizontally */
-    justify-content: center;/* center vertically if space allows */
+    flex-direction: column;   /* stack image and text vertically */
+    justify-content: center;  /* center vertically if possible */
+    align-items: center;      /* center horizontally */
+    text-align: center;       /* center text */
+    width: 100%;              /* take full width */
+    margin: 0 auto;           /* remove any side offset */
+    padding: 20px;            /* some padding on mobile */
   }
 
   .home-section img {
-    margin-bottom: 20px; /* spacing under image */
+    margin: 0 0 20px 0;       /* space below image */
+    max-width: 90%;           /* prevent image from overflowing */
+    height: auto;
   }
+
   .home-text {
-    text-align: center; /* ensure welcome message is centered under image */
+    width: 100%;              /* full width under image */
+    text-align: center;       /* center welcome message */
   }
 }
