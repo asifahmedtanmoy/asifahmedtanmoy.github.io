@@ -160,66 +160,55 @@ h2 {
 .contact-info a:hover {
   text-decoration: underline;
 }
-/* ========== Radial Layout for Research Interests ========== */
+/* ========== Research Page Radial Layout ========== */
 .radial-container {
-  position: relative;
-  width: 320px;
-  height: 320px;
-  margin: 40px auto; /* center horizontally */
-}
-
-.central-node {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #007acc;
-  color: #fff;
-  padding: 15px 25px;
-  border-radius: 50%;
-  text-align: center;
-  font-weight: bold;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;      /* wrap on small screens */
+  gap: 40px;            /* space between boxes */
+  margin: 50px auto;    /* vertical spacing */
+  max-width: 900px;
 }
 
 .radial-item {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: rotate(calc(var(--i) * 90deg)) translate(120px) rotate(calc(var(--i) * -90deg));
-  background-color: #00adb5;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 50px;
+  flex: 0 0 180px;             /* box width */
+  padding: 25px 20px;          /* larger padding for aesthetics */
+  border-radius: 15px;         /* rounded corners */
+  color: #333;
+  font-weight: 500;
+  font-size: 1rem;
   text-align: center;
-  font-size: 0.95rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: default;
 }
 
+/* Hover effect */
 .radial-item:hover {
-  background-color: #007acc;
-  transform: rotate(calc(var(--i) * 90deg)) translate(130px) rotate(calc(var(--i) * -90deg));
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.15);
 }
 
+/* Pastel colors for each of the 4 sections */
+.radial-item:nth-child(1) { background-color: #FFB3BA; } /* pastel red */
+.radial-item:nth-child(2) { background-color: #BAE1FF; } /* pastel blue */
+.radial-item:nth-child(3) { background-color: #BAFFC9; } /* pastel green */
+.radial-item:nth-child(4) { background-color: #FFF3BA; } /* pastel yellow */
+
 /* Mobile responsive */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .radial-container {
-    width: 260px;
-    height: 260px;
+    gap: 25px;
   }
 
   .radial-item {
-    padding: 8px 12px;
-    font-size: 0.85rem;
-    transform: rotate(calc(var(--i) * 90deg)) translate(90px) rotate(calc(var(--i) * -90deg));
-  }
-
-  .radial-item:hover {
-    transform: rotate(calc(var(--i) * 90deg)) translate(95px) rotate(calc(var(--i) * -90deg));
+    flex: 0 0 140px;   /* slightly smaller on mobile */
+    padding: 20px 15px;
+    font-size: 0.95rem;
   }
 }
+
 
 /* ========== Responsive Adjustments ========== */
 @media (max-width: 900px) {
