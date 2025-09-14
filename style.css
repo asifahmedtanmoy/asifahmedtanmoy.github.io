@@ -190,12 +190,6 @@ h2 {
   box-shadow: 0 12px 20px rgba(0,0,0,0.15);
 }
 
-/* Assign custom CSS variables for each box's hover rotation */
-.radial-item:nth-child(1) { --rotate-hover: -10deg; }
-.radial-item:nth-child(2) { --rotate-hover: 10deg; }
-.radial-item:nth-child(3) { --rotate-hover: -10deg; }
-.radial-item:nth-child(4) { --rotate-hover: 10deg; }
-
 
 /* Position boxes around a circle with slight rotation */
 .radial-item:nth-child(1) { 
