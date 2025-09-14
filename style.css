@@ -54,15 +54,15 @@ nav ul li a:hover {
   align-items: center;
   justify-content: center;
   gap: 40px;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* allows responsive wrapping */
   text-align: left;
 }
 
 .home-section img {
   max-width: 400px;
-  height: auto;
+  height: auto; /* maintain original shape */
   cursor: pointer;
-  border-radius: 5px;  /* keeps original shape but with soft corners */
+  border-radius: 5px; 
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   transition: transform 0.3s ease;
 }
@@ -71,6 +71,49 @@ nav ul li a:hover {
   transform: scale(1.05);
 }
 
+/* Text next to image */
+.home-text {
+  flex: 1; /* occupies remaining space on desktop */
+}
+
+/* Modal */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  padding-top: 60px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.8); 
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+.close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #ddd;
+}
+
+/* Text inside home section */
 .home-text h1 {
   font-size: 2.5rem;
   color: #222;
@@ -117,4 +160,16 @@ h2 {
 
 .contact-info a:hover {
   text-decoration: underline;
+}
+
+/* ========== Responsive Adjustments ========== */
+@media (max-width: 900px) {
+  .home-section {
+    flex-direction: column; /* stack image and text vertically */
+    text-align: center;
+  }
+
+  .home-section img {
+    margin-bottom: 20px; /* spacing under image */
+  }
 }
