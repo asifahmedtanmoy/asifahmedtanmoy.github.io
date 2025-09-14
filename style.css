@@ -210,6 +210,7 @@ h2 {
 }
 
 .collapsible {
+  display: block;              /* ensure it’s block-level */
   background-color: #222;
   color: white;
   cursor: pointer;
@@ -223,6 +224,11 @@ h2 {
   border-radius: 6px;
   transition: background 0.3s;
 }
+
+.collapsible {
+  box-sizing: border-box;   /* ensures width + padding works correctly */
+}
+
 
 .collapsible:hover {
   background-color: #00adb5;
