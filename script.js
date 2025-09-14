@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function() {
     button.addEventListener("click", function() {
       this.classList.toggle("active");
       const content = this.nextElementSibling;
-
       if (content.style.maxHeight) {
         content.style.maxHeight = null; // collapse
       } else {
@@ -40,3 +39,4 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 });
+
