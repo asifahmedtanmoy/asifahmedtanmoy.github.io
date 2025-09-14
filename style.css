@@ -1,0 +1,120 @@
+/* ========== Global Reset ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ========== Navigation Bar ========== */
+nav {
+  background-color: #222;
+  padding: 15px 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #00adb5;
+}
+
+/* ========== Container ========== */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+/* ========== Home Page Layout ========== */
+.home-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.home-section img {
+  max-width: 400px;
+  height: auto;
+  cursor: pointer;
+  border-radius: 5px;  /* keeps original shape but with soft corners */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.home-section img:hover {
+  transform: scale(1.05);
+}
+
+.home-text h1 {
+  font-size: 2.5rem;
+  color: #222;
+  margin-bottom: 15px;
+}
+
+.home-text p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* ========== Section Headings ========== */
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #00adb5;
+  display: inline-block;
+  padding-bottom: 5px;
+  color: #222;
+}
+
+/* ========== Content Boxes ========== */
+.section {
+  margin-bottom: 40px;
+}
+
+.section p,
+.section ul,
+.section li {
+  font-size: 1rem;
+  color: #444;
+}
+
+/* ========== Contact Page ========== */
+.contact-info {
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.contact-info a {
+  color: #00adb5;
+  text-decoration: none;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
