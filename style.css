@@ -190,31 +190,32 @@ h2 {
   box-shadow: 0 12px 20px rgba(0,0,0,0.15);
 }
 
-/* Position boxes around a circle (center of container is 50% 50%) */
+/* Position boxes around a circle with slight rotation */
 .radial-item:nth-child(1) { 
   top: 0%; 
   left: 50%; 
-  transform: translate(-50%, 0%); 
+  transform: translate(-50%, 0%) rotate(-5deg); 
   background-color: #FFB3BA; 
 } /* top */
 .radial-item:nth-child(2) { 
   top: 50%; 
   left: 100%; 
-  transform: translate(-100%, -50%); 
+  transform: translate(-100%, -50%) rotate(5deg); 
   background-color: #BAE1FF; 
 } /* right */
 .radial-item:nth-child(3) { 
   top: 100%; 
   left: 50%; 
-  transform: translate(-50%, -100%); 
+  transform: translate(-50%, -100%) rotate(-5deg); 
   background-color: #BAFFC9; 
 } /* bottom */
 .radial-item:nth-child(4) { 
   top: 50%; 
   left: 0%; 
-  transform: translate(0%, -50%); 
+  transform: translate(0%, -50%) rotate(5deg); 
   background-color: #FFF3BA; 
 } /* left */
+
 
 /* Mobile responsive */
 @media (max-width: 600px) {
