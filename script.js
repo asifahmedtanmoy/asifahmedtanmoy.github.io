@@ -40,7 +40,3 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 });
-
-
-
-
