@@ -184,39 +184,37 @@ h2 {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hover effect: scale + slight outward rotation */
+/* Hover effect */
 .radial-item:hover {
-  transform: scale(1.08) rotate(var(--rotate-hover));
+  transform: scale(1.08);
   box-shadow: 0 12px 20px rgba(0,0,0,0.15);
 }
 
-
-/* Position boxes around a circle with slight rotation */
+/* Position boxes around a circle (center of container is 50% 50%) */
 .radial-item:nth-child(1) { 
   top: 0%; 
   left: 50%; 
-  transform: translate(-50%, 0%) rotate(-5deg); 
+  transform: translate(-50%, 0%); 
   background-color: #FFB3BA; 
 } /* top */
 .radial-item:nth-child(2) { 
   top: 50%; 
   left: 100%; 
-  transform: translate(-100%, -50%) rotate(5deg); 
+  transform: translate(-100%, -50%); 
   background-color: #BAE1FF; 
 } /* right */
 .radial-item:nth-child(3) { 
   top: 100%; 
   left: 50%; 
-  transform: translate(-50%, -100%) rotate(-5deg); 
+  transform: translate(-50%, -100%); 
   background-color: #BAFFC9; 
 } /* bottom */
 .radial-item:nth-child(4) { 
   top: 50%; 
   left: 0%; 
-  transform: translate(0%, -50%) rotate(5deg); 
+  transform: translate(0%, -50%); 
   background-color: #FFF3BA; 
 } /* left */
-
 
 /* Mobile responsive */
 @media (max-width: 600px) {
@@ -231,6 +229,7 @@ h2 {
     font-size: 0.9rem;
   }
 }
+
 
 
 /* ========== Responsive Adjustments ========== */
