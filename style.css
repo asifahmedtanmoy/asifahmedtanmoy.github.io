@@ -166,10 +166,15 @@ h2 {
 @media (max-width: 900px) {
   .home-section {
     flex-direction: column; /* stack image and text vertically */
-    text-align: center;
+   text-align: center;     /* center text under image */
+    align-items: center;    /* center the whole section horizontally */
+    justify-content: center;/* center vertically if space allows */
   }
 
   .home-section img {
     margin-bottom: 20px; /* spacing under image */
+  }
+  .home-text {
+    text-align: center; /* ensure welcome message is centered under image */
   }
 }
