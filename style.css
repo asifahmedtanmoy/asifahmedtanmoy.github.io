@@ -209,26 +209,23 @@ h2 {
   }
 }
 
+/* Collapsible Button */
 .collapsible {
-  display: block;              /* ensure it’s block-level */
+  display: block;             /* important for clickable area */
+  width: 100%;
   background-color: #222;
   color: white;
   cursor: pointer;
   padding: 12px;
-  width: 100%;
+  font-size: 1.1em;
   border: none;
+  border-radius: 6px;
   text-align: left;
   outline: none;
-  font-size: 1.1em;
   margin: 6px 0;
-  border-radius: 6px;
   transition: background 0.3s;
+  box-sizing: border-box;     /* include padding in width */
 }
-
-.collapsible {
-  box-sizing: border-box;   /* ensures width + padding works correctly */
-}
-
 
 .collapsible:hover {
   background-color: #00adb5;
@@ -238,15 +235,16 @@ h2 {
   background-color: #00adb5;
 }
 
+/* Collapsible Content */
 .content {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  padding: 10px 15px; /* add vertical padding */
+  padding: 10px 15px;         /* padding included in scrollHeight */
   border-left: 3px solid #00adb5;
+  background-color: #f9f9f9;
   margin-bottom: 10px;
-  background-color: #f9f9f9; /* optional: makes content visible */
-  box-sizing: border-box; /* ensures padding counts for scrollHeight */
+  box-sizing: border-box;
 }
 
 .content ul {
