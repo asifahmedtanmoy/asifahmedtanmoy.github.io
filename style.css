@@ -134,22 +134,11 @@ h2 {
   color: #222;
 }
 
-/* ========== Content Boxes ========== */
-.section {
-  margin-bottom: 40px;
-}
-
-.section p,
-.section ul,
-.section li {
-  font-size: 1rem;
-  color: #444;
-}
-
+/* ========== Work Images Section ========== */
 .work-images {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 20px;           /* default gap for mobile */
   margin-top: 15px;
 }
 
@@ -159,9 +148,9 @@ h2 {
 }
 
 .work-images img {
-  width: 250px;
+  width: 250px;        /* default width for mobile */
   height: auto;
-  border-radius: 8px;
+  border-radius: 8px;  /* default rounded border */
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
 }
@@ -176,7 +165,7 @@ h2 {
   color: #555;
 }
 
-/* Responsive adjustments */
+/* Mobile responsive adjustments */
 @media (max-width: 700px) {
   .work-images {
     justify-content: center;
@@ -185,6 +174,27 @@ h2 {
     width: 80%;
   }
 }
+
+/* Laptop / Desktop specific adjustments */
+@media (min-width: 901px) {
+  .work-images {
+    justify-content: center;  /* center images horizontally */
+    gap: 40px;                /* bigger gap between images */
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .work-images figure:first-child img {
+    width: 400px;       /* first image bigger */
+    border-radius: 0;   /* remove rounded border */
+  }
+
+  .work-images figure:nth-child(2) img {
+    width: 250px;       /* second image stays same */
+    border-radius: 8px; /* keep rounded border */
+  }
+}
+
 
 /* ========== Contact Page ========== */
 .contact-info {
