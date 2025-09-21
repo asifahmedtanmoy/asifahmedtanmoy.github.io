@@ -348,12 +348,24 @@ h2 {
   }
 }
 
+/* ========== Sticky Footer ========= */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* make body fill the viewport height */
+  margin: 0;
+}
+
+.container {
+  flex: 1; /* make main content expand to fill space */
+}
+
 footer {
   text-align: center;
-  padding: 15px;
-  margin-top: 40px;
-  background-color: #000;   /* black footer */
-  color: #fff;              /* white text */
-  font-size: 14px;
+  padding: 15px 0;
+  background-color: #222; /* choose color matching your theme */
+  color: #fff;
+  font-size: 0.9rem;
 }
+
 
