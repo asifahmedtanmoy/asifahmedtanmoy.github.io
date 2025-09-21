@@ -21,6 +21,35 @@ if (modal && img && modalImg && closeBtn) {
   });
 }
 
+// ========== Work Images Modal (Dynamic) ==========
+(function() {
+  const workModal = document.getElementById("workModal");
+  const workModalImg = workModal ? workModal.querySelector(".modal-content") : null;
+  const workCloseBtn = workModal ? workModal.querySelector(".close") : null;
+
+  if (!workModal || !workModalImg || !workCloseBtn) return;
+
+  // Attach click listener to all current and future images with class 'work-img'
+  document.querySelectorAll(".work-img").forEach(img => {
+    img.addEventListener("click", () => {
+      workModal.style.display = "block";
+      workModalImg.src = img.src;
+      // Keep caption in alt attribute
+      workModalImg.alt = img.nextElementSibling ? img.nextElementSibling.textContent : "";
+    });
+  });
+
+  workCloseBtn.addEventListener("click", () => {
+    workModal.style.display = "none";
+  });
+
+  window.addEventListener("click", (event) => {
+    if (event.target === workModal) {
+      workModal.style.display = "none";
+    }
+  });
+})();
+
 // ========== Collapsible Buttons ==========
 document.querySelectorAll(".collapsible").forEach(button => {
   button.addEventListener("click", function() {
@@ -32,17 +61,5 @@ document.querySelectorAll(".collapsible").forEach(button => {
     } else {
       content.style.maxHeight = content.scrollHeight + "px"; // expand
     }
-  });
-});
-
-// ========== Work Page Images Modal ==========
-const workImages = document.querySelectorAll(".work-images img");
-const workModal = document.getElementById("imgModal"); // Reusing the same modal
-const workModalImg = document.getElementById("modalImg");
-
-workImages.forEach(img => {
-  img.addEventListener("click", () => {
-    workModal.style.display = "block";
-    workModalImg.src = img.src;
   });
 });
