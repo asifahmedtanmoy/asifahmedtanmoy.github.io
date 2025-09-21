@@ -250,6 +250,29 @@ h2 {
   color: #222; /* ensure list items readable */
 }
 
+/* Updated Contact Icons Section */
+.contact-info {
+  display: flex;
+  justify-content: center;
+  gap: 80px; /* increased spacing between icons */
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.contact-icon i {
+  font-size: 4.5rem; /* bigger icons for more attention */
+  margin-bottom: 10px;
+  color: #00adb5;
+}
+
+.contact-icon span {
+  font-size: 1.2rem; /* optional: slightly larger text under icons */
+}
+
+.contact-icon:hover {
+  transform: translateY(-8px); /* subtle lift on hover */
+  color: #00adb5;
+}
 
 /* ========== Responsive Adjustments ========== */
 @media (max-width: 900px) {
