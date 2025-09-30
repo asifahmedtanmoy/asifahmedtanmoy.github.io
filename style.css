@@ -19,8 +19,12 @@ body {
 /* ========== Navigation Bar ========== */
 nav {
   background-color: #222;
-  padding: 15px 0;
+  padding: 15px 20px;
   position: relative;
+  z-index: 1000; /* keeps menu above other content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Nav Links */
@@ -46,7 +50,7 @@ nav {
   color: #00adb5;
 }
 
-/* Hamburger menu (fries) */
+/* Hamburger menu */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -56,26 +60,27 @@ nav {
   cursor: pointer;
   position: absolute;
   right: 20px;
-  top: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1100;
 }
 
 .hamburger span {
   display: block;
   height: 3px;
+  width: 100%;
   background: white;
   border-radius: 2px;
   transition: 0.3s ease;
 }
 
-/* Transform fries to X when active */
+/* Transform fries to X */
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
-
 .hamburger.active span:nth-child(2) {
   opacity: 0;
 }
-
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(5px, -5px);
 }
@@ -90,20 +95,26 @@ nav {
     flex-direction: column;
     background: #222;
     position: absolute;
-    top: 55px;
-    right: 10px;
+    top: 60px;
+    right: 20px;
     width: 200px;
     text-align: center;
     max-height: 0;
     overflow: hidden;
+    border-radius: 8px;
     transition: max-height 0.4s ease-out;
   }
 
   .nav-links.show {
-    max-height: 500px;
+    max-height: 500px; /* slides down */
     transition: max-height 0.4s ease-in;
   }
+
+  .nav-links li {
+    margin: 15px 0;
+  }
 }
+
 
 /* ========== Container ========== */
 .container {
