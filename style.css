@@ -19,9 +19,12 @@ body {
 /* ========== Navigation Bar ========== */
 nav {
   background-color: #222;
-  padding: 25px 0; /* taller black bar */
+  padding: 25px 20px; /* taller black bar */
   position: relative;
   z-index: 999; /* ensure above content */
+  display: flex;
+  justify-content: center; /* center nav links horizontally */
+  align-items: center;     /* vertically center items */
 }
 
 /* Nav Links */
@@ -57,7 +60,8 @@ nav {
   cursor: pointer;
   position: absolute;
   right: 20px;
-  top: 25px; /* vertically centered */
+  top: 50%; /* vertical center */
+  transform: translateY(-50%); /* adjust exact center */
 }
 
 .hamburger span {
@@ -91,7 +95,7 @@ nav {
     flex-direction: column;
     background: #222;
     position: absolute;
-    top: 70px; /* below taller nav */
+    top: 100%; /* directly below nav bar */
     right: 10px;
     width: 200px;
     text-align: center;
