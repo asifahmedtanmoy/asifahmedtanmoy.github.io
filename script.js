@@ -63,3 +63,14 @@ document.querySelectorAll(".collapsible").forEach(button => {
     }
   });
 });
+
+// ========== Mobile Navigation Toggle ==========
+const navToggle = document.querySelector(".nav-toggle");
+const navLinks = document.querySelector("nav ul");
+
+if (navToggle && navLinks) {
+  navToggle.addEventListener("click", () => {
+    navToggle.classList.toggle("active");
+    navLinks.classList.toggle("show");
+  });
+}
