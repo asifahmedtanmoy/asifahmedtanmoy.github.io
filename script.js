@@ -29,12 +29,10 @@ if (modal && img && modalImg && closeBtn) {
 
   if (!workModal || !workModalImg || !workCloseBtn) return;
 
-  // Attach click listener to all current and future images with class 'work-img'
   document.querySelectorAll(".work-img").forEach(img => {
     img.addEventListener("click", () => {
       workModal.style.display = "block";
       workModalImg.src = img.src;
-      // Keep caption in alt attribute
       workModalImg.alt = img.nextElementSibling ? img.nextElementSibling.textContent : "";
     });
   });
@@ -55,22 +53,30 @@ document.querySelectorAll(".collapsible").forEach(button => {
   button.addEventListener("click", function() {
     this.classList.toggle("active");
     const content = this.nextElementSibling;
-
     if (content.style.maxHeight) {
-      content.style.maxHeight = null; // collapse
+      content.style.maxHeight = null;
     } else {
-      content.style.maxHeight = content.scrollHeight + "px"; // expand
+      content.style.maxHeight = content.scrollHeight + "px";
     }
   });
 });
 
 // ========== Mobile Navigation Toggle ==========
-const navToggle = document.querySelector(".nav-toggle");
-const navLinks = document.querySelector("nav ul");
+const hamburger = document.querySelector(".hamburger");
+const navLinks = document.querySelector(".nav-links");
+const navItems = document.querySelectorAll(".nav-links li a");
 
-if (navToggle && navLinks) {
-  navToggle.addEventListener("click", () => {
-    navToggle.classList.toggle("active");
+if (hamburger && navLinks) {
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
     navLinks.classList.toggle("show");
+  });
+
+  // Auto-close menu when clicking a link
+  navItems.forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("show");
+      hamburger.classList.remove("active");
+    });
   });
 }
