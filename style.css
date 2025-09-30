@@ -82,8 +82,12 @@ nav {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Mobile styles with smoother slide-down */
+/* Mobile styles with shorter nav bar and smoother slide-down */
 @media (max-width: 768px) {
+  nav {
+    padding: 15px 20px; /* slightly shorter for phone screens */
+  }
+
   .hamburger {
     display: flex;
   }
@@ -93,24 +97,25 @@ nav {
     background: #222;
     width: 200px;
     text-align: center;
-    transform: scaleY(0);        /* collapsed */
-    transform-origin: top;       /* scale from top */
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* smoother easing */
+    transform: scaleY(0);            /* collapsed */
+    transform-origin: top;           /* scale from top */
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* smoother, slower slide-down */
     border-radius: 6px;
     position: absolute;
-    top: 100%;                   /* directly below nav bar */
+    top: 100%;                       /* directly below nav bar */
     right: 10px;
   }
 
   .nav-links.show {
-    transform: scaleY(1);        /* expanded */
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: scaleY(1);            /* expanded */
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   .nav-links li {
     margin: 10px 0;
   }
 }
+
 
 /* ========== Container ========== */
 .container {
