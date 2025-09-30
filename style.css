@@ -20,11 +20,11 @@ body {
 nav {
   background-color: #222;
   padding: 25px 20px; /* taller black bar */
-  position: relative;
-  z-index: 999; /* ensure above content */
   display: flex;
+  align-items: center; /* vertically center everything */
   justify-content: center; /* center nav links horizontally */
-  align-items: center;     /* vertically center items */
+  position: relative;
+  z-index: 999;
 }
 
 /* Nav Links */
@@ -58,10 +58,7 @@ nav {
   width: 30px;
   height: 25px;
   cursor: pointer;
-  position: absolute;
-  right: 20px;
-  top: 50%; /* vertical center */
-  transform: translateY(-50%); /* adjust exact center */
+  margin-left: auto; /* pushes to the right */
 }
 
 .hamburger span {
@@ -85,7 +82,7 @@ nav {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Mobile styles */
+/* Mobile styles with smooth slide-down */
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
@@ -94,26 +91,27 @@ nav {
   .nav-links {
     flex-direction: column;
     background: #222;
-    position: absolute;
-    top: 100%; /* directly below nav bar */
-    right: 10px;
     width: 200px;
     text-align: center;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-out;
+    transform: scaleY(0);       /* collapsed */
+    transform-origin: top;      /* scale from top */
+    transition: transform 0.35s ease-out;
     border-radius: 6px;
+    position: absolute;
+    top: 100%;                  /* directly below nav bar */
+    right: 10px;
   }
 
   .nav-links.show {
-    max-height: 500px;
-    transition: max-height 0.4s ease-in;
+    transform: scaleY(1);       /* expanded */
+    transition: transform 0.35s ease-in;
   }
 
   .nav-links li {
     margin: 10px 0;
   }
 }
+
 
 /* ========== Container ========== */
 .container {
