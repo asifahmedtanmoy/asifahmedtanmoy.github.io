@@ -19,7 +19,7 @@ body {
 /* ========== Navigation Bar ========== */
 nav {
   background-color: #222;
-  padding: 25px 20px; /* taller black bar */
+  padding: 20px 20px; /* slightly shorter height */
   display: flex;
   align-items: center; /* vertically center everything */
   justify-content: center; /* center nav links horizontally */
@@ -82,7 +82,7 @@ nav {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Mobile styles with smooth slide-down */
+/* Mobile styles with smoother slide-down */
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
@@ -93,25 +93,24 @@ nav {
     background: #222;
     width: 200px;
     text-align: center;
-    transform: scaleY(0);       /* collapsed */
-    transform-origin: top;      /* scale from top */
-    transition: transform 0.35s ease-out;
+    transform: scaleY(0);        /* collapsed */
+    transform-origin: top;       /* scale from top */
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* smoother easing */
     border-radius: 6px;
     position: absolute;
-    top: 100%;                  /* directly below nav bar */
+    top: 100%;                   /* directly below nav bar */
     right: 10px;
   }
 
   .nav-links.show {
-    transform: scaleY(1);       /* expanded */
-    transition: transform 0.35s ease-in;
+    transform: scaleY(1);        /* expanded */
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   .nav-links li {
     margin: 10px 0;
   }
 }
-
 
 /* ========== Container ========== */
 .container {
