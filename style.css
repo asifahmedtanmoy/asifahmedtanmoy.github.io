@@ -16,6 +16,20 @@ body {
   margin: 0;
 }
 
+/* Prevent layout shift when the page gains a vertical scrollbar */
+html {
+  /* reserve gutter in modern browsers */
+  scrollbar-gutter: stable;
+  /* fallback for older browsers */
+  overflow-y: scroll;
+}
+
+/* reduce scroll anchoring jumps when collapsible content expands */
+.container,
+.content {
+  overflow-anchor: none;
+}
+
 /* ========== Navigation Bar ========== */
 nav {
   background-color: #222;
