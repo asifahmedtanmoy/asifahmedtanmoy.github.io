@@ -388,7 +388,7 @@ h2 {
 
 /* focus ring for accessibility */
 .collapsible:focus-visible {
-  outline: 3px solid #ffffff;
+  outline: 3px solid #00adb5;
   outline-offset: 3px;
   border-radius: 6px;
 }
