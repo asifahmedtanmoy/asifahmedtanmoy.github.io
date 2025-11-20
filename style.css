@@ -386,6 +386,37 @@ h2 {
   box-sizing: border-box;
 }
 
+/* Collapsible hint text */
+.collapsible-hint {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+/* Arrow on collapsible buttons */
+.collapsible {
+  position: relative;
+  padding-right: 40px; /* space for arrow */
+}
+
+.collapsible .arrow {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 8px solid white;
+  transform: translateY(-50%) rotate(0deg);
+  transition: transform 0.3s ease;
+}
+
+.collapsible.active .arrow {
+  transform: translateY(-50%) rotate(90deg);
+}
+
 /* focus ring for accessibility */
 .collapsible:focus-visible {
   outline: 3px solid #00adb5;      /* outer glow-style outline */
