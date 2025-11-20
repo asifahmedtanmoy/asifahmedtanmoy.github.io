@@ -388,9 +388,11 @@ h2 {
 
 /* focus ring for accessibility */
 .collapsible:focus-visible {
-  outline: 3px solid rgba(0,173,181,0.18);
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
   border-radius: 6px;
 }
+
 
 .collapsible:hover, .collapsible.active {
   background-color: #00adb5;
