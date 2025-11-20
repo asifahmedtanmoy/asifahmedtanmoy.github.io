@@ -1,242 +1,305 @@
-/* ============================================================
-   PROFILE IMAGE MODAL (Home Page)
-   ============================================================ */
-const modal = document.getElementById("imgModal");
-const img = document.getElementById("profileImg");
-const modalImg = document.getElementById("modalImg");
-const closeBtn = document.querySelector(".close");
+/* =====================================================================
+   Unified script.js
+   - Profile image modal (scoped)
+   - Unified gallery modal (supports multiple thumbnail classes; creates modal if missing)
+   - Smooth collapsibles
+   - Mobile hamburger nav
+   ===================================================================== */
 
-if (modal && img && modalImg && closeBtn) {
-  img.addEventListener("click", () => {
-    modal.classList.add("open");
-    modalImg.src = img.src;
-  });
+/* ------------ PROFILE IMAGE MODAL (scoped to #imgModal) -------------- */
+(function profileModal() {
+  const modal = document.getElementById('imgModal');
+  const img = document.getElementById('profileImg');
+  const modalImg = document.getElementById('modalImg');
+  if (!modal || !img || !modalImg) return;
 
-  closeBtn.addEventListener("click", () => modal.classList.remove("open"));
-
-  window.addEventListener("click", (event) => {
-    if (event.target === modal) modal.classList.remove("open");
-  });
-
-  window.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") modal.classList.remove("open");
-  });
-}
-
-/* ============================================================
-   GLOBAL GALLERY MODAL (Projects + Work Experiences)
-   ============================================================ */
-
-(function () {
-  const galleryModal = document.querySelector("#workModal");
-  if (!galleryModal) return;
-
-  const overlay = galleryModal.querySelector(".modal-overlay");
-  const shell = galleryModal.querySelector(".modal-shell");
-  const imgBox = galleryModal.querySelector(".modal-img");
-  const captionBox = galleryModal.querySelector(".modal-caption");
-  const closeButton = galleryModal.querySelector(".close");
-  const prevButton = galleryModal.querySelector(".prev");
-  const nextButton = galleryModal.querySelector(".next");
-
-  // All clickable gallery images
-  const images = Array.from(document.querySelectorAll(".gallery-img"));
-  let currentIndex = 0;
-
-  const openGalleryModal = (index) => {
-    currentIndex = index;
-    const src = images[index].getAttribute("src");
-    const caption = images[index].dataset.caption || "";
-
-    imgBox.style.opacity = "0";
-    imgBox.src = src;
-
-    overlay.classList.add("visible");
-    shell.classList.add("visible");
-    galleryModal.classList.add("open");
-
-    setTimeout(() => {
-      imgBox.style.opacity = "1";
-    }, 100);
-
-    captionBox.textContent = caption;
+  const closeBtn = modal.querySelector('.close'); // scoped close inside imgModal
+  const openProfile = () => {
+    modal._previouslyFocused = document.activeElement;
+    modal.classList.add('open');
+    modal.style.display = 'block';
+    modalImg.src = img.src || '';
+    modalImg.alt = img.alt || '';
+    if (closeBtn) closeBtn.focus();
+  };
+  const closeProfile = () => {
+    modal.classList.remove('open');
+    modal.style.display = '';
+    const prev = modal._previouslyFocused;
+    if (prev && typeof prev.focus === 'function') prev.focus();
   };
 
-  const closeGalleryModal = () => {
-    overlay.classList.remove("visible");
-    shell.classList.remove("visible");
-    galleryModal.classList.remove("open");
-  };
-
-  const showNext = () => {
-    currentIndex = (currentIndex + 1) % images.length;
-    openGalleryModal(currentIndex);
-  };
-
-  const showPrev = () => {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    openGalleryModal(currentIndex);
-  };
-
-  // Click on image → open modal
-  images.forEach((image, idx) => {
-    image.addEventListener("click", () => openGalleryModal(idx));
+  img.addEventListener('click', openProfile);
+  img.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProfile(); }
   });
 
-  // Close button
-  closeButton.addEventListener("click", closeGalleryModal);
-
-  // Click outside modal
-  overlay.addEventListener("click", closeGalleryModal);
-
-  // Arrow navigation
-  nextButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-    showNext();
-  });
-  prevButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-    showPrev();
-  });
-
-  // Keyboard navigation
-  window.addEventListener("keydown", (e) => {
-    if (!galleryModal.classList.contains("open")) return;
-    if (e.key === "Escape") closeGalleryModal();
-    if (e.key === "ArrowRight") showNext();
-    if (e.key === "ArrowLeft") showPrev();
-  });
+  if (closeBtn) closeBtn.addEventListener('click', closeProfile);
+  window.addEventListener('click', (e) => { if (e.target === modal) closeProfile(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeProfile(); });
 })();
 
-/* ============================================================
-   SMOOTH COLLAPSIBLES (Accessible + Animated)
-   ============================================================ */
+/* ------------ UNIFIED GALLERY MODAL (create if missing) ------------- */
+(function galleryModal() {
+  // helper to create the standard gallery modal HTML
+  function makeGalleryModal() {
+    const container = document.createElement('div');
+    container.id = 'workModal';
+    container.className = 'modal';
+    container.innerHTML = `
+      <div class="modal-overlay"></div>
+      <div class="modal-shell" role="dialog" aria-modal="true" aria-label="Image gallery">
+        <button class="modal-nav prev" aria-label="Previous image">‹</button>
+        <div class="modal-body">
+          <img class="modal-img" src="" alt="">
+          <div class="modal-caption" aria-live="polite"></div>
+        </div>
+        <button class="modal-nav next" aria-label="Next image">›</button>
+        <button class="close" aria-label="Close image modal">&times;</button>
+      </div>
+    `;
+    document.body.appendChild(container);
+    return container;
+  }
 
-(function () {
+  let galleryModalEl = document.getElementById('workModal');
+  if (!galleryModalEl) galleryModalEl = makeGalleryModal();
+
+  // scoped elements
+  const overlay = galleryModalEl.querySelector('.modal-overlay');
+  const shell = galleryModalEl.querySelector('.modal-shell');
+  const modalImg = galleryModalEl.querySelector('.modal-img');
+  const modalCaption = galleryModalEl.querySelector('.modal-caption');
+  const closeBtn = galleryModalEl.querySelector('.close');
+  const prevBtn = galleryModalEl.querySelector('.modal-nav.prev');
+  const nextBtn = galleryModalEl.querySelector('.modal-nav.next');
+
+  // Collect thumbnails from multiple possible classes so both pages work
+  const thumbSelector = '.gallery-img, .work-img, .gallery-thumb, .work-thumb';
+  const thumbs = Array.from(document.querySelectorAll(thumbSelector));
+
+  // if no thumbs anywhere, nothing to wire
+  if (!thumbs.length) return;
+
+  // helper: get caption from data-caption, figcaption or alt
+  const getCaption = (imgEl) => {
+    if (!imgEl) return '';
+    if (imgEl.dataset && imgEl.dataset.caption) return imgEl.dataset.caption;
+    const fig = imgEl.closest('figure');
+    const fc = fig ? fig.querySelector('figcaption') : null;
+    if (fc && fc.textContent.trim()) return fc.textContent.trim();
+    return imgEl.alt || '';
+  };
+
+  let currentIndex = 0;
+
+  // open at index
+  const openAt = (index, opener) => {
+    currentIndex = (index + thumbs.length) % thumbs.length;
+    const thumb = thumbs[currentIndex];
+    const src = thumb.getAttribute('data-full') || thumb.src;
+    const caption = getCaption(thumb);
+
+    // store opener element to restore focus
+    galleryModalEl._previouslyFocused = opener || document.activeElement;
+
+    // show modal
+    galleryModalEl.classList.add('open');
+    shell.classList.add('visible');
+    overlay.classList.add('visible');
+
+    // set image + caption (fade in)
+    modalImg.style.opacity = '0';
+    modalImg.src = src;
+    modalImg.alt = thumb.alt || '';
+    modalCaption.textContent = caption;
+
+    // focus close button for keyboard users
+    if (closeBtn) closeBtn.focus();
+
+    // fade in after load
+    modalImg.onload = () => { requestAnimationFrame(()=>{ modalImg.style.opacity = '1'; }); };
+  };
+
+  const closeGallery = () => {
+    shell.classList.remove('visible');
+    overlay.classList.remove('visible');
+    modalImg.style.opacity = '0';
+    setTimeout(() => {
+      galleryModalEl.classList.remove('open');
+      const prev = galleryModalEl._previouslyFocused;
+      if (prev && typeof prev.focus === 'function') prev.focus();
+    }, 220);
+  };
+
+  const showPrev = () => openAt(currentIndex - 1, galleryModalEl._previouslyFocused);
+  const showNext = () => openAt(currentIndex + 1, galleryModalEl._previouslyFocused);
+
+  // wire thumbnails (click + keyboard)
+  thumbs.forEach((imgEl, idx) => {
+    if (!imgEl.hasAttribute('tabindex')) imgEl.setAttribute('tabindex', '0');
+
+    imgEl.addEventListener('click', (e) => {
+      e.preventDefault();
+      galleryModalEl._previouslyFocused = e.currentTarget;
+      openAt(idx, e.currentTarget);
+    });
+
+    imgEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        galleryModalEl._previouslyFocused = e.currentTarget;
+        openAt(idx, e.currentTarget);
+      }
+    });
+  });
+
+  // controls
+  if (closeBtn) closeBtn.addEventListener('click', closeGallery);
+  if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+  if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+
+  // overlay / outside click closes
+  overlay.addEventListener('click', closeGallery);
+  galleryModalEl.addEventListener('click', (e) => {
+    if (!shell.contains(e.target)) closeGallery();
+  });
+
+  // keyboard navigation while open
+  document.addEventListener('keydown', (e) => {
+    if (!galleryModalEl.classList.contains('open')) return;
+    if (e.key === 'Escape') { e.preventDefault(); closeGallery(); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); showPrev(); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); showNext(); }
+  });
+
+})(); // end gallery modal block
+
+
+/* ---------------- SMOOTH COLLAPSIBLES (accessible) ------------------ */
+(function collapsibles() {
   const findNextContent = (startEl) => {
     let el = startEl.nextElementSibling;
     while (el) {
-      if (el.classList && el.classList.contains("content")) return el;
+      if (el.classList && el.classList.contains('content')) return el;
       el = el.nextElementSibling;
     }
     return null;
   };
 
-  const buttons = Array.from(document.querySelectorAll(".collapsible"));
+  const buttons = Array.from(document.querySelectorAll('.collapsible'));
   buttons.forEach((button) => {
     const content = findNextContent(button);
     if (!content) return;
 
-    button.setAttribute("role", "button");
-    button.setAttribute("tabindex", "0");
+    if (!button.hasAttribute('role')) button.setAttribute('role', 'button');
+    if (!button.hasAttribute('tabindex')) button.setAttribute('tabindex', '0');
+    if (!button.hasAttribute('aria-expanded')) button.setAttribute('aria-expanded', 'false');
 
-    if (!button.hasAttribute("aria-expanded"))
-      button.setAttribute("aria-expanded", "false");
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    content.setAttribute('aria-hidden', String(!isExpanded));
+    content.style.overflow = 'hidden';
+    content.style.transition = 'max-height 0.35s cubic-bezier(.22,.9,.32,1)';
 
-    const isExpanded = button.getAttribute("aria-expanded") === "true";
-    content.setAttribute("aria-hidden", String(!isExpanded));
-    content.style.overflow = "hidden";
-
-    // Initialize
     if (isExpanded) {
       content.hidden = false;
-      content.style.maxHeight = content.scrollHeight + "px";
-      setTimeout(() => {
-        if (button.getAttribute("aria-expanded") === "true")
-          content.style.maxHeight = "none";
-      }, 300);
-      button.classList.add("active");
+      content.style.maxHeight = content.scrollHeight + 'px';
+      setTimeout(()=>{ if (button.getAttribute('aria-expanded')==='true') content.style.maxHeight = 'none'; }, 380);
+      button.classList.add('active');
     } else {
-      content.style.maxHeight = "0px";
+      content.style.maxHeight = '0px';
       content.hidden = true;
-      button.classList.remove("active");
+      button.classList.remove('active');
     }
 
     const open = () => {
       content.hidden = false;
-      content.offsetHeight;
-      content.style.maxHeight = content.scrollHeight + "px";
+      content.offsetHeight; // force reflow
+      content.style.maxHeight = content.scrollHeight + 'px';
+      button.setAttribute('aria-expanded','true');
+      content.setAttribute('aria-hidden','false');
+      button.classList.add('active');
 
-      button.setAttribute("aria-expanded", "true");
-      content.setAttribute("aria-hidden", "false");
-      button.classList.add("active");
-
-      const clearMax = () => {
-        if (button.getAttribute("aria-expanded") === "true") {
-          content.style.maxHeight = "none";
-        }
-        content.removeEventListener("transitionend", clearMax);
+      const onEnd = () => {
+        if (button.getAttribute('aria-expanded') === 'true') content.style.maxHeight = 'none';
+        content.removeEventListener('transitionend', onEnd);
       };
-      content.addEventListener("transitionend", clearMax);
+      content.addEventListener('transitionend', onEnd);
     };
 
     const close = () => {
-      if (getComputedStyle(content).maxHeight === "none") {
-        content.style.maxHeight = content.scrollHeight + "px";
+      if (getComputedStyle(content).maxHeight === 'none') {
+        content.style.maxHeight = content.scrollHeight + 'px';
         content.offsetHeight;
       }
+      content.style.maxHeight = '0px';
+      button.setAttribute('aria-expanded','false');
+      content.setAttribute('aria-hidden','true');
+      button.classList.remove('active');
 
-      content.style.maxHeight = "0px";
-      button.classList.remove("active");
-      button.setAttribute("aria-expanded", "false");
-      content.setAttribute("aria-hidden", "true");
-
-      const hideAfter = () => {
-        if (button.getAttribute("aria-expanded") === "false") content.hidden = true;
-        content.removeEventListener("transitionend", hideAfter);
+      const onEndHide = () => {
+        if (button.getAttribute('aria-expanded') === 'false') content.hidden = true;
+        content.removeEventListener('transitionend', onEndHide);
       };
-      content.addEventListener("transitionend", hideAfter);
+      content.addEventListener('transitionend', onEndHide);
     };
 
-    const toggle = () => {
-      const expanded = button.getAttribute("aria-expanded") === "true";
-      if (expanded) close();
-      else open();
+    const toggle = (e) => {
+      if (e && (e.target.tagName === 'A' || e.target.closest && e.target.closest('a'))) return;
+      const cur = button.getAttribute('aria-expanded') === 'true';
+      if (cur) close(); else open();
     };
 
-    button.addEventListener("click", toggle);
+    button.addEventListener('click', toggle);
+    button.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(e); }
+    });
 
-    button.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggle();
+    window.addEventListener('resize', () => {
+      if (button.getAttribute('aria-expanded') === 'true') {
+        if (content.style.maxHeight === 'none' || getComputedStyle(content).maxHeight === 'none') {
+          content.style.maxHeight = content.scrollHeight + 'px';
+          setTimeout(()=>{ content.style.maxHeight = 'none'; }, 160);
+        } else {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
       }
     });
-
-    // Resize handling
-    window.addEventListener("resize", () => {
-      if (button.getAttribute("aria-expanded") === "true") {
-        content.style.maxHeight = content.scrollHeight + "px";
-      }
-    });
   });
-})();
+})(); // end collapsibles
 
-/* ============================================================
-   MOBILE NAVIGATION
-   ============================================================ */
 
-const hamburger = document.querySelector(".hamburger");
-const navLinks = document.querySelector(".nav-links");
-const navItems = document.querySelectorAll(".nav-links li a");
+/* --------------------- MOBILE NAV (hamburger) ----------------------- */
+(function mobileNav() {
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  if (!hamburger || !navLinks) return;
 
-if (hamburger && navLinks) {
-  hamburger.addEventListener("click", () => {
-    hamburger.classList.toggle("active");
-    navLinks.classList.toggle("show");
-  });
+  const navItems = navLinks.querySelectorAll('li a');
 
-  navItems.forEach((link) => {
-    link.addEventListener("click", () => {
-      navLinks.classList.remove("show");
-      hamburger.classList.remove("active");
-    });
-  });
+  hamburger.setAttribute('tabindex','0');
+  hamburger.setAttribute('aria-expanded','false');
 
-  window.addEventListener("click", (event) => {
-    if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
-      navLinks.classList.remove("show");
-      hamburger.classList.remove("active");
+  const toggle = () => {
+    const active = hamburger.classList.toggle('active');
+    navLinks.classList.toggle('show', active);
+    hamburger.setAttribute('aria-expanded', String(active));
+  };
+
+  hamburger.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+  hamburger.addEventListener('keydown', (e) => { if (e.key==='Enter' || e.key===' ') { e.preventDefault(); toggle(); } });
+
+  navItems.forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('show');
+    hamburger.classList.remove('active');
+    hamburger.setAttribute('aria-expanded','false');
+  }));
+
+  document.addEventListener('click', (e) => {
+    if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+      navLinks.classList.remove('show');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded','false');
     }
   });
-}
+})();
