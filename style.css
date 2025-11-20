@@ -388,9 +388,13 @@ h2 {
 
 /* focus ring for accessibility */
 .collapsible:focus-visible {
-  outline: 3px solid #00adb5;
-  outline-offset: 3px;
+  outline: 3px solid #00adb5;      /* outer glow-style outline */
+  outline-offset: 3px;             /* small gap so outline is visible */
+  border: 3px solid #00adb5;       /* inner strong border */
   border-radius: 6px;
+  background-color: #222;          /* keep original background */
+  color: #fff;
+  transition: border 0.2s ease, outline 0.2s ease;
 }
 
 
