@@ -200,16 +200,15 @@
     const isExpanded = button.getAttribute('aria-expanded') === 'true';
     content.setAttribute('aria-hidden', String(!isExpanded));
     content.style.overflow = 'hidden';
-    // ensure transition exists and is consistent
-    content.style.transition = 'max-height 0.32s cubic-bezier(.22,.9,.32,1)';
+    content.style.transition = 'max-height 0.28s cubic-bezier(.22,.9,.32,1)';
     content.style.willChange = 'max-height';
 
     if (isExpanded) {
       content.hidden = false;
       content.style.maxHeight = content.scrollHeight + 'px';
-      // after the transition, use 'none' so it's flexible
+      // after expand finish, let it be flexible
       content.addEventListener('transitionend', function _openEnd(e) {
-        if (button.getAttribute('aria-expanded') === 'true' && e.propertyName === 'max-height') {
+        if (e.propertyName === 'max-height' && button.getAttribute('aria-expanded') === 'true') {
           content.style.maxHeight = 'none';
         }
         content.removeEventListener('transitionend', _openEnd);
@@ -222,16 +221,14 @@
     }
 
     const open = () => {
-      // make visible and measure
+      // make visible
       content.hidden = false;
-      // set explicit height to trigger transition
-      const full = content.scrollHeight + 'px';
-      content.style.maxHeight = '0px';
-      // sequence the style changes reliably
+      // force a computed pixel start value to ensure a clean transition
+      content.style.maxHeight = content.scrollHeight + 'px';
+      // allow the browser to paint and then clear to 'none' after completed
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          content.style.maxHeight = full;
-        });
+        // if the element was previously 'none', keep it numeric for the animation
+        content.style.maxHeight = content.scrollHeight + 'px';
       });
 
       button.setAttribute('aria-expanded','true');
@@ -240,7 +237,6 @@
 
       const onEnd = (e) => {
         if (e.propertyName !== 'max-height') return;
-        // allow it to become flexible after finished expanding
         if (button.getAttribute('aria-expanded') === 'true') {
           content.style.maxHeight = 'none';
         }
@@ -250,15 +246,22 @@
     };
 
     const close = () => {
-      // If maxHeight is 'none' make it a pixel value first (force reflow)
-      if (getComputedStyle(content).maxHeight === 'none') {
+      // If currently 'none', set it to actual height so collapse animates
+      const computedMax = getComputedStyle(content).maxHeight;
+      if (computedMax === 'none') {
+        // set to current pixel height to create a numeric starting point
         content.style.maxHeight = content.scrollHeight + 'px';
-        // force reflow so the next change animates
-        content.offsetHeight;
+        // force reflow to lock that value
+        void content.offsetHeight;
       }
-      // then collapse
+
+      // Now collapse: ensure we start from a pixel height (already set), then set to 0
+      // Use rAF to ensure the style change is separated into a new frame so transition runs
       requestAnimationFrame(() => {
-        content.style.maxHeight = '0px';
+        // Small extra rAF helps in some browsers to ensure the transition is triggered
+        requestAnimationFrame(() => {
+          content.style.maxHeight = '0px';
+        });
       });
 
       button.setAttribute('aria-expanded','false');
@@ -267,7 +270,7 @@
 
       const onEndHide = (e) => {
         if (e.propertyName !== 'max-height') return;
-        // fully hide after transition completes
+        // only hide after the collapse finished
         if (button.getAttribute('aria-expanded') === 'false') content.hidden = true;
         content.removeEventListener('transitionend', onEndHide);
       };
@@ -285,12 +288,11 @@
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(e); }
     });
 
-    // when resizing, if open, re-calc height smoothly
+    // on window resize keep open content flexible without jump
     window.addEventListener('resize', () => {
       if (button.getAttribute('aria-expanded') === 'true') {
-        // only during visible state; temporarily set pixel height to avoid jump
+        // temporarily set numeric height then allow 'none' after repaint
         content.style.maxHeight = content.scrollHeight + 'px';
-        // after the next paint, allow flexible layout
         requestAnimationFrame(() => {
           content.style.maxHeight = 'none';
         });
@@ -298,6 +300,7 @@
     });
   });
 })(); // end collapsibles
+
 
 
 
