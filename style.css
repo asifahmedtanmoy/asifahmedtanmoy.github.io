@@ -225,7 +225,43 @@ nav {
   white-space: nowrap; border: 0;
 }
 
-/* Make contact anchors align icons and text consistently */
+/* Keep existing image sizing for real logos intact */
+.contact-logo {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: white;
+  padding: 5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  display: block;
+}
+
+/* If contact-logo is an <img>, keep its height consistent and preserve aspect ratio */
+.contact-icon img.contact-logo { 
+  width: auto; 
+  height: 52px; 
+  padding: 6px; 
+  background: white; 
+  border-radius: 10px;
+}
+
+/* Gmail (image) uses the same treatment as other logos — no badge styles */
+.contact-icon img.gmail-logo {
+  /* nothing special here; inherits .contact-logo / img.contact-logo rules */
+}
+
+/* Caption below each icon */
+.icon-caption {
+  margin-top: 8px;
+  font-size: 1rem;
+  color: #00adb5;
+  font-weight: 500;
+  display: block;
+  line-height: 1;
+}
+
+/* Ensure anchor stacks icon + caption vertically (you already have this but keep it) */
 .contact-icon {
   display: inline-flex;
   flex-direction: column;
@@ -236,24 +272,6 @@ nav {
   transition: transform 0.18s ease;
 }
 
-/* Keep existing image sizing for real logos intact */
-.contact-logo {
-  width: 55px;
-  height: 55px;
-  object-fit: contain;
-  border-radius: 10px;
-  background: white;
-  padding: 5px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-/* If contact-logo is an <img>, let it keep its intrinsic aspect */
-.contact-icon img.contact-logo { 
-  width: auto; 
-  height: 52px; 
-  padding: 6px; 
-  background: white; 
-}
 
 /* Gmail badge: red rounded square with white envelope glyph */
 .gmail-logo {
