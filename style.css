@@ -59,6 +59,15 @@ nav {
   height: 25px;
   cursor: pointer;
   margin-left: auto; /* pushes to the right */
+  background: transparent;
+  border: none;
+  padding: 6px;
+}
+
+/* make hamburger keyboard accessible */
+.hamburger:focus-visible {
+  outline: 3px solid rgba(0,173,181,0.22);
+  border-radius: 6px;
 }
 
 .hamburger span {
@@ -104,6 +113,8 @@ nav {
     position: absolute;
     top: 100%;                       /* directly below nav bar */
     right: 10px;
+    overflow: hidden;
+    will-change: transform;
   }
 
   .nav-links.show {
@@ -115,7 +126,6 @@ nav {
     margin: 10px 0;
   }
 }
-
 
 /* ========== Container ========== */
 .container {
@@ -167,6 +177,11 @@ nav {
   background-color: rgba(0,0,0,0.8);
 }
 
+/* make JS-driven "open" state visible */
+.modal.open {
+  display: block;
+}
+
 .modal-content {
   margin: auto;
   display: block;
@@ -184,6 +199,9 @@ nav {
   font-size: 40px;
   font-weight: bold;
   cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 6px;
 }
 
 .close:hover {
@@ -368,6 +386,12 @@ h2 {
   box-sizing: border-box;
 }
 
+/* focus ring for accessibility */
+.collapsible:focus-visible {
+  outline: 3px solid rgba(0,173,181,0.18);
+  border-radius: 6px;
+}
+
 .collapsible:hover, .collapsible.active {
   background-color: #00adb5;
 }
@@ -382,6 +406,11 @@ h2 {
   margin-bottom: 10px;
   box-sizing: border-box;
   color: #222;
+}
+
+/* hide when using hidden attribute (JS will toggle) */
+.content[hidden] {
+  display: none;
 }
 
 .content ul {
