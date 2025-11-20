@@ -71,11 +71,18 @@
   </div>
 
 
-  <!-- Modal for profile image -->
-<div id="imgModal" class="modal">
-  <span class="close">&times;</span>
-  <img class="modal-content" id="modalImg">
+ <!-- Profile image modal (matches gallery structure) -->
+<div id="imgModal" class="modal" aria-hidden="true">
+  <div class="modal-overlay"></div>
+
+  <div class="modal-shell" role="dialog" aria-modal="true" aria-label="Profile image">
+    <button class="close" aria-label="Close profile image">&times;</button>
+    <div class="modal-body">
+      <img class="modal-img" id="modalImg" src="" alt="">
+    </div>
+  </div>
 </div>
+
 
   <!-- Script -->
   <script src="script.js"></script>
