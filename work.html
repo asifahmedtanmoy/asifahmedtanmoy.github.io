@@ -6,8 +6,10 @@
   <title>Work Experiences</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
- <!-- Navigation Bar -->
+
+<!-- Navigation Bar -->
 <nav>
   <div class="hamburger" onclick="toggleMenu(this)">
     <span></span>
@@ -26,43 +28,68 @@
 </nav>
 
 
-  <!-- Work Experiences Content -->
-  <div class="container">
-    <div class="section">
-      <h2>Work Experiences</h2>
+<!-- Work Experiences Content -->
+<div class="container">
+  <div class="section">
 
-      <div class="project-card">
-        <br><h3>Industrial Attachment (June 2024)</h3><br>
-        <h4><a href="https://dblceramics.com/en" target="_blank">DBL Ceramics Ltd.</a>, Sreepur Upazila, Dhaka</h4>
-        <p>
-          As part of a mandatory BUET sessional course, I completed an industrial attachment at DBL Ceramics Ltd., where I gained hands-on exposure to tile manufacturing processes, material characterization, raw material sourcing, and quality control. I also developed practical skills in process optimization, industrial safety, sorting & packaging, and time management while observing large-scale production workflows.
-        </p>
-      </div>
+    <h2>Work Experiences</h2>
 
-      <!-- Work Images with Captions -->
-      <div class="work-images">
-        <figure>
-          <img id="workImg1" src="assets/DBL_certificate.jpg" alt="DBL Certificate" class="work-img">
-          <figcaption>Certificate of Completion</figcaption>
-        </figure>
-        <figure>
-          <img id="workImg2" src="assets/DBL_office.jpg" alt="DBL Office" class="work-img">
-          <figcaption>Final Presentation Day</figcaption>
-        </figure>
-      </div>
+    <div class="project-card">
+      <br><h3>Industrial Attachment (June 2024)</h3><br>
+      <h4><a href="https://dblceramics.com/en" target="_blank">DBL Ceramics Ltd.</a>, Sreepur Upazila, Dhaka</h4>
+      <p>
+        As part of a mandatory BUET sessional course, I completed an industrial attachment at DBL Ceramics Ltd., 
+        where I gained hands-on exposure to tile manufacturing processes, material characterization, raw material sourcing, 
+        and quality control. I also developed practical skills in process optimization, industrial safety, sorting & packaging, 
+        and time management while observing large-scale production workflows.
+      </p>
     </div>
+
+    <!-- Work Images using NEW global gallery modal system -->
+    <div class="work-images">
+      <figure>
+        <img 
+          src="assets/DBL_certificate.jpg" 
+          alt="DBL Certificate"
+          class="gallery-img"
+          data-caption="Certificate of Completion — DBL Ceramics Ltd., Industrial Attachment (June 2024)"
+        >
+        <figcaption>Certificate of Completion</figcaption>
+      </figure>
+
+      <figure>
+        <img 
+          src="assets/DBL_office.jpg" 
+          alt="DBL Office"
+          class="gallery-img"
+          data-caption="Final Presentation Day — DBL Ceramics Ltd."
+        >
+        <figcaption>Final Presentation Day</figcaption>
+      </figure>
+    </div>
+
   </div>
+</div>
 
-  <!-- Modal for Work Images -->
-  <div id="workModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="workModalImg">
+<!-- Global Gallery Modal (shared with projects page) -->
+<div id="workModal">
+  <div class="modal-overlay"></div>
+
+  <div class="modal-shell">
+    <button class="modal-nav prev">&#10094;</button>
+    <div class="modal-body">
+      <img class="modal-img" alt="">
+      <div class="modal-caption"></div>
+    </div>
+    <button class="modal-nav next">&#10095;</button>
+    <button class="close">&times;</button>
   </div>
+</div>
 
-  <!-- Script -->
-  <script src="script.js"></script>
+<!-- Script -->
+<script src="script.js"></script>
 
-  <footer>
+<footer>
   <p>&copy; 2025 Asif Ahmed Tanmoy. All Rights Reserved.</p>
 </footer>
 
