@@ -237,14 +237,13 @@ nav {
 
 /* Keep existing image sizing for real logos intact */
 .contact-logo {
-  display: inline-block;
-  width: 52px;
-  height: 52px;
-  line-height: 52px;
-  text-align: center;
-  vertical-align: middle;
-  border-radius: 8px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: white;
+  padding: 5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 /* If contact-logo is an <img>, let it keep its intrinsic aspect */
