@@ -14,17 +14,27 @@
   if (!modal || !img || !modalImg) return;
 
   const closeBtn = modal.querySelector('.close'); // scoped close inside imgModal
+  const overlay = modal.querySelector('.modal-overlay');
+  const shell = modal.querySelector('.modal-shell');
+
   const openProfile = () => {
     modal._previouslyFocused = document.activeElement;
     modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
     modal.style.display = 'block';
+    if (shell) shell.classList.add('visible');
+    if (overlay) overlay.classList.add('visible');
     modalImg.src = img.src || '';
     modalImg.alt = img.alt || '';
     if (closeBtn) closeBtn.focus();
   };
+
   const closeProfile = () => {
     modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
     modal.style.display = '';
+    if (shell) shell.classList.remove('visible');
+    if (overlay) overlay.classList.remove('visible');
     const prev = modal._previouslyFocused;
     if (prev && typeof prev.focus === 'function') prev.focus();
   };
@@ -35,7 +45,11 @@
   });
 
   if (closeBtn) closeBtn.addEventListener('click', closeProfile);
+  if (overlay) overlay.addEventListener('click', closeProfile);
+
+  // legacy: clicking directly on the container closes if target equals modal
   window.addEventListener('click', (e) => { if (e.target === modal) closeProfile(); });
+
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeProfile(); });
 })();
 
@@ -68,13 +82,13 @@
     if (!galleryModalEl) galleryModalEl = makeGalleryModal();
 
     // scoped elements (guarded)
-    const overlay = galleryModalEl.querySelector('.modal-overlay');
-    const shell = galleryModalEl.querySelector('.modal-shell');
-    const modalImg = galleryModalEl.querySelector('.modal-img');
-    const modalCaption = galleryModalEl.querySelector('.modal-caption');
-    const closeBtn = galleryModalEl.querySelector('.close');
-    const prevBtn = galleryModalEl.querySelector('.modal-nav.prev');
-    const nextBtn = galleryModalEl.querySelector('.modal-nav.next');
+    let overlay = galleryModalEl.querySelector('.modal-overlay');
+    let shell = galleryModalEl.querySelector('.modal-shell');
+    let modalImg = galleryModalEl.querySelector('.modal-img');
+    let modalCaption = galleryModalEl.querySelector('.modal-caption');
+    let closeBtn = galleryModalEl.querySelector('.close');
+    let prevBtn = galleryModalEl.querySelector('.modal-nav.prev');
+    let nextBtn = galleryModalEl.querySelector('.modal-nav.next');
 
     // if any of these critical elements are missing, abort gracefully
     if (!overlay || !shell || !modalImg) return;
@@ -149,6 +163,14 @@
         // defensive: if gallery modal element was removed after page load recreate it
         if (!document.getElementById('workModal')) {
           galleryModalEl = makeGalleryModal();
+          // re-query scoped elements (the new modal)
+          overlay = galleryModalEl.querySelector('.modal-overlay');
+          shell = galleryModalEl.querySelector('.modal-shell');
+          modalImg = galleryModalEl.querySelector('.modal-img');
+          modalCaption = galleryModalEl.querySelector('.modal-caption');
+          closeBtn = galleryModalEl.querySelector('.close');
+          prevBtn = galleryModalEl.querySelector('.modal-nav.prev');
+          nextBtn = galleryModalEl.querySelector('.modal-nav.next');
         }
         galleryModalEl._previouslyFocused = e.currentTarget;
         openAt(idx, e.currentTarget);
@@ -159,6 +181,13 @@
           e.preventDefault();
           if (!document.getElementById('workModal')) {
             galleryModalEl = makeGalleryModal();
+            overlay = galleryModalEl.querySelector('.modal-overlay');
+            shell = galleryModalEl.querySelector('.modal-shell');
+            modalImg = galleryModalEl.querySelector('.modal-img');
+            modalCaption = galleryModalEl.querySelector('.modal-caption');
+            closeBtn = galleryModalEl.querySelector('.close');
+            prevBtn = galleryModalEl.querySelector('.modal-nav.prev');
+            nextBtn = galleryModalEl.querySelector('.modal-nav.next');
           }
           galleryModalEl._previouslyFocused = e.currentTarget;
           openAt(idx, e.currentTarget);
