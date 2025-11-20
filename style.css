@@ -234,24 +234,25 @@ nav {
   color: #555;
 }
 
-/* Contact icons on Home Page under intro */
+/* Contact icons on Home Page under intro (slightly bigger + wider spacing) */
 .home-text .home-contact-links {
-  margin-top: 20px;
+  margin-top: 28px;    /* increased space between intro and icons */
   display: flex;
-  justify-content: center; /* center within home-text */
-  gap: 30px;
+  justify-content: center;
+  gap: 42px;           /* slightly bigger spacing between icons */
 }
 
 .home-text .home-contact-links a i {
-  font-size: 2.8rem;
+  font-size: 3.2rem;   /* slightly bigger icons */
   color: #00adb5;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .home-text .home-contact-links a i:hover {
-  transform: translateY(-6px);
+  transform: translateY(-7px); /* smooth hover pop */
   color: #008c92;
 }
+
 
 
 /* ========== Section Headings ========== */
