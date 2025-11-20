@@ -748,6 +748,44 @@ h2 {
   #workModal .modal-img { max-height: 60vh; }
 }
 
+/* ===== Modal overlay and centering fixes (append to end of style.css) ===== */
+
+/* Ensure the overlay becomes visible when modal is open or when JS toggles .visible */
+#workModal.open .modal-overlay,
+#workModal .modal-overlay.visible,
+#imgModal.open .modal-overlay,
+#imgModal .modal-overlay.visible {
+  opacity: 1;
+  pointer-events: auto; /* allow click-to-close */
+}
+
+/* Make sure the modal shell centers its contents horizontally and vertically */
+#workModal .modal-shell,
+#imgModal .modal-shell {
+  display: flex;                /* already used, but enforce */
+  align-items: center;          /* vertical centering */
+  justify-content: center;      /* horizontal centering (fixes offset) */
+  text-align: center;
+}
+
+/* Ensure modal image is a centered block, respects max sizes and doesn't cause horizontal shift */
+#workModal .modal-img,
+#imgModal .modal-img {
+  display: block;
+  margin: 0 auto;
+  max-width: 90vw;    /* keep it nicely inside viewport */
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+}
+
+/* Slightly increase overlay stacking safety (in case other site elements had higher z-index) */
+#workModal .modal-overlay { z-index: 1410; }
+#workModal .modal-shell   { z-index: 1420; }
+
+#imgModal .modal-overlay  { z-index: 1510; }
+#imgModal .modal-shell    { z-index: 1520; }
+
 /* ========== Sticky Footer ========= */
 footer {
   text-align: center;
