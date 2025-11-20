@@ -163,7 +163,7 @@ nav {
   flex: 1;
 }
 
-/* Modal */
+/* ========== Modal base (profile & generic) ========== */
 .modal {
   display: none;
   position: fixed;
@@ -402,10 +402,11 @@ h2 {
   background-color: #00adb5;
 }
 
+/* revised content transition to match JS for buttery smoothness */
 .content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease;
+  transition: max-height 0.35s cubic-bezier(.22,.9,.32,1);
   background-color: #f9f9f9;
   padding: 10px 15px;
   border-left: 3px solid #00adb5;
@@ -546,6 +547,50 @@ h2 {
   .work-images.stacked figure { max-width: 420px; margin-left: auto; margin-right: auto; }
 }
 
+/* ===== Desktop: make bottom images span both columns & center across page ===== */
+@media (min-width: 901px) {
+  .project-bottom {
+    grid-column: 1 / 3;           /* span both columns */
+    display:flex;
+    justify-content:center;       /* center within full content width */
+    align-items:center;
+    gap:18px;
+    padding-top: 6px;
+  }
+}
+
+/* ===== Gallery modal styling (fade + nav buttons) ===== */
+#workModal { position: fixed; inset: 0; z-index: 1400; display: none; pointer-events: none; }
+#workModal.open { display: block; pointer-events: auto; }
+
+#workModal .modal-overlay {
+  position: fixed; inset:0; background: rgba(0,0,0,0.65); opacity: 0; transition: opacity .22s ease; z-index: 1410;
+}
+#workModal .modal-overlay.visible { opacity: 1; }
+
+#workModal .modal-shell {
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(.98);
+  max-width: 92vw; width: min(1100px, 96%); z-index: 1420;
+  background: transparent; display:flex; align-items:center; gap:12px;
+  transition: transform .22s ease, opacity .22s ease; opacity: 0;
+}
+#workModal .modal-shell.visible { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+
+#workModal .modal-body { flex: 1 1 auto; display:flex; flex-direction:column; align-items:center; gap:8px; }
+#workModal .modal-img { max-width: 100%; max-height: 75vh; border-radius: 8px; box-shadow: 0 14px 42px rgba(0,0,0,0.5); transition: opacity .18s ease; opacity: 0; display:block; }
+#workModal .modal-caption { color: #fff; font-size: .95rem; text-align:center; max-width: 92%; }
+
+#workModal .close {
+  position: absolute; top: 14px; right: 16px; font-size: 2.2rem; background: transparent; color: #fff; border: none; z-index: 1430; cursor: pointer;
+}
+#workModal .modal-nav { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); color:#fff; border:none; padding:8px 12px; font-size: 1.8rem; border-radius:8px; cursor:pointer; z-index: 1430; }
+#workModal .modal-nav.prev { left: 18px; } 
+#workModal .modal-nav.next { right: 18px; }
+
+@media (max-width:700px){
+  #workModal .modal-nav.prev, #workModal .modal-nav.next { left: 10px; right: 10px; font-size:1.4rem; padding:6px 8px; }
+  #workModal .modal-img { max-height: 60vh; }
+}
 
 /* ========== Sticky Footer ========= */
 footer {
