@@ -234,6 +234,26 @@ nav {
   color: #555;
 }
 
+/* Contact icons on Home Page under intro */
+.home-contact-links {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+}
+
+.home-contact-links a i {
+  font-size: 2.8rem;
+  color: #00adb5;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.home-contact-links a i:hover {
+  transform: translateY(-6px);
+  color: #008c92;
+}
+
 /* ========== Section Headings ========== */
 h2 {
   font-size: 1.8rem;
