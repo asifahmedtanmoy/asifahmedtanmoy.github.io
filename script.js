@@ -41,138 +41,154 @@
 
 /* ------------ UNIFIED GALLERY MODAL (create if missing) ------------- */
 (function galleryModal() {
-  // helper to create the standard gallery modal HTML
-  function makeGalleryModal() {
-    const container = document.createElement('div');
-    container.id = 'workModal';
-    container.className = 'modal';
-    container.innerHTML = `
-      <div class="modal-overlay"></div>
-      <div class="modal-shell" role="dialog" aria-modal="true" aria-label="Image gallery">
-        <button class="modal-nav prev" aria-label="Previous image">‹</button>
-        <div class="modal-body">
-          <img class="modal-img" src="" alt="">
-          <div class="modal-caption" aria-live="polite"></div>
+  try {
+    // helper to create the standard gallery modal HTML
+    function makeGalleryModal() {
+      const container = document.createElement('div');
+      container.id = 'workModal';
+      container.className = 'modal';
+      container.innerHTML = `
+        <div class="modal-overlay"></div>
+        <div class="modal-shell" role="dialog" aria-modal="true" aria-label="Image gallery">
+          <button class="modal-nav prev" aria-label="Previous image">‹</button>
+          <div class="modal-body">
+            <img class="modal-img" src="" alt="">
+            <div class="modal-caption" aria-live="polite"></div>
+          </div>
+          <button class="modal-nav next" aria-label="Next image">›</button>
+          <button class="close" aria-label="Close image modal">&times;</button>
         </div>
-        <button class="modal-nav next" aria-label="Next image">›</button>
-        <button class="close" aria-label="Close image modal">&times;</button>
-      </div>
-    `;
-    document.body.appendChild(container);
-    return container;
-  }
+      `;
+      document.body.appendChild(container);
+      return container;
+    }
 
-  let galleryModalEl = document.getElementById('workModal');
-  if (!galleryModalEl) galleryModalEl = makeGalleryModal();
+    // find existing modal or create one
+    let galleryModalEl = document.getElementById('workModal');
+    if (!galleryModalEl) galleryModalEl = makeGalleryModal();
 
-  // scoped elements
-  const overlay = galleryModalEl.querySelector('.modal-overlay');
-  const shell = galleryModalEl.querySelector('.modal-shell');
-  const modalImg = galleryModalEl.querySelector('.modal-img');
-  const modalCaption = galleryModalEl.querySelector('.modal-caption');
-  const closeBtn = galleryModalEl.querySelector('.close');
-  const prevBtn = galleryModalEl.querySelector('.modal-nav.prev');
-  const nextBtn = galleryModalEl.querySelector('.modal-nav.next');
+    // scoped elements (guarded)
+    const overlay = galleryModalEl.querySelector('.modal-overlay');
+    const shell = galleryModalEl.querySelector('.modal-shell');
+    const modalImg = galleryModalEl.querySelector('.modal-img');
+    const modalCaption = galleryModalEl.querySelector('.modal-caption');
+    const closeBtn = galleryModalEl.querySelector('.close');
+    const prevBtn = galleryModalEl.querySelector('.modal-nav.prev');
+    const nextBtn = galleryModalEl.querySelector('.modal-nav.next');
 
-  // Collect thumbnails from multiple possible classes so both pages work
-  const thumbSelector = '.gallery-img, .work-img, .gallery-thumb, .work-thumb';
-  const thumbs = Array.from(document.querySelectorAll(thumbSelector));
+    // if any of these critical elements are missing, abort gracefully
+    if (!overlay || !shell || !modalImg) return;
 
-  // if no thumbs anywhere, nothing to wire
-  if (!thumbs.length) return;
+    // Collect thumbnails from multiple possible classes so both pages work
+    const thumbSelector = '.gallery-img, .work-img, .gallery-thumb, .work-thumb';
+    const thumbs = Array.from(document.querySelectorAll(thumbSelector));
 
-  // helper: get caption from data-caption, figcaption or alt
-  const getCaption = (imgEl) => {
-    if (!imgEl) return '';
-    if (imgEl.dataset && imgEl.dataset.caption) return imgEl.dataset.caption;
-    const fig = imgEl.closest('figure');
-    const fc = fig ? fig.querySelector('figcaption') : null;
-    if (fc && fc.textContent.trim()) return fc.textContent.trim();
-    return imgEl.alt || '';
-  };
+    // if no thumbs anywhere, nothing to wire
+    if (!thumbs.length) return;
 
-  let currentIndex = 0;
+    // helper: get caption from data-caption, figcaption or alt
+    const getCaption = (imgEl) => {
+      if (!imgEl) return '';
+      if (imgEl.dataset && imgEl.dataset.caption) return imgEl.dataset.caption;
+      const fig = imgEl.closest('figure');
+      const fc = fig ? fig.querySelector('figcaption') : null;
+      if (fc && fc.textContent.trim()) return fc.textContent.trim();
+      return imgEl.alt || '';
+    };
 
-  // open at index
-  const openAt = (index, opener) => {
-    currentIndex = (index + thumbs.length) % thumbs.length;
-    const thumb = thumbs[currentIndex];
-    const src = thumb.getAttribute('data-full') || thumb.src;
-    const caption = getCaption(thumb);
+    let currentIndex = 0;
 
-    // store opener element to restore focus
-    galleryModalEl._previouslyFocused = opener || document.activeElement;
+    // open at index
+    const openAt = (index, opener) => {
+      currentIndex = (index + thumbs.length) % thumbs.length;
+      const thumb = thumbs[currentIndex];
+      const src = thumb.getAttribute('data-full') || thumb.src;
+      const caption = getCaption(thumb);
 
-    // show modal
-    galleryModalEl.classList.add('open');
-    shell.classList.add('visible');
-    overlay.classList.add('visible');
+      // store opener element to restore focus
+      galleryModalEl._previouslyFocused = opener || document.activeElement;
 
-    // set image + caption (fade in)
-    modalImg.style.opacity = '0';
-    modalImg.src = src;
-    modalImg.alt = thumb.alt || '';
-    modalCaption.textContent = caption;
+      // show modal
+      galleryModalEl.classList.add('open');
+      shell.classList.add('visible');
+      overlay.classList.add('visible');
 
-    // focus close button for keyboard users
-    if (closeBtn) closeBtn.focus();
+      // set image + caption (fade in)
+      modalImg.style.opacity = '0';
+      modalImg.src = src;
+      modalImg.alt = thumb.alt || '';
+      modalCaption.textContent = caption;
 
-    // fade in after load
-    modalImg.onload = () => { requestAnimationFrame(()=>{ modalImg.style.opacity = '1'; }); };
-  };
+      // focus close button for keyboard users
+      if (closeBtn) closeBtn.focus();
 
-  const closeGallery = () => {
-    shell.classList.remove('visible');
-    overlay.classList.remove('visible');
-    modalImg.style.opacity = '0';
-    setTimeout(() => {
-      galleryModalEl.classList.remove('open');
-      const prev = galleryModalEl._previouslyFocused;
-      if (prev && typeof prev.focus === 'function') prev.focus();
-    }, 220);
-  };
+      // fade in after load (guard the onload)
+      modalImg.onload = () => { requestAnimationFrame(()=>{ modalImg.style.opacity = '1'; }); };
+    };
 
-  const showPrev = () => openAt(currentIndex - 1, galleryModalEl._previouslyFocused);
-  const showNext = () => openAt(currentIndex + 1, galleryModalEl._previouslyFocused);
+    const closeGallery = () => {
+      shell.classList.remove('visible');
+      overlay.classList.remove('visible');
+      modalImg.style.opacity = '0';
+      setTimeout(() => {
+        galleryModalEl.classList.remove('open');
+        const prev = galleryModalEl._previouslyFocused;
+        if (prev && typeof prev.focus === 'function') prev.focus();
+      }, 220);
+    };
 
-  // wire thumbnails (click + keyboard)
-  thumbs.forEach((imgEl, idx) => {
-    if (!imgEl.hasAttribute('tabindex')) imgEl.setAttribute('tabindex', '0');
+    const showPrev = () => openAt(currentIndex - 1, galleryModalEl._previouslyFocused);
+    const showNext = () => openAt(currentIndex + 1, galleryModalEl._previouslyFocused);
 
-    imgEl.addEventListener('click', (e) => {
-      e.preventDefault();
-      galleryModalEl._previouslyFocused = e.currentTarget;
-      openAt(idx, e.currentTarget);
-    });
+    // wire thumbnails (click + keyboard)
+    thumbs.forEach((imgEl, idx) => {
+      if (!imgEl.hasAttribute('tabindex')) imgEl.setAttribute('tabindex', '0');
 
-    imgEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+      imgEl.addEventListener('click', (e) => {
         e.preventDefault();
+        // defensive: if gallery modal element was removed after page load recreate it
+        if (!document.getElementById('workModal')) {
+          galleryModalEl = makeGalleryModal();
+        }
         galleryModalEl._previouslyFocused = e.currentTarget;
         openAt(idx, e.currentTarget);
-      }
+      });
+
+      imgEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (!document.getElementById('workModal')) {
+            galleryModalEl = makeGalleryModal();
+          }
+          galleryModalEl._previouslyFocused = e.currentTarget;
+          openAt(idx, e.currentTarget);
+        }
+      });
     });
-  });
 
-  // controls
-  if (closeBtn) closeBtn.addEventListener('click', closeGallery);
-  if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
-  if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+    // controls (guarded)
+    if (closeBtn) closeBtn.addEventListener('click', closeGallery);
+    if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
 
-  // overlay / outside click closes
-  overlay.addEventListener('click', closeGallery);
-  galleryModalEl.addEventListener('click', (e) => {
-    if (!shell.contains(e.target)) closeGallery();
-  });
+    // overlay / outside click closes (guard for overlay)
+    overlay.addEventListener('click', closeGallery);
+    galleryModalEl.addEventListener('click', (e) => {
+      if (!shell.contains(e.target)) closeGallery();
+    });
 
-  // keyboard navigation while open
-  document.addEventListener('keydown', (e) => {
-    if (!galleryModalEl.classList.contains('open')) return;
-    if (e.key === 'Escape') { e.preventDefault(); closeGallery(); }
-    else if (e.key === 'ArrowLeft') { e.preventDefault(); showPrev(); }
-    else if (e.key === 'ArrowRight') { e.preventDefault(); showNext(); }
-  });
+    // keyboard navigation while open
+    document.addEventListener('keydown', (e) => {
+      if (!galleryModalEl.classList.contains('open')) return;
+      if (e.key === 'Escape') { e.preventDefault(); closeGallery(); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); showPrev(); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); showNext(); }
+    });
 
+  } catch (err) {
+    // fail gracefully and report to console for debugging
+    console.error('Gallery modal initialization failed:', err);
+  }
 })(); // end gallery modal block
 
 
@@ -337,4 +353,8 @@
       hamburger.setAttribute('aria-expanded','false');
     }
   });
+
+  // expose toggleMenu to support existing inline onclick attributes
+  // (keeps backward compatibility with markup that uses onclick="toggleMenu(this)")
+  window.toggleMenu = toggle;
 })();
