@@ -82,57 +82,91 @@ document.addEventListener('DOMContentLoaded', () => {
     if (workClose) workClose.addEventListener('click', () => closeModal(workModal));
   })();
 
-  /* ---------- Collapsibles (accessible) ---------- */
-  document.querySelectorAll('.collapsible').forEach((button) => {
-    const content = button.nextElementSibling;
-    if (!content) return;
-    const expanded = button.getAttribute('aria-expanded') === 'true';
-    button.setAttribute('role', 'button');
-    button.setAttribute('aria-expanded', String(expanded));
-    content.hidden = !(expanded);
+ /* ---------- Smooth Collapsibles (accessible + buttery animation) ---------- */
+document.querySelectorAll('.collapsible').forEach((button) => {
+  const content = button.nextElementSibling;
+  if (!content) return;
 
-    if (!content.style.transition) {
-      content.style.transition = 'max-height 0.28s ease';
-      content.style.overflow = 'hidden';
-    }
+  // Initialize ARIA and state
+  const isExpanded = button.getAttribute('aria-expanded') === 'true';
+  button.setAttribute('role', 'button');
+  button.setAttribute('aria-expanded', String(isExpanded));
+  content.setAttribute('aria-hidden', String(!isExpanded));
 
-    const setOpen = (open) => {
-      button.classList.toggle('active', open);
-      button.setAttribute('aria-expanded', String(open));
-      if (open) {
-        content.hidden = false;
-        content.style.maxHeight = content.scrollHeight + 'px';
-      } else {
-        content.style.maxHeight = '0px';
-        window.setTimeout(() => { content.hidden = true; }, 300);
-      }
-    };
+  // Ensure smooth transition & overflow (CSS already defines transition on max-height)
+  content.style.overflow = 'hidden';
 
-    if (expanded) {
-      content.style.maxHeight = content.scrollHeight + 'px';
-    } else {
-      content.style.maxHeight = '0px';
-    }
+  // Smooth open
+  const open = () => {
+    // get natural height
+    const startHeight = content.scrollHeight;
+    // set explicit height to kick off transition
+    content.style.maxHeight = startHeight + 'px';
+    button.classList.add('active');
+    button.setAttribute('aria-expanded', 'true');
+    content.setAttribute('aria-hidden', 'false');
 
-    const toggle = () => {
-      const isOpen = button.getAttribute('aria-expanded') === 'true';
-      setOpen(!isOpen);
-    };
-
-    button.addEventListener('click', toggle);
-    button.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggle();
-      }
-    });
-
-    window.addEventListener('resize', () => {
+    // after transition end, clear max-height so content can grow naturally
+    const clearMax = () => {
       if (button.getAttribute('aria-expanded') === 'true') {
+        content.style.maxHeight = 'none';
+      }
+      content.removeEventListener('transitionend', clearMax);
+    };
+    content.addEventListener('transitionend', clearMax);
+  };
+
+  // Smooth close
+  const close = () => {
+    // if maxHeight is 'none', set it to current pixel height first
+    const computed = window.getComputedStyle(content).maxHeight;
+    if (computed === 'none') {
+      content.style.maxHeight = content.scrollHeight + 'px';
+      // force reflow
+      // eslint-disable-next-line no-unused-expressions
+      content.offsetHeight;
+    }
+    // then collapse to zero
+    content.style.maxHeight = '0px';
+    button.classList.remove('active');
+    button.setAttribute('aria-expanded', 'false');
+    content.setAttribute('aria-hidden', 'true');
+  };
+
+  // Set initial visual state without abrupt animation on load
+  if (isExpanded) {
+    content.style.maxHeight = content.scrollHeight + 'px';
+    setTimeout(() => { content.style.maxHeight = 'none'; }, 300);
+  } else {
+    content.style.maxHeight = '0px';
+  }
+
+  const toggle = () => {
+    const currentlyOpen = button.getAttribute('aria-expanded') === 'true';
+    if (currentlyOpen) close(); else open();
+  };
+
+  button.addEventListener('click', toggle);
+  button.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggle();
+    }
+  });
+
+  // Recalculate height on resize while open
+  window.addEventListener('resize', () => {
+    if (button.getAttribute('aria-expanded') === 'true') {
+      if (content.style.maxHeight === 'none' || getComputedStyle(content).maxHeight === 'none') {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        setTimeout(() => { content.style.maxHeight = 'none'; }, 160);
+      } else {
         content.style.maxHeight = content.scrollHeight + 'px';
       }
-    });
+    }
   });
+});
+
 
   /* ---------- Mobile Navigation Toggle ---------- */
   const hamburger = document.querySelector('.hamburger');
