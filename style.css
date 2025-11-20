@@ -235,24 +235,24 @@ nav {
 }
 
 /* Contact icons on Home Page under intro */
-.home-contact-links {
+.home-text .home-contact-links {
   margin-top: 20px;
   display: flex;
-  justify-content: center;
-  gap: 40px;
-  width: 100%;
+  justify-content: center; /* center within home-text */
+  gap: 30px;
 }
 
-.home-contact-links a i {
+.home-text .home-contact-links a i {
   font-size: 2.8rem;
   color: #00adb5;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.home-contact-links a i:hover {
+.home-text .home-contact-links a i:hover {
   transform: translateY(-6px);
   color: #008c92;
 }
+
 
 /* ========== Section Headings ========== */
 h2 {
