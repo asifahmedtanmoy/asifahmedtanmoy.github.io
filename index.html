@@ -46,9 +46,87 @@
 <div class="home-contact-links">
 
  <!-- Gmail (use Font Awesome envelope inside a styled red badge) -->
-<a href="mailto:tanmoy4036@gmail.com" class="contact-icon" target="_blank" aria-label="Email">
-  <img src="assets/Gmail_logo.PNG" alt="Gmail" class="contact-logo gmail-logo">
+<!-- Gmail link (keep the anchor and img) -->
+<a href="mailto:tanmoy4036@gmail.com"
+   class="contact-icon"
+   id="gmail-link"
+   aria-label="Email Asif Ahmed Tanmoy">
+  <img src="/mnt/data/Gmail_logo.PNG"
+       alt="Gmail"
+       class="contact-logo gmail-logo">
 </a>
+
+<!-- Smart Gmail-handler script: Gmail app preferred on mobile, fallback to mailto if not installed.
+     On desktop it opens Gmail web compose in a new tab. -->
+<script>
+(function () {
+  const a = document.getElementById('gmail-link');
+  if (!a) return;
+
+  // keep the href mailto as the definitive fallback
+  const mailto = a.getAttribute('href') || 'mailto:tanmoy4036@gmail.com';
+  const to = mailto.replace(/^mailto:/i, '').split(/[?&]/)[0];
+
+  // Gmail web compose URL (desktop)
+  const gmailWeb = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(to);
+
+  // Gmail app deep links (attempts)
+  // iOS/Universal scheme used by Gmail app
+  const gmailAppScheme = 'googlegmail://co?to=' + encodeURIComponent(to);
+  // Android Intent - asks system to open Gmail package (Chrome on Android understands intent: URLs)
+  const gmailIntent = 'intent://compose?to=' + encodeURIComponent(to) + '#Intent;package=com.google.android.gm;scheme=mailto;end';
+
+  // small mobile detection
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  a.addEventListener('click', function (ev) {
+    try {
+      if (!isMobile) {
+        // Desktop: open Gmail web compose in a new tab
+        ev.preventDefault();
+        window.open(gmailWeb, '_blank', 'noopener');
+        return;
+      }
+
+      // Mobile: prefer Gmail app, fallback to mailto (native mail app)
+      ev.preventDefault();
+
+      // Attempt to open Gmail app:
+      let opened = false;
+      const start = Date.now();
+
+      // For Android, use intent URL - Chrome will try to open the Gmail app directly
+      if (isAndroid) {
+        // Assigning location to intent triggers the Gmail app if installed.
+        window.location = gmailIntent;
+      } else if (isIOS) {
+        // iOS: use the googlegmail:// scheme (Gmail app registers this)
+        // We open via window.location; if the scheme is not handled, browser stays and the fallback will run.
+        window.location = gmailAppScheme;
+      } else {
+        // fallback to attempting the scheme first
+        window.location = gmailAppScheme;
+      }
+
+      // After a short delay, if the app didn't open, fall back to mailto:
+      // (If Gmail app opened, the browser is backgrounded and this fallback usually won't run.)
+      setTimeout(function () {
+        // if browser still visible, open native mailto fallback
+        // We use a small threshold so that legitimate app openings don't trigger the fallback.
+        if (Date.now() - start < 1200) {
+          window.location = mailto; // opens phone's default email app
+        }
+      }, 800);
+
+    } catch (err) {
+      // on any error, let the anchor's href handle it (mailto)
+      return;
+    }
+  }, false);
+})();
+</script>
 
   <!-- LinkedIn -->
   <a href="https://www.linkedin.com/in/asif-ahmed-tanmoy" target="_blank">
