@@ -408,9 +408,11 @@ h2 {
   color: #222;
 }
 
-/* hide when using hidden attribute (JS will toggle) */
+/* we no longer use display:none for smooth transitions.
+   Use aria-expanded and max-height for accessibility + animation. */
 .content[hidden] {
-  display: none;
+  /* intentionally left blank to avoid instant display:none which breaks transitions */
+  /* display: none; */
 }
 
 .content ul {
