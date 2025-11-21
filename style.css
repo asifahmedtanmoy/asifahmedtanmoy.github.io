@@ -1,493 +1,812 @@
-/* =====================================================================
-   Unified script.js
-   - Profile image modal (scoped)
-   - Unified gallery modal (supports multiple thumbnail classes; creates modal if missing)
-   - Smooth collapsibles
-   - Mobile hamburger nav (robust, supports onclick="toggleMenu(this)")
-   ===================================================================== */
+/* ========== Global Reset ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-/* ------------ PROFILE IMAGE MODAL (scoped to #imgModal) -------------- */
-(function profileModal() {
-  const modal = document.getElementById('imgModal');
-  const img = document.getElementById('profileImg');
-  const modalImg = document.getElementById('modalImg');
-  if (!modal || !img || !modalImg) return;
+/* Prevent layout shift when the page gains a vertical scrollbar */
+html {
+  /* reserve gutter in modern browsers */
+  scrollbar-gutter: stable;
+  /* fallback for older browsers */
+  overflow-y: scroll;
+}
 
-  const closeBtn = modal.querySelector('.close'); // scoped close inside imgModal
-  const overlay = modal.querySelector('.modal-overlay');
-  const shell = modal.querySelector('.modal-shell');
+/* reduce scroll anchoring jumps when collapsible content expands */
+.container,
+.content {
+  overflow-anchor: none;
+}
 
-  const openProfile = () => {
-    modal._previouslyFocused = document.activeElement;
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
-    modal.style.display = 'block';
-    if (shell) shell.classList.add('visible');
-    if (overlay) overlay.classList.add('visible');
-    modalImg.src = img.src || '';
-    modalImg.alt = img.alt || '';
-    if (closeBtn) closeBtn.focus();
-  };
+body {
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
 
-  const closeProfile = () => {
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
-    modal.style.display = '';
-    if (shell) shell.classList.remove('visible');
-    if (overlay) overlay.classList.remove('visible');
-    const prev = modal._previouslyFocused;
-    if (prev && typeof prev.focus === 'function') prev.focus();
-  };
+/* ========== Navigation Bar ========== */
+nav {
+  background-color: #222;
+  padding: 20px 20px; /* slightly shorter height */
+  display: flex;
+  align-items: center; /* vertically center everything */
+  justify-content: center; /* center nav links horizontally */
+  position: relative;
+  z-index: 999;
+}
 
-  img.addEventListener('click', openProfile);
-  img.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProfile(); }
-  });
+/* Nav Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
-  if (closeBtn) closeBtn.addEventListener('click', closeProfile);
-  if (overlay) overlay.addEventListener('click', closeProfile);
+.nav-links li {
+  margin: 0 15px;
+}
 
-  // legacy: clicking directly on the modal container closes if target equals modal
-  window.addEventListener('click', (e) => { if (e.target === modal) closeProfile(); });
+.nav-links li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
 
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeProfile(); });
-})();
+.nav-links li a:hover {
+  color: #00adb5;
+}
 
-/* ------------ UNIFIED GALLERY MODAL (create if missing) ------------- */
-(function galleryModal() {
-  try {
-    // helper to create the standard gallery modal HTML
-    function makeGalleryModal() {
-      const container = document.createElement('div');
-      container.id = 'workModal';
-      container.className = 'modal';
-      container.innerHTML = `
-        <div class="modal-overlay"></div>
-        <div class="modal-shell" role="dialog" aria-modal="true" aria-label="Image gallery">
-          <button class="modal-nav prev" aria-label="Previous image">‹</button>
-          <div class="modal-body">
-            <img class="modal-img" src="" alt="">
-            <div class="modal-caption" aria-live="polite"></div>
-          </div>
-          <button class="modal-nav next" aria-label="Next image">›</button>
-          <button class="close" aria-label="Close image modal">&times;</button>
-        </div>
-      `;
-      document.body.appendChild(container);
-      return container;
-    }
+/* Hamburger menu (fries) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  margin-left: auto; /* pushes to the right */
+  background: transparent;
+  border: none;
+  padding: 6px;
+}
 
-    // find existing modal or create one
-    let galleryModalEl = document.getElementById('workModal');
-    if (!galleryModalEl) galleryModalEl = makeGalleryModal();
+/* make hamburger keyboard accessible */
+.hamburger:focus-visible {
+  outline: 3px solid rgba(0,173,181,0.22);
+  border-radius: 6px;
+}
 
-    // scoped elements (guarded)
-    let overlay = galleryModalEl.querySelector('.modal-overlay');
-    let shell = galleryModalEl.querySelector('.modal-shell');
-    let modalImg = galleryModalEl.querySelector('.modal-img');
-    let modalCaption = galleryModalEl.querySelector('.modal-caption');
-    let closeBtn = galleryModalEl.querySelector('.close');
-    let prevBtn = galleryModalEl.querySelector('.modal-nav.prev');
-    let nextBtn = galleryModalEl.querySelector('.modal-nav.next');
+.hamburger span {
+  display: block;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: 0.3s ease;
+}
 
-    // if any of these critical elements are missing, abort gracefully
-    if (!overlay || !shell || !modalImg) return;
+/* Transform fries to X when active */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
 
-    // Collect thumbnails from multiple possible classes so both pages work
-    const thumbSelector = '.gallery-img, .work-img, .gallery-thumb, .work-thumb';
-    const thumbs = Array.from(document.querySelectorAll(thumbSelector));
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
 
-    // if no thumbs anywhere, nothing to wire
-    if (!thumbs.length) return;
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
 
-    // helper: get caption from data-caption, figcaption or alt
-    const getCaption = (imgEl) => {
-      if (!imgEl) return '';
-      if (imgEl.dataset && imgEl.dataset.caption) return imgEl.dataset.caption;
-      const fig = imgEl.closest('figure');
-      const fc = fig ? fig.querySelector('figcaption') : null;
-      if (fc && fc.textContent.trim()) return fc.textContent.trim();
-      return imgEl.alt || '';
-    };
-
-    let currentIndex = 0;
-
-    // open at index
-    const openAt = (index, opener) => {
-      currentIndex = (index + thumbs.length) % thumbs.length;
-      const thumb = thumbs[currentIndex];
-      const src = thumb.getAttribute('data-full') || thumb.src;
-      const caption = getCaption(thumb);
-
-      // store opener element to restore focus
-      galleryModalEl._previouslyFocused = opener || document.activeElement;
-
-      // show modal
-      galleryModalEl.classList.add('open');
-      shell.classList.add('visible');
-      overlay.classList.add('visible');
-
-      // set image + caption (fade in)
-      modalImg.style.opacity = '0';
-      modalImg.src = src;
-      modalImg.alt = thumb.alt || '';
-      modalCaption.textContent = caption;
-
-      // focus close button for keyboard users
-      if (closeBtn) closeBtn.focus();
-
-      // fade in after load (guard the onload)
-      modalImg.onload = () => { requestAnimationFrame(()=>{ modalImg.style.opacity = '1'; }); };
-    };
-
-    const closeGallery = () => {
-      shell.classList.remove('visible');
-      overlay.classList.remove('visible');
-      modalImg.style.opacity = '0';
-      setTimeout(() => {
-        galleryModalEl.classList.remove('open');
-        const prev = galleryModalEl._previouslyFocused;
-        if (prev && typeof prev.focus === 'function') prev.focus();
-      }, 220);
-    };
-
-    const showPrev = () => openAt(currentIndex - 1, galleryModalEl._previouslyFocused);
-    const showNext = () => openAt(currentIndex + 1, galleryModalEl._previouslyFocused);
-
-    // wire thumbnails (click + keyboard)
-    thumbs.forEach((imgEl, idx) => {
-      if (!imgEl.hasAttribute('tabindex')) imgEl.setAttribute('tabindex', '0');
-
-      imgEl.addEventListener('click', (e) => {
-        e.preventDefault();
-        // defensive: if gallery modal element was removed after page load recreate it
-        if (!document.getElementById('workModal')) {
-          galleryModalEl = makeGalleryModal();
-          // re-query scoped elements (the new modal)
-          overlay = galleryModalEl.querySelector('.modal-overlay');
-          shell = galleryModalEl.querySelector('.modal-shell');
-          modalImg = galleryModalEl.querySelector('.modal-img');
-          modalCaption = galleryModalEl.querySelector('.modal-caption');
-          closeBtn = galleryModalEl.querySelector('.close');
-          prevBtn = galleryModalEl.querySelector('.modal-nav.prev');
-          nextBtn = galleryModalEl.querySelector('.modal-nav.next');
-        }
-        galleryModalEl._previouslyFocused = e.currentTarget;
-        openAt(idx, e.currentTarget);
-      });
-
-      imgEl.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          if (!document.getElementById('workModal')) {
-            galleryModalEl = makeGalleryModal();
-            overlay = galleryModalEl.querySelector('.modal-overlay');
-            shell = galleryModalEl.querySelector('.modal-shell');
-            modalImg = galleryModalEl.querySelector('.modal-img');
-            modalCaption = galleryModalEl.querySelector('.modal-caption');
-            closeBtn = galleryModalEl.querySelector('.close');
-            prevBtn = galleryModalEl.querySelector('.modal-nav.prev');
-            nextBtn = galleryModalEl.querySelector('.modal-nav.next');
-          }
-          galleryModalEl._previouslyFocused = e.currentTarget;
-          openAt(idx, e.currentTarget);
-        }
-      });
-    });
-
-    // controls (guarded)
-    if (closeBtn) closeBtn.addEventListener('click', closeGallery);
-    if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
-    if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
-
-    // overlay / outside click closes (guard for overlay)
-    overlay.addEventListener('click', closeGallery);
-    galleryModalEl.addEventListener('click', (e) => {
-      if (!shell.contains(e.target)) closeGallery();
-    });
-
-    // keyboard navigation while open
-    document.addEventListener('keydown', (e) => {
-      if (!galleryModalEl.classList.contains('open')) return;
-      if (e.key === 'Escape') { e.preventDefault(); closeGallery(); }
-      else if (e.key === 'ArrowLeft') { e.preventDefault(); showPrev(); }
-      else if (e.key === 'ArrowRight') { e.preventDefault(); showNext(); }
-    });
-
-  } catch (err) {
-    // fail gracefully and report to console for debugging
-    console.error('Gallery modal initialization failed:', err);
-  }
-})(); // end gallery modal block
-
-
-/* ---------------- SMOOTH COLLAPSIBLES (accessible) ------------------ */
-(function collapsibles() {
-  const findNextContent = (startEl) => {
-    let el = startEl.nextElementSibling;
-    while (el) {
-      if (el.classList && el.classList.contains('content')) return el;
-      el = el.nextElementSibling;
-    }
-    return null;
-  };
-
-  const buttons = Array.from(document.querySelectorAll('.collapsible'));
-  buttons.forEach((button) => {
-    const content = findNextContent(button);
-    if (!content) return;
-
-    if (!button.hasAttribute('role')) button.setAttribute('role', 'button');
-    if (!button.hasAttribute('tabindex')) button.setAttribute('tabindex', '0');
-    if (!button.hasAttribute('aria-expanded')) button.setAttribute('aria-expanded', 'false');
-
-    // initial state
-    const isExpanded = button.getAttribute('aria-expanded') === 'true';
-    content.setAttribute('aria-hidden', String(!isExpanded));
-    content.style.overflow = 'hidden';
-    content.style.transition = 'max-height 0.28s cubic-bezier(.22,.9,.32,1)';
-    content.style.willChange = 'max-height';
-
-    if (isExpanded) {
-      content.hidden = false;
-      content.style.maxHeight = content.scrollHeight + 'px';
-      // after expand finish, let it be flexible
-      content.addEventListener('transitionend', function _openEnd(e) {
-        if (e.propertyName === 'max-height' && button.getAttribute('aria-expanded') === 'true') {
-          content.style.maxHeight = 'none';
-        }
-        content.removeEventListener('transitionend', _openEnd);
-      });
-      button.classList.add('active');
-    } else {
-      content.style.maxHeight = '0px';
-      content.hidden = true;
-      button.classList.remove('active');
-    }
-
-    const open = () => {
-      // make visible
-      content.hidden = false;
-      // force a computed pixel start value to ensure a clean transition
-      content.style.maxHeight = content.scrollHeight + 'px';
-      // allow the browser to paint and then clear to 'none' after completed
-      requestAnimationFrame(() => {
-        // if the element was previously 'none', keep it numeric for the animation
-        content.style.maxHeight = content.scrollHeight + 'px';
-      });
-
-      button.setAttribute('aria-expanded','true');
-      content.setAttribute('aria-hidden','false');
-      button.classList.add('active');
-
-      const onEnd = (e) => {
-        if (e.propertyName !== 'max-height') return;
-        if (button.getAttribute('aria-expanded') === 'true') {
-          content.style.maxHeight = 'none';
-        }
-        content.removeEventListener('transitionend', onEnd);
-      };
-      content.addEventListener('transitionend', onEnd);
-    };
-
-    const close = () => {
-      // If currently 'none', set it to actual height so collapse animates
-      const computedMax = getComputedStyle(content).maxHeight;
-      if (computedMax === 'none') {
-        // set to current pixel height to create a numeric starting point
-        content.style.maxHeight = content.scrollHeight + 'px';
-        // force reflow to lock that value
-        void content.offsetHeight;
-      }
-
-      // Now collapse: ensure we start from a pixel height (already set), then set to 0
-      // Use rAF to ensure the style change is separated into a new frame so transition runs
-      requestAnimationFrame(() => {
-        // Small extra rAF helps in some browsers to ensure the transition is triggered
-        requestAnimationFrame(() => {
-          content.style.maxHeight = '0px';
-        });
-      });
-
-      button.setAttribute('aria-expanded','false');
-      content.setAttribute('aria-hidden','true');
-      button.classList.remove('active');
-
-      const onEndHide = (e) => {
-        if (e.propertyName !== 'max-height') return;
-        // only hide after the collapse finished
-        if (button.getAttribute('aria-expanded') === 'false') content.hidden = true;
-        content.removeEventListener('transitionend', onEndHide);
-      };
-      content.addEventListener('transitionend', onEndHide);
-    };
-
-    const toggle = (e) => {
-      if (e && (e.target.tagName === 'A' || e.target.closest && e.target.closest('a'))) return;
-      const cur = button.getAttribute('aria-expanded') === 'true';
-      if (cur) close(); else open();
-    };
-
-    button.addEventListener('click', toggle);
-    button.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(e); }
-    });
-
-    // on window resize keep open content flexible without jump
-    window.addEventListener('resize', () => {
-      if (button.getAttribute('aria-expanded') === 'true') {
-        // temporarily set numeric height then allow 'none' after repaint
-        content.style.maxHeight = content.scrollHeight + 'px';
-        requestAnimationFrame(() => {
-          content.style.maxHeight = 'none';
-        });
-      }
-    });
-  });
-})(); // end collapsibles
-
-
-
-
-/* --------------------- MOBILE NAV (hamburger) ----------------------- */
-(function mobileNav() {
-  const hamburgers = Array.from(document.querySelectorAll('.hamburger'));
-  const navLinksPrimary = document.querySelector('.nav-links');
-  const navContainers = navLinksPrimary ? [navLinksPrimary] : Array.from(document.querySelectorAll('[data-nav], .nav-links'));
-
-  if (!hamburgers.length || !navContainers.length) {
-    window.toggleMenu = window.toggleMenu || function () { return false; };
-    return;
+/* Mobile styles with shorter nav bar and smoother slide-down */
+@media (max-width: 768px) {
+  nav {
+    padding: 15px 20px; /* slightly shorter for phone screens */
   }
 
-  const getNavItems = () => {
-    const items = [];
-    navContainers.forEach(nc => {
-      try {
-        nc.querySelectorAll && nc.querySelectorAll('li a').forEach(a => items.push(a));
-      } catch (e) { /* ignore */ }
-    });
-    return items;
-  };
-  let navItems = getNavItems();
+  .hamburger {
+    display: flex;
+  }
 
-  const isInsideHamburger = (node) => {
-    try {
-      return hamburgers.some(h => h && h.contains && h.contains(node));
-    } catch (e) {
-      return false;
-    }
-  };
+  .nav-links {
+    flex-direction: column;
+    background: #222;
+    width: 200px;
+    text-align: center;
+    transform: scaleY(0);            /* collapsed */
+    transform-origin: top;           /* scale from top */
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* smoother, slower slide-down */
+    border-radius: 6px;
+    position: absolute;
+    top: 100%;                       /* directly below nav bar */
+    right: 10px;
+    overflow: hidden;
+    will-change: transform;
+  }
 
-  const toggle = (control) => {
-    const active = control ? !(control.classList && control.classList.contains('active')) : !hamburgers[0].classList.contains('active');
+  .nav-links.show {
+    transform: scaleY(1);            /* expanded */
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
 
-    hamburgers.forEach(h => {
-      if (active) h.classList.add('active'); else h.classList.remove('active');
-      h.setAttribute('aria-expanded', String(active));
-    });
+  .nav-links li {
+    margin: 10px 0;
+  }
+}
 
-    navContainers.forEach(nc => {
-      if (active) nc.classList.add('show'); else nc.classList.remove('show');
-      nc.setAttribute('aria-hidden', String(!active));
-    });
-  };
+/* ========== Container ========== */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 20px;
+  flex: 1;
+}
 
-  hamburgers.forEach(hamburger => {
-    if (!hamburger.hasAttribute('tabindex')) hamburger.setAttribute('tabindex', '0');
-    if (!hamburger.hasAttribute('role')) hamburger.setAttribute('role', 'button');
-    if (!hamburger.hasAttribute('aria-expanded')) hamburger.setAttribute('aria-expanded', 'false');
+/* ========== Home Page Layout ========== */
+.home-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  text-align: left;
+}
 
-    // pointerdown: DO NOT preventDefault() — that can stop some browsers from registering the tap properly
-    hamburger.addEventListener('pointerdown', (e) => {
-      e.stopPropagation();            // prevent immediate document handler from closing
-      // don't call e.preventDefault() here
-      console.log('hamburger pointerdown'); // tiny debug to confirm handler fires on mobile (remove if desired)
-      toggle(hamburger);
-    });
+.home-section img {
+  max-width: 400px;
+  height: auto;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
 
-    // touchstart fallback for older devices that may not support pointer events
-    hamburger.addEventListener('touchstart', (e) => {
-      e.stopPropagation();
-      // don't preventDefault so the accessibility/tap behaviour remains native
-      toggle(hamburger);
-    }, { passive: true });
+.home-section img:hover {
+  transform: scale(1.05);
+}
 
-    // click fallback
-    hamburger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggle(hamburger);
-    }, { passive: true });
+.home-text {
+  flex: 1;
+}
 
-    hamburger.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggle(hamburger);
-      }
-    });
-  });
+/* Text inside home section */
+.home-text h1 {
+  font-size: 2.5rem;
+  color: #222;
+  margin-bottom: 15px;
+}
 
-  window.toggleMenu = function (el) {
-    try {
-      if (!el) toggle();
-      else toggle(el);
-    } catch (err) {
-      toggle();
-    }
-  };
+.home-text p {
+  font-size: 1.1rem;
+  color: #555;
+}
 
-  const handleNavClick = (e) => {
-    navContainers.forEach(nc => {
-      nc.classList.remove('show');
-      nc.setAttribute('aria-hidden', 'true');
-    });
-    hamburgers.forEach(h => { h.classList.remove('active'); h.setAttribute('aria-expanded','false'); });
-  };
+/* Real brand logos under intro (Home) */
+.home-text .home-contact-links {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;   /* spacing between icons */
+}
 
-  const attachNavItems = () => {
-    navItems = getNavItems();
-    navItems.forEach(a => {
-      a.addEventListener('click', handleNavClick, { passive: true });
-    });
-  };
-  attachNavItems();
+/* Logo size + hover animation (Home) */
+.home-text .home-contact-links .contact-logo {
+  width: 52px;    /* slightly bigger */
+  height: auto;
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
 
-  document.addEventListener('pointerdown', (e) => {
-    const target = e.target;
-    const insideNav = navContainers.some(nc => nc && nc.contains && nc.contains(target));
-    if (insideNav) return;
-    if (isInsideHamburger(target)) return;
+.home-text .home-contact-links .contact-logo:hover {
+  transform: translateY(-6px);
+}
 
-    navContainers.forEach(nc => {
-      nc.classList.remove('show');
-      nc.setAttribute('aria-hidden', 'true');
-    });
-    hamburgers.forEach(h => { h.classList.remove('active'); h.setAttribute('aria-expanded','false'); });
-  }, { passive: true });
+/* Gmail logo is wider — adjust slightly */
+.gmail-logo {
+  width: 50px;
+  height: 50px;
+}
 
-  document.addEventListener('click', (e) => {
-    const target = e.target;
-    const insideNav = navContainers.some(nc => nc && nc.contains && nc.contains(target));
-    if (insideNav) return;
-    if (isInsideHamburger(target)) return;
+/* Accessible hidden text (screen readers) */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
 
-    navContainers.forEach(nc => {
-      nc.classList.remove('show');
-      nc.setAttribute('aria-hidden', 'true');
-    });
-    hamburgers.forEach(h => { h.classList.remove('active'); h.setAttribute('aria-expanded','false'); });
-  }, { passive: true });
+/* Keep existing image sizing for real logos intact */
+.contact-logo {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: white;
+  padding: 5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  display: block;
+}
 
-  const observer = new MutationObserver((mutations) => {
-    let refresh = false;
-    for (const m of mutations) {
-      if (m.addedNodes.length || m.removedNodes.length) { refresh = true; break; }
-    }
-    if (refresh) attachNavItems();
-  });
+/* If contact-logo is an <img>, keep its height consistent and preserve aspect ratio */
+.contact-icon img.contact-logo { 
+  width: auto; 
+  height: 52px; 
+  padding: 6px; 
+  background: white; 
+  border-radius: 10px;
+}
 
-  try {
-    observer.observe(document.body, { childList: true, subtree: true });
-  } catch (e) { /* ignore */ }
+/* Gmail (image) uses the same treatment as other logos — no badge styles */
+.contact-icon img.gmail-logo {
+  /* nothing special here; inherits .contact-logo / img.contact-logo rules */
+}
 
-})();
+/* Caption below each icon */
+.icon-caption {
+  margin-top: 8px;
+  font-size: 1rem;
+  color: #00adb5;
+  font-weight: 500;
+  display: block;
+  line-height: 1;
+}
+
+/* Ensure anchor stacks icon + caption vertically (you already have this but keep it) */
+.contact-icon {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.18s ease;
+}
+
+
+.gmail-logo {
+  font-size: 1.35rem;
+  color: #fff;
+  background: #D93025;
+  width: 56px;
+  height: 56px;
+  line-height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 0;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+}
+
+/* hover lift effect */
+.contact-icon:hover { 
+  transform: translateY(-6px); 
+}
+
+/* focus ring */
+.contact-icon:focus-visible { 
+  outline: 3px solid rgba(0,173,181,0.22); 
+  border-radius: 8px; 
+}
+
+/* ========== Section Headings ========== */
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #00adb5;
+  display: inline-block;
+  padding-bottom: 5px;
+  color: #222;
+}
+
+/* ========== Work Images Section ========== */
+.work-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.work-images figure {
+  margin: 0;
+  text-align: center;
+}
+
+.work-images img {
+  width: 250px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.work-images img:hover {
+  transform: scale(1.05);
+}
+
+.work-images figcaption {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 700px) {
+  .work-images {
+    justify-content: center;
+  }
+  .work-images img {
+    width: 80%;
+  }
+}
+
+/* Laptop / Desktop specific adjustments */
+@media (min-width: 901px) {
+  .work-images {
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .work-images figure:first-child img {
+    width: 400px;
+    border-radius: 0;
+  }
+
+  .work-images figure:nth-child(2) img {
+    width: 250px;
+    border-radius: 8px;
+  }
+}
+
+/* ========== Contact Page ========== */
+.contact-info {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  font-size: 1.1rem;
+}
+
+.contact-info a {
+  color: #00adb5;
+  text-decoration: none;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+.contact-icon i {
+  font-size: 4.5rem;
+  margin-bottom: 10px;
+  color: #00adb5;
+}
+
+.contact-icon span {
+  font-size: 1.2rem;
+}
+
+.contact-icon:hover {
+  transform: translateY(-8px);
+  color: #00adb5;
+}
+
+/* ========== Research Page Radial Layout ========== */
+.radial-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin: 50px auto;
+  max-width: 900px;
+}
+
+.radial-item {
+  flex: 0 0 180px;
+  padding: 25px 20px;
+  border-radius: 15px;
+  color: #333;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.radial-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+.radial-item:nth-child(1) { background-color: #FFB3BA; }
+.radial-item:nth-child(2) { background-color: #BAE1FF; }
+.radial-item:nth-child(3) { background-color: #BAFFC9; }
+.radial-item:nth-child(4) { background-color: #FFF3BA; }
+
+@media (max-width: 600px) {
+  .radial-container { gap: 25px; }
+  .radial-item {
+    flex: 0 0 140px;
+    padding: 20px 15px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Collapsible Button */
+.collapsible {
+  display: block;
+  width: 100%;
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  padding: 12px 15px;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 6px;
+  text-align: left;
+  outline: none;
+  margin: 6px 0;
+  transition: background 0.3s;
+  box-sizing: border-box;
+}
+
+/* Collapsible hint text */
+.collapsible-hint {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+/* Arrow on collapsible buttons */
+.collapsible {
+  position: relative;
+  padding-right: 40px; /* space for arrow */
+}
+
+.collapsible .arrow {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 8px solid white;
+  transform: translateY(-50%) rotate(0deg);
+  transition: transform 0.3s ease;
+}
+
+.collapsible.active .arrow {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* focus ring for accessibility */
+.collapsible:focus-visible {
+  outline: 3px solid #00adb5;      /* outer glow-style outline */
+  outline-offset: 3px;             /* small gap so outline is visible */
+  border: 3px solid #00adb5;       /* inner strong border */
+  border-radius: 6px;
+  background-color: #222;          /* keep original background */
+  color: #fff;
+  transition: border 0.2s ease, outline 0.2s ease;
+}
+
+
+.collapsible:hover, .collapsible.active {
+  background-color: #00adb5;
+}
+
+
+/* ===== Profile modal styles (make profile modal match gallery modal visuals) ===== */
+#imgModal { position: fixed; inset: 0; z-index: 1500; display: none; pointer-events: none; }
+#imgModal.open { display: block; pointer-events: auto; }
+
+#imgModal .modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  opacity: 0;
+  transition: opacity .22s ease;
+  z-index: 1510;
+}
+#imgModal.open .modal-overlay { opacity: 1; }
+
+/* shell centered box */
+#imgModal .modal-shell {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(.98);
+  max-width: 92vw;
+  width: min(900px, 96%);
+  z-index: 1520;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform .22s ease, opacity .22s ease;
+  opacity: 0;
+}
+#imgModal.open .modal-shell { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+
+/* image inside shell */
+#imgModal .modal-img {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 8px;
+  box-shadow: 0 14px 42px rgba(0,0,0,0.5);
+  transition: opacity .18s ease;
+  opacity: 1;
+  display: block;
+}
+
+/* close button */
+#imgModal .close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 2.2rem;
+  background: transparent;
+  color: #fff;
+  border: none;
+  z-index: 1530;
+  cursor: pointer;
+}
+
+/* small mobile adjustment */
+@media (max-width: 700px) {
+  #imgModal .modal-img { max-height: 60vh; }
+  #imgModal .modal-shell { width: min(92vw, 96%); }
+}
+
+/* revised content transition to match JS for buttery smoothness */
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.28s cubic-bezier(.22,.9,.32,1);
+  will-change: max-height;
+  background-color: #f9f9f9;
+  padding: 10px 15px;
+  border-left: 3px solid #00adb5;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  color: #222;
+}
+
+/* we no longer use display:none for smooth transitions.
+   Use aria-expanded and max-height for accessibility + animation. */
+.content[hidden] {
+  /* intentionally left blank to avoid instant display:none which breaks transitions */
+  /* display: none; */
+}
+
+.content ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+/* ========== Responsive Adjustments ========== */
+@media (max-width: 900px) {
+  .home-section {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .home-section img {
+    margin: 0 0 20px 0;
+    max-width: 90%;
+    height: auto;
+  }
+
+  .home-text {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ===== Project 2 — layout + image captions (append at end of style.css) ===== */
+.project-2-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px; /* left flexible, right fixed */
+  grid-template-areas:
+    "side image"
+    "bottom image";
+  gap: 18px;
+  align-items: start;
+  align-content: start;
+}
+
+/* Grid area assignments */
+.project-side   { grid-area: side; }
+.project-image  { grid-area: image; display:flex; justify-content:center; align-items:flex-start; }
+.project-bottom { 
+  grid-area: bottom; 
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  justify-content:center;    /* vertically center the stack relative to its grid area */
+  gap: 18px;
+  padding-top: 6px;
+}
+
+/* Right-side model image */
+.project-image figure { width: 100%; text-align:center; margin:0; }
+.project-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  display:block;
+  margin: 0 auto;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.project-image img:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,0.14); }
+
+ /* Poster + Group stacked images (centered) */
+.work-images.stacked {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.work-images.stacked figure {
+  max-width: 680px;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+}
+.work-images.stacked img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  display:block;
+  margin: 0 auto;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.work-images.stacked img:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,0.12); }
+
+ /* Individual captions (centered, clearly separated) */
+.img-caption {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.3;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Accessibility: ensure focus styles remain visible for thumbnails */
+.work-images.stacked img:focus,
+.project-image img:focus {
+  outline: 3px solid #00adb5;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+/* ===== Mobile: single-column stack and center everything ===== */
+@media (max-width: 900px) {
+  .project-2-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "side"
+      "image"
+      "bottom";
+  }
+
+  .project-image { order: 2; width: 100%; }
+  .project-bottom { order: 3; width: 100%; align-self: stretch; padding-top: 6px; }
+
+  .project-image img { max-width: 90%; }
+  .work-images.stacked figure { max-width: 420px; margin-left: auto; margin-right: auto; }
+}
+
+/* ===== Desktop: make bottom images span both columns & center across page ===== */
+@media (min-width: 901px) {
+  .project-bottom {
+    grid-column: 1 / 3;           /* span both columns */
+    display:flex;
+    justify-content:center;       /* center within full content width */
+    align-items:center;
+    gap:18px;
+    padding-top: 6px;
+  }
+}
+
+/* ===== Gallery modal styling (fade + nav buttons) ===== */
+#workModal { position: fixed; inset: 0; z-index: 1400; display: none; pointer-events: none; }
+#workModal.open { display: block; pointer-events: auto; }
+
+#workModal .modal-overlay {
+  position: fixed; inset:0; background: rgba(0,0,0,0.65); opacity: 0; transition: opacity .22s ease; z-index: 1410;
+}
+#workModal .modal-shell {
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(.98);
+  max-width: 92vw; width: min(1100px, 96%); z-index: 1420;
+  background: transparent; display:flex; align-items:center; gap:12px;
+  transition: transform .22s ease, opacity .22s ease; opacity: 0;
+}
+#workModal .modal-shell.visible { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+
+#workModal .modal-body { flex: 1 1 auto; display:flex; flex-direction:column; align-items:center; gap:8px; }
+#workModal .modal-img { max-width: 100%; max-height: 75vh; border-radius: 8px; box-shadow: 0 14px 42px rgba(0,0,0,0.5); transition: opacity .18s ease; opacity: 0; display:block; }
+#workModal .modal-caption { color: #fff; font-size: .95rem; text-align:center; max-width: 92%; }
+
+#workModal .close {
+  position: absolute; top: 14px; right: 16px; font-size: 2.2rem; background: transparent; color: #fff; border: none; z-index: 1430; cursor: pointer;
+}
+#workModal .modal-nav { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); color:#fff; border:none; padding:8px 12px; font-size: 1.8rem; border-radius:8px; cursor:pointer; z-index: 1430; }
+#workModal .modal-nav.prev { left: 18px; } 
+#workModal .modal-nav.next { right: 18px; }
+
+@media (max-width:700px){
+  #workModal .modal-nav.prev, #workModal .modal-nav.next { left: 10px; right: 10px; font-size:1.4rem; padding:6px 8px; }
+  #workModal .modal-img { max-height: 60vh; }
+}
+
+/* ===== Modal overlay and centering fixes (append to end of style.css) ===== */
+
+/* Ensure the overlay becomes visible when modal is open or when JS toggles .visible */
+#workModal.open .modal-overlay,
+#workModal .modal-overlay.visible,
+#imgModal.open .modal-overlay,
+#imgModal .modal-overlay.visible {
+  opacity: 1;
+  pointer-events: auto; /* allow click-to-close */
+}
+
+/* Make sure the modal shell centers its contents horizontally and vertically */
+#workModal .modal-shell,
+#imgModal .modal-shell {
+  display: flex;                /* already used, but enforce */
+  align-items: center;          /* vertical centering */
+  justify-content: center;      /* horizontal centering (fixes offset) */
+  text-align: center;
+}
+
+/* Ensure modal image is a centered block, respects max sizes and doesn't cause horizontal shift */
+#workModal .modal-img,
+#imgModal .modal-img {
+  display: block;
+  margin: 0 auto;
+  max-width: 90vw;    /* keep it nicely inside viewport */
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+}
+
+/* Slightly increase overlay stacking safety (in case other site elements had higher z-index) */
+#workModal .modal-overlay { z-index: 1410; }
+#workModal .modal-shell   { z-index: 1420; }
+
+#imgModal .modal-overlay  { z-index: 1510; }
+#imgModal .modal-shell    { z-index: 1520; }
+
+ /* ========== Sticky Footer ========= */
+footer {
+  text-align: center;
+  padding: 15px 0;
+  background-color: #222;
+  color: #fff;
+  font-size: 0.9rem;
+}
