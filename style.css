@@ -15,10 +15,7 @@ html {
 }
 
 /* reduce scroll anchoring jumps when collapsible content expands */
-.container,
-.content {
-  overflow-anchor: none;
-}
+.container, .content { overflow-anchor: none; }
 
 body {
   background-color: #f8f9fa;
@@ -48,21 +45,14 @@ nav {
   justify-content: center;
   flex-wrap: wrap;
 }
-
-.nav-links li {
-  margin: 0 15px;
-}
-
+.nav-links li { margin: 0 15px; }
 .nav-links li a {
   text-decoration: none;
   color: #fff;
   font-weight: bold;
   transition: color 0.3s ease;
 }
-
-.nav-links li a:hover {
-  color: #00adb5;
-}
+.nav-links li a:hover { color: #00adb5; }
 
 /* Hamburger menu (fries) */
 .hamburger {
@@ -77,13 +67,11 @@ nav {
   border: none;
   padding: 6px;
 }
-
 /* make hamburger keyboard accessible */
 .hamburger:focus-visible {
   outline: 3px solid rgba(0,173,181,0.22);
   border-radius: 6px;
 }
-
 .hamburger span {
   display: block;
   height: 3px;
@@ -91,54 +79,35 @@ nav {
   border-radius: 2px;
   transition: 0.3s ease;
 }
-
 /* Transform fries to X when active */
-.hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
 /* Mobile styles with shorter nav bar and smoother slide-down */
 @media (max-width: 768px) {
-  nav {
-    padding: 15px 20px; /* slightly shorter for phone screens */
-  }
-
-  .hamburger {
-    display: flex;
-  }
-
+  nav { padding: 15px 20px; /* slightly shorter for phone screens */ }
+  .hamburger { display: flex; }
   .nav-links {
     flex-direction: column;
     background: #222;
     width: 200px;
     text-align: center;
-    transform: scaleY(0);            /* collapsed */
-    transform-origin: top;           /* scale from top */
+    transform: scaleY(0); /* collapsed */
+    transform-origin: top; /* scale from top */
     transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* smoother, slower slide-down */
     border-radius: 6px;
     position: absolute;
-    top: 100%;                       /* directly below nav bar */
+    top: 100%; /* directly below nav bar */
     right: 10px;
     overflow: hidden;
     will-change: transform;
   }
-
   .nav-links.show {
-    transform: scaleY(1);            /* expanded */
+    transform: scaleY(1); /* expanded */
     transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
-
-  .nav-links li {
-    margin: 10px 0;
-  }
+  .nav-links li { margin: 10px 0; }
 }
 
 /* ========== Container ========== */
@@ -159,7 +128,6 @@ nav {
   flex-wrap: wrap;
   text-align: left;
 }
-
 .home-section img {
   max-width: 400px;
   height: auto;
@@ -168,26 +136,15 @@ nav {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   transition: transform 0.3s ease;
 }
-
-.home-section img:hover {
-  transform: scale(1.05);
-}
-
-.home-text {
-  flex: 1;
-}
-
+.home-section img:hover { transform: scale(1.05); }
+.home-text { flex: 1; }
 /* Text inside home section */
 .home-text h1 {
   font-size: 2.5rem;
   color: #222;
   margin-bottom: 15px;
 }
-
-.home-text p {
-  font-size: 1.1rem;
-  color: #555;
-}
+.home-text p { font-size: 1.1rem; color: #555; }
 
 /* Real brand logos under intro (Home) */
 .home-text .home-contact-links {
@@ -195,26 +152,19 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 48px;   /* spacing between icons */
+  gap: 48px; /* spacing between icons */
 }
-
 /* Logo size + hover animation (Home) */
 .home-text .home-contact-links .contact-logo {
-  width: 52px;    /* slightly bigger */
+  width: 52px; /* slightly bigger */
   height: auto;
   transition: transform 0.25s ease;
   cursor: pointer;
 }
-
-.home-text .home-contact-links .contact-logo:hover {
-  transform: translateY(-6px);
-}
+.home-text .home-contact-links .contact-logo:hover { transform: translateY(-6px); }
 
 /* Gmail logo is wider — adjust slightly */
-.gmail-logo {
-  width: 50px;
-  height: 50px;
-}
+.gmail-logo { width: 50px; height: 50px; }
 
 /* Accessible hidden text (screen readers) */
 .visually-hidden {
@@ -242,18 +192,16 @@ nav {
 }
 
 /* If contact-logo is an <img>, keep its height consistent and preserve aspect ratio */
-.contact-icon img.contact-logo { 
-  width: auto; 
-  height: 52px; 
-  padding: 6px; 
-  background: white; 
+.contact-icon img.contact-logo {
+  width: auto;
+  height: 52px;
+  padding: 6px;
+  background: white;
   border-radius: 10px;
 }
 
 /* Gmail (image) uses the same treatment as other logos — no badge styles */
-.contact-icon img.gmail-logo {
-  /* nothing special here; inherits .contact-logo / img.contact-logo rules */
-}
+.contact-icon img.gmail-logo { /* nothing special here; inherits .contact-logo / img.contact-logo rules */ }
 
 /* Caption below each icon */
 .icon-caption {
@@ -293,14 +241,12 @@ nav {
 }
 
 /* hover lift effect */
-.contact-icon:hover { 
-  transform: translateY(-6px); 
-}
+.contact-icon:hover { transform: translateY(-6px); }
 
 /* focus ring */
-.contact-icon:focus-visible { 
-  outline: 3px solid rgba(0,173,181,0.22); 
-  border-radius: 8px; 
+.contact-icon:focus-visible {
+  outline: 3px solid rgba(0,173,181,0.22);
+  border-radius: 8px;
 }
 
 /* ========== Section Headings ========== */
@@ -320,12 +266,7 @@ h2 {
   gap: 20px;
   margin-top: 15px;
 }
-
-.work-images figure {
-  margin: 0;
-  text-align: center;
-}
-
+.work-images figure { margin: 0; text-align: center; }
 .work-images img {
   width: 250px;
   height: auto;
@@ -333,11 +274,7 @@ h2 {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
 }
-
-.work-images img:hover {
-  transform: scale(1.05);
-}
-
+.work-images img:hover { transform: scale(1.05); }
 .work-images figcaption {
   margin-top: 8px;
   font-size: 0.95rem;
@@ -346,12 +283,8 @@ h2 {
 
 /* Mobile responsive adjustments */
 @media (max-width: 700px) {
-  .work-images {
-    justify-content: center;
-  }
-  .work-images img {
-    width: 80%;
-  }
+  .work-images { justify-content: center; }
+  .work-images img { width: 80%; }
 }
 
 /* Laptop / Desktop specific adjustments */
@@ -362,16 +295,8 @@ h2 {
     margin-top: 30px;
     margin-bottom: 30px;
   }
-
-  .work-images figure:first-child img {
-    width: 400px;
-    border-radius: 0;
-  }
-
-  .work-images figure:nth-child(2) img {
-    width: 250px;
-    border-radius: 8px;
-  }
+  .work-images figure:first-child img { width: 400px; border-radius: 0; }
+  .work-images figure:nth-child(2) img { width: 250px; border-radius: 8px; }
 }
 
 /* ========== Contact Page ========== */
@@ -383,30 +308,11 @@ h2 {
   flex-wrap: wrap;
   font-size: 1.1rem;
 }
-
-.contact-info a {
-  color: #00adb5;
-  text-decoration: none;
-}
-
-.contact-info a:hover {
-  text-decoration: underline;
-}
-
-.contact-icon i {
-  font-size: 4.5rem;
-  margin-bottom: 10px;
-  color: #00adb5;
-}
-
-.contact-icon span {
-  font-size: 1.2rem;
-}
-
-.contact-icon:hover {
-  transform: translateY(-8px);
-  color: #00adb5;
-}
+.contact-info a { color: #00adb5; text-decoration: none; }
+.contact-info a:hover { text-decoration: underline; }
+.contact-icon i { font-size: 4.5rem; margin-bottom: 10px; color: #00adb5; }
+.contact-icon span { font-size: 1.2rem; }
+.contact-icon:hover { transform: translateY(-8px); color: #00adb5; }
 
 /* ========== Research Page Radial Layout ========== */
 .radial-container {
@@ -418,7 +324,6 @@ h2 {
   margin: 50px auto;
   max-width: 900px;
 }
-
 .radial-item {
   flex: 0 0 180px;
   padding: 25px 20px;
@@ -431,12 +336,7 @@ h2 {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: default;
 }
-
-.radial-item:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 20px rgba(0,0,0,0.15);
-}
-
+.radial-item:hover { transform: translateY(-8px); box-shadow: 0 12px 20px rgba(0,0,0,0.15); }
 .radial-item:nth-child(1) { background-color: #FFB3BA; }
 .radial-item:nth-child(2) { background-color: #BAE1FF; }
 .radial-item:nth-child(3) { background-color: #BAFFC9; }
@@ -482,7 +382,6 @@ h2 {
   position: relative;
   padding-right: 40px; /* space for arrow */
 }
-
 .collapsible .arrow {
   position: absolute;
   right: 15px;
@@ -495,28 +394,28 @@ h2 {
   transform: translateY(-50%) rotate(0deg);
   transition: transform 0.3s ease;
 }
-
-.collapsible.active .arrow {
-  transform: translateY(-50%) rotate(90deg);
-}
+.collapsible.active .arrow { transform: translateY(-50%) rotate(90deg); }
 
 /* focus ring for accessibility */
 .collapsible:focus-visible {
-  outline: 3px solid #00adb5;      /* outer glow-style outline */
-  outline-offset: 3px;             /* small gap so outline is visible */
-  border: 3px solid #00adb5;       /* inner strong border */
+  outline: 3px solid #00adb5; /* outer glow-style outline */
+  outline-offset: 3px; /* small gap so outline is visible */
+  border: 3px solid #00adb5; /* inner strong border */
   border-radius: 6px;
-  background-color: #222;          /* keep original background */
+  background-color: #222; /* keep original background */
   color: #fff;
   transition: border 0.2s ease, outline 0.2s ease;
 }
-
-.collapsible:hover, .collapsible.active {
-  background-color: #00adb5;
-}
+.collapsible:hover, .collapsible.active { background-color: #00adb5; }
 
 /* ===== Profile modal styles (make profile modal match gallery modal visuals) ===== */
-#imgModal { position: fixed; inset: 0; z-index: 1500; display: none; pointer-events: none; }
+#imgModal {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  display: none;
+  pointer-events: none;
+}
 #imgModal.open { display: block; pointer-events: auto; }
 
 /* overlay */
@@ -592,17 +491,12 @@ h2 {
   color: #222;
 }
 
-/* we no longer use display:none for smooth transitions.
-   Use aria-expanded and max-height for accessibility + animation. */
+/* we no longer use display:none for smooth transitions. Use aria-expanded and max-height for accessibility + animation. */
 .content[hidden] {
   /* intentionally left blank to avoid instant display:none which breaks transitions */
   /* display: none; */
 }
-
-.content ul {
-  margin: 10px 0;
-  padding-left: 20px;
-}
+.content ul { margin: 10px 0; padding-left: 20px; }
 
 /* ========== Responsive Adjustments ========== */
 @media (max-width: 900px) {
@@ -615,40 +509,29 @@ h2 {
     margin: 0 auto;
     padding: 20px;
   }
-
-  .home-section img {
-    margin: 0 0 20px 0;
-    max-width: 90%;
-    height: auto;
-  }
-
-  .home-text {
-    width: 100%;
-    text-align: center;
-  }
+  .home-section img { margin: 0 0 20px 0; max-width: 90%; height: auto; }
+  .home-text { width: 100%; text-align: center; }
 }
 
 /* ===== Project 2 — layout + image captions (append at end of style.css) ===== */
 .project-2-grid {
   display: grid;
   grid-template-columns: 1fr 360px; /* left flexible, right fixed */
-  grid-template-areas:
-    "side image"
-    "bottom image";
+  grid-template-areas: "side image" "bottom image";
   gap: 18px;
   align-items: start;
   align-content: start;
 }
 
 /* Grid area assignments */
-.project-side   { grid-area: side; }
-.project-image  { grid-area: image; display:flex; justify-content:center; align-items:flex-start; }
-.project-bottom { 
-  grid-area: bottom; 
-  display:flex; 
-  flex-direction:column; 
-  align-items:center; 
-  justify-content:center;    /* vertically center the stack relative to its grid area */
+.project-side { grid-area: side; }
+.project-image { grid-area: image; display:flex; justify-content:center; align-items:flex-start; }
+.project-bottom {
+  grid-area: bottom;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center; /* vertically center the stack relative to its grid area */
   gap: 18px;
   padding-top: 6px;
 }
@@ -667,17 +550,8 @@ h2 {
 .project-image img:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,0.14); }
 
 /* Poster + Group stacked images (centered) */
-.work-images.stacked {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-.work-images.stacked figure {
-  max-width: 680px;
-  width: 100%;
-  text-align: center;
-  margin: 0;
-}
+.work-images.stacked { width: 100%; display: flex; justify-content: center; }
+.work-images.stacked figure { max-width: 680px; width: 100%; text-align: center; margin: 0; }
 .work-images.stacked img {
   width: 100%;
   height: auto;
@@ -700,8 +574,7 @@ h2 {
 }
 
 /* Accessibility: ensure focus styles remain visible for thumbnails */
-.work-images.stacked img:focus,
-.project-image img:focus {
+.work-images.stacked img:focus, .project-image img:focus {
   outline: 3px solid #00adb5;
   outline-offset: 4px;
   border-radius: 8px;
@@ -711,15 +584,10 @@ h2 {
 @media (max-width: 900px) {
   .project-2-grid {
     grid-template-columns: 1fr;
-    grid-template-areas:
-      "side"
-      "image"
-      "bottom";
+    grid-template-areas: "side" "image" "bottom";
   }
-
   .project-image { order: 2; width: 100%; }
   .project-bottom { order: 3; width: 100%; align-self: stretch; padding-top: 6px; }
-
   .project-image img { max-width: 90%; }
   .work-images.stacked figure { max-width: 420px; margin-left: auto; margin-right: auto; }
 }
@@ -727,9 +595,9 @@ h2 {
 /* ===== Desktop: make bottom images span both columns & center across page ===== */
 @media (min-width: 901px) {
   .project-bottom {
-    grid-column: 1 / 3;           /* span both columns */
+    grid-column: 1 / 3; /* span both columns */
     display:flex;
-    justify-content:center;       /* center within full content width */
+    justify-content:center; /* center within full content width */
     align-items:center;
     gap:18px;
     padding-top: 6px;
@@ -737,62 +605,113 @@ h2 {
 }
 
 /* ===== Gallery modal styling (fade + nav buttons) ===== */
-#workModal { position: fixed; inset: 0; z-index: 1400; display: none; pointer-events: none; }
+#workModal {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: none;
+  pointer-events: none;
+}
 #workModal.open { display: block; pointer-events: auto; }
-
 #workModal .modal-overlay {
-  position: fixed; inset:0; background: rgba(0,0,0,0.65); opacity: 0; transition: opacity .22s ease; z-index: 1410;
+  position: fixed;
+  inset:0;
+  background: rgba(0,0,0,0.65);
+  opacity: 0;
+  transition: opacity .22s ease;
+  z-index: 1410;
 }
 #workModal .modal-shell {
-  position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(.98);
-  max-width: 92vw; width: min(1100px, 96%); z-index: 1420;
-  background: transparent; display:flex; align-items:center; gap:12px;
-  transition: transform .22s ease, opacity .22s ease; opacity: 0;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%) scale(.98);
+  max-width: 92vw;
+  width: min(1100px, 96%);
+  z-index: 1420;
+  background: transparent;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  transition: transform .22s ease, opacity .22s ease;
+  opacity: 0;
 }
 #workModal .modal-shell.visible { transform: translate(-50%,-50%) scale(1); opacity: 1; }
-
-#workModal .modal-body { flex: 1 1 auto; display:flex; flex-direction:column; align-items:center; gap:8px; }
-#workModal .modal-img { max-width: 100%; max-height: 75vh; border-radius: 8px; box-shadow: 0 14px 42px rgba(0,0,0,0.5); transition: opacity .18s ease; opacity: 0; display:block; }
-#workModal .modal-caption { color: #fff; font-size: .95rem; text-align:center; max-width: 92%; }
-
-#workModal .close {
-  position: absolute; top: 14px; right: 16px; font-size: 2.2rem; background: transparent; color: #fff; border: none; z-index: 1430; cursor: pointer;
+#workModal .modal-body {
+  flex: 1 1 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
 }
-#workModal .modal-nav { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); color:#fff; border:none; padding:8px 12px; font-size: 1.8rem; border-radius:8px; cursor:pointer; z-index: 1430; }
-#workModal .modal-nav.prev { left: 18px; } 
+#workModal .modal-img {
+  max-width: 100%;
+  max-height: 75vh;
+  border-radius: 8px;
+  box-shadow: 0 14px 42px rgba(0,0,0,0.5);
+  transition: opacity .18s ease;
+  opacity: 0;
+  display:block;
+}
+#workModal .modal-caption { color: #fff; font-size: .95rem; text-align:center; max-width: 92%; }
+#workModal .close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 2.2rem;
+  background: transparent;
+  color: #fff;
+  border: none;
+  z-index: 1430;
+  cursor: pointer;
+}
+#workModal .modal-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.45);
+  color:#fff;
+  border:none;
+  padding:8px 12px;
+  font-size: 1.8rem;
+  border-radius:8px;
+  cursor:pointer;
+  z-index: 1430;
+}
+#workModal .modal-nav.prev { left: 18px; }
 #workModal .modal-nav.next { right: 18px; }
 
 @media (max-width:700px){
-  #workModal .modal-nav.prev, #workModal .modal-nav.next { left: 10px; right: 10px; font-size:1.4rem; padding:6px 8px; }
+  #workModal .modal-nav.prev, #workModal .modal-nav.next {
+    left: 10px;
+    right: 10px;
+    font-size:1.4rem;
+    padding:6px 8px;
+  }
   #workModal .modal-img { max-height: 60vh; }
 }
 
 /* ===== Modal overlay and centering fixes (append to end of style.css) ===== */
 
 /* Ensure the overlay becomes visible when modal is open or when JS toggles .visible */
-#workModal.open .modal-overlay,
-#workModal .modal-overlay.visible,
-#imgModal.open .modal-overlay,
-#imgModal .modal-overlay.visible {
+#workModal.open .modal-overlay, #workModal .modal-overlay.visible, #imgModal.open .modal-overlay, #imgModal .modal-overlay.visible {
   opacity: 1;
   pointer-events: auto; /* allow click-to-close */
 }
 
 /* Make sure the modal shell centers its contents horizontally and vertically */
-#workModal .modal-shell,
-#imgModal .modal-shell {
-  display: flex;                /* already used, but enforce */
-  align-items: center;          /* vertical centering */
-  justify-content: center;      /* horizontal centering (fixes offset) */
+#workModal .modal-shell, #imgModal .modal-shell {
+  display: flex; /* already used, but enforce */
+  align-items: center; /* vertical centering */
+  justify-content: center; /* horizontal centering (fixes offset) */
   text-align: center;
 }
 
 /* Ensure modal image is a centered block, respects max sizes and doesn't cause horizontal shift */
-#workModal .modal-img,
-#imgModal .modal-img {
+#workModal .modal-img, #imgModal .modal-img {
   display: block;
   margin: 0 auto;
-  max-width: 90vw;    /* keep it nicely inside viewport */
+  max-width: 90vw; /* keep it nicely inside viewport */
   max-height: 80vh;
   width: auto;
   height: auto;
@@ -800,10 +719,9 @@ h2 {
 
 /* Slightly increase overlay stacking safety (in case other site elements had higher z-index) */
 #workModal .modal-overlay { z-index: 1410; }
-#workModal .modal-shell   { z-index: 1420; }
-
-#imgModal .modal-overlay  { z-index: 1510; }
-#imgModal .modal-shell    { z-index: 1520; }
+#workModal .modal-shell { z-index: 1420; }
+#imgModal .modal-overlay { z-index: 1510; }
+#imgModal .modal-shell { z-index: 1520; }
 
 /* ========== Sticky Footer ========= */
 footer {
