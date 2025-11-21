@@ -3,7 +3,7 @@
    - Profile image modal (scoped)
    - Unified gallery modal (supports multiple thumbnail classes; creates modal if missing)
    - Smooth collapsibles
-   - Mobile hamburger nav
+   - Mobile hamburger nav (robust, supports onclick="toggleMenu(this)")
    ===================================================================== */
 
 /* ------------ PROFILE IMAGE MODAL (scoped to #imgModal) -------------- */
@@ -47,7 +47,7 @@
   if (closeBtn) closeBtn.addEventListener('click', closeProfile);
   if (overlay) overlay.addEventListener('click', closeProfile);
 
-  // legacy: clicking directly on the container closes if target equals modal
+  // legacy: clicking directly on the modal container closes if target equals modal
   window.addEventListener('click', (e) => { if (e.target === modal) closeProfile(); });
 
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeProfile(); });
@@ -351,39 +351,70 @@
 
 /* --------------------- MOBILE NAV (hamburger) ----------------------- */
 (function mobileNav() {
-  const hamburger = document.querySelector('.hamburger');
+  // find all hamburger controls and nav container(s)
+  const hamburgers = Array.from(document.querySelectorAll('.hamburger'));
   const navLinks = document.querySelector('.nav-links');
-  if (!hamburger || !navLinks) return;
+
+  // safe no-op if markup missing
+  if (!hamburgers.length || !navLinks) {
+    window.toggleMenu = window.toggleMenu || function () { return false; };
+    return;
+  }
 
   const navItems = navLinks.querySelectorAll('li a');
 
-  hamburger.setAttribute('tabindex','0');
-  hamburger.setAttribute('aria-expanded','false');
+  const toggle = (control) => {
+    const active = control ? !(control.classList && control.classList.contains('active')) : !hamburgers[0].classList.contains('active');
 
-  const toggle = () => {
-    const active = hamburger.classList.toggle('active');
+    hamburgers.forEach(h => {
+      if (active) h.classList.add('active'); else h.classList.remove('active');
+      h.setAttribute('aria-expanded', String(active));
+    });
+
     navLinks.classList.toggle('show', active);
-    hamburger.setAttribute('aria-expanded', String(active));
+    navLinks.setAttribute('aria-hidden', String(!active));
   };
 
-  hamburger.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
-  hamburger.addEventListener('keydown', (e) => { if (e.key==='Enter' || e.key===' ') { e.preventDefault(); toggle(); } });
+  hamburgers.forEach(hamburger => {
+    if (!hamburger.hasAttribute('tabindex')) hamburger.setAttribute('tabindex', '0');
+    if (!hamburger.hasAttribute('role')) hamburger.setAttribute('role', 'button');
+    if (!hamburger.hasAttribute('aria-expanded')) hamburger.setAttribute('aria-expanded', 'false');
+
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggle(hamburger);
+    }, { passive: true });
+
+    hamburger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle(hamburger);
+      }
+    });
+  });
+
+  // keep inline onclick compatibility
+  window.toggleMenu = function (el) {
+    try {
+      if (!el) toggle();
+      else toggle(el);
+    } catch (err) {
+      toggle();
+    }
+  };
 
   navItems.forEach(a => a.addEventListener('click', () => {
     navLinks.classList.remove('show');
-    hamburger.classList.remove('active');
-    hamburger.setAttribute('aria-expanded','false');
+    hamburgers.forEach(h => { h.classList.remove('active'); h.setAttribute('aria-expanded','false'); });
+    navLinks.setAttribute('aria-hidden','true');
   }));
 
   document.addEventListener('click', (e) => {
-    if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+    if (!navLinks.contains(e.target) && !hamburgers.some(h => h.contains(e.target))) {
       navLinks.classList.remove('show');
-      hamburger.classList.remove('active');
-      hamburger.setAttribute('aria-expanded','false');
+      hamburgers.forEach(h => { h.classList.remove('active'); h.setAttribute('aria-expanded','false'); });
+      navLinks.setAttribute('aria-hidden','true');
     }
-  });
+  }, { passive: true });
 
-  // expose toggleMenu to support existing inline onclick attributes
-  // (keeps backward compatibility with markup that uses onclick="toggleMenu(this)")
-  window.toggleMenu = toggle;
 })();
