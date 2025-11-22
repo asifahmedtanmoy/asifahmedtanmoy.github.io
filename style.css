@@ -196,6 +196,32 @@ nav {
   border: 0;
 }
 
+/* ===== CV BUTTON (Pastel Professional) ===== */
+
+.pastel-material-btn {
+  padding: 12px 22px;
+  background: #A18FC4; /* Base pastel purple */
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 6px 14px rgba(161, 143, 196, 0.35);
+  transition: 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pastel-material-btn:hover {
+  background: #8D7AB8; /* Darker hover shade */
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(141, 122, 184, 0.45);
+}
+
+.pastel-material-btn i {
+  font-size: 18px;
+}
+
 /* Keep existing image sizing for real logos intact */
 .contact-logo {
   width: 55px;
