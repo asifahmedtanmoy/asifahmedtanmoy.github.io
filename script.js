@@ -350,144 +350,62 @@
 
 
 /* --------------------- MOBILE NAV (hamburger) ----------------------- */
-(function mobileNav() {
-  const hamburgers = Array.from(document.querySelectorAll('.hamburger'));
-  const navLinksPrimary = document.querySelector('.nav-links');
-  const navContainers = navLinksPrimary ? [navLinksPrimary] : Array.from(document.querySelectorAll('[data-nav], .nav-links'));
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.querySelector(".hamburger");
+  const navLinks = document.querySelector(".nav-links");
 
-  if (!hamburgers.length || !navContainers.length) {
-    window.toggleMenu = window.toggleMenu || function () { return false; };
-    return;
+  if (!hamburger || !navLinks) return;
+
+  // Ensure it's keyboard accessible
+  if (!hamburger.hasAttribute('role')) hamburger.setAttribute('role', 'button');
+  if (!hamburger.hasAttribute('tabindex')) hamburger.setAttribute('tabindex', '0');
+  if (!hamburger.hasAttribute('aria-expanded')) hamburger.setAttribute('aria-expanded', 'false');
+
+  function openMenu() {
+    hamburger.classList.add("active");
+    navLinks.classList.add("show");
+    hamburger.setAttribute('aria-expanded', 'true');
+  }
+  function closeMenu() {
+    hamburger.classList.remove("active");
+    navLinks.classList.remove("show");
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+  function toggleMenu() {
+    if (navLinks.classList.contains("show")) closeMenu(); else openMenu();
   }
 
-  const getNavItems = () => {
-    const items = [];
-    navContainers.forEach(nc => {
-      try {
-        nc.querySelectorAll && nc.querySelectorAll('li a').forEach(a => items.push(a));
-      } catch (e) { /* ignore */ }
-    });
-    return items;
-  };
-  let navItems = getNavItems();
+  // iPhone-friendly: touchend with passive:false so we can prevent subsequent click
+  hamburger.addEventListener("touchend", function (e) {
+    e.preventDefault(); // stops a delayed click on iOS
+    e.stopPropagation();
+    toggleMenu();
+  }, { passive: false });
 
-  const isInsideHamburger = (node) => {
-    try {
-      return hamburgers.some(h => h && h.contains && h.contains(node));
-    } catch (e) {
-      return false;
-    }
-  };
-
-  const toggle = (control) => {
-    const active = control ? !(control.classList && control.classList.contains('active')) : !hamburgers[0].classList.contains('active');
-
-    hamburgers.forEach(h => {
-      if (active) h.classList.add('active'); else h.classList.remove('active');
-      h.setAttribute('aria-expanded', String(active));
-    });
-
-    navContainers.forEach(nc => {
-      if (active) nc.classList.add('show'); else nc.classList.remove('show');
-      nc.setAttribute('aria-hidden', String(!active));
-    });
-  };
-
-  hamburgers.forEach(hamburger => {
-    if (!hamburger.hasAttribute('tabindex')) hamburger.setAttribute('tabindex', '0');
-    if (!hamburger.hasAttribute('role')) hamburger.setAttribute('role', 'button');
-    if (!hamburger.hasAttribute('aria-expanded')) hamburger.setAttribute('aria-expanded', 'false');
-
-    // pointerdown: DO NOT preventDefault() — that can stop some browsers from registering the tap properly
-    hamburger.addEventListener('pointerdown', (e) => {
-      e.stopPropagation();            // prevent immediate document handler from closing
-      // don't call e.preventDefault() here
-      console.log('hamburger pointerdown'); // tiny debug to confirm handler fires on mobile (remove if desired)
-      toggle(hamburger);
-    });
-
-    // touchstart fallback for older devices that may not support pointer events
-    hamburger.addEventListener('touchstart', (e) => {
-      e.stopPropagation();
-      // don't preventDefault so the accessibility/tap behaviour remains native
-      toggle(hamburger);
-    }, { passive: true });
-
-    // click fallback
-    hamburger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggle(hamburger);
-    }, { passive: true });
-
-    hamburger.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggle(hamburger);
-      }
-    });
+  // Desktop + Android click fallback
+  hamburger.addEventListener("click", function (e) {
+    e.stopPropagation();
+    toggleMenu();
   });
 
-  window.toggleMenu = function (el) {
-    try {
-      if (!el) toggle();
-      else toggle(el);
-    } catch (err) {
-      toggle();
+  // keyboard support
+  hamburger.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleMenu();
     }
-  };
-
-  const handleNavClick = (e) => {
-    navContainers.forEach(nc => {
-      nc.classList.remove('show');
-      nc.setAttribute('aria-hidden', 'true');
-    });
-    hamburgers.forEach(h => { h.classList.remove('active'); h.setAttribute('aria-expanded','false'); });
-  };
-
-  const attachNavItems = () => {
-    navItems = getNavItems();
-    navItems.forEach(a => {
-      a.addEventListener('click', handleNavClick, { passive: true });
-    });
-  };
-  attachNavItems();
-
-  document.addEventListener('pointerdown', (e) => {
-    const target = e.target;
-    const insideNav = navContainers.some(nc => nc && nc.contains && nc.contains(target));
-    if (insideNav) return;
-    if (isInsideHamburger(target)) return;
-
-    navContainers.forEach(nc => {
-      nc.classList.remove('show');
-      nc.setAttribute('aria-hidden', 'true');
-    });
-    hamburgers.forEach(h => { h.classList.remove('active'); h.setAttribute('aria-expanded','false'); });
-  }, { passive: true });
-
-  document.addEventListener('click', (e) => {
-    const target = e.target;
-    const insideNav = navContainers.some(nc => nc && nc.contains && nc.contains(target));
-    if (insideNav) return;
-    if (isInsideHamburger(target)) return;
-
-    navContainers.forEach(nc => {
-      nc.classList.remove('show');
-      nc.setAttribute('aria-hidden', 'true');
-    });
-    hamburgers.forEach(h => { h.classList.remove('active'); h.setAttribute('aria-expanded','false'); });
-  }, { passive: true });
-
-  const observer = new MutationObserver((mutations) => {
-    let refresh = false;
-    for (const m of mutations) {
-      if (m.addedNodes.length || m.removedNodes.length) { refresh = true; break; }
-    }
-    if (refresh) attachNavItems();
   });
 
-  try {
-    observer.observe(document.body, { childList: true, subtree: true });
-  } catch (e) { /* ignore */ }
+  // Close menu when clicking outside (but not when clicking inside nav)
+  document.addEventListener("click", function (e) {
+    if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+      closeMenu();
+    }
+  }, { passive: true });
 
-})();
+  // Optional: close on Escape
+  window.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeMenu();
+  });
+});
+
