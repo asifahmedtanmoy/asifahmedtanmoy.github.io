@@ -824,49 +824,19 @@ footer {
   font-size: 0.9rem;
 }
 
-/* --------------------------------------------------------------------
-   Custom block: Make the FIRST collapsible's six images static / non-clickable
-   - Works whether those six images are plain <img> or wrapped in <a>
-   - Keeps 3x3 layout on desktop and stacked on mobile
-   - Keeps images hidden until the first collapsible is opened
-   -------------------------------------------------------------------- */
+/* ===========================
+   Static gallery rules for collapsible 1 & 3 (clean, ID-based)
+   - Non-clickable images (pointer-events disabled)
+   - Hidden until the corresponding collapsible opens
+   - 3x3 desktop, stacked centered on mobile
+   =========================== */
 
-/* Target the first collapsible's content block (structure: .collapsible + .content) */
-/* If your first collapsible has a class or ID, switch to that selector for even safer targeting. */
-.collapsible:first-of-type + .content .project-gallery,
-.collapsible:first-of-type + .content .project-gallery .grid {
-  /* Do not override the global .project-gallery grid rules unless necessary --
-     keep the grid behavior but mark this block as intended static. */
+/* Basic static-gallery layout (applies to any block using .project-gallery--static) */
+.project-gallery--static {
+  margin-top: 1rem;
+  overflow: hidden; /* safety */
 }
 
-/* Ensure the block is hidden by default until the section opens:
-   Most scripts toggle either:
-   - `.collapsible.active` on the button, OR
-   - `aria-expanded="true"` on the button, OR
-   - `.content.open` / `.content` gets a max-height inline.
-   We provide multiple selectors to handle common cases. */
-
-/* Hide the gallery in closed state (fallback safe hiding) */
-.collapsible:first-of-type + .content .project-gallery {
-  display: none;
-  height: 0;
-  overflow: hidden;
-}
-
-/* Reveal the gallery when the collapsible is opened */
-.collapsible:first-of-type.active + .content .project-gallery,
-.collapsible:first-of-type[aria-expanded="true"] + .content .project-gallery,
-.collapsible:first-of-type + .content.open .project-gallery,
-.content.open .project-gallery:first-of-type,
-.content.open .project-gallery /* generic open rule */ {
-  display: block;
-  height: auto;
-}
-
-/* Layout for the static gallery inside the first collapsible */
-/* If you later add a dedicated class (project-gallery--static) this block will also style it. */
-.collapsible:first-of-type + .content .project-gallery .grid,
-.collapsible:first-of-type + .content .project-gallery--static .grid,
 .project-gallery--static .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -876,40 +846,11 @@ footer {
   padding-top: 10px;
 }
 
-/* Figure & image styling for this static set */
-.collapsible:first-of-type + .content .project-gallery .grid figure,
 .project-gallery--static .grid figure {
   margin: 0;
   text-align: center;
 }
 
-/* Make each img non-clickable and visually inert */
-.collapsible:first-of-type + .content .project-gallery .grid img,
-.project-gallery--static .grid img,
-.collapsible:first-of-type + .content .project-gallery .grid img.work-img.no-gallery {
-  width: 100%;
-  height: auto;
-  max-width: 260px;
-  display: block;
-  border-radius: 8px;
-  object-fit: cover;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-  cursor: default;        /* remove zoom-in hint */
-  user-select: none;
-  -webkit-user-drag: none;
-  pointer-events: none;   /* prevents clicks on the image itself */
-}
-
-/* If the images are wrapped in <a>, neutralize those anchors inside the first collapsible */
-.collapsible:first-of-type + .content .project-gallery .grid a,
-.project-gallery--static .grid a {
-  pointer-events: none;   /* makes anchors inert */
-  cursor: default;
-  text-decoration: none;
-}
-
-/* Caption styling remains interactive-friendly but not clickable */
-.collapsible:first-of-type + .content .project-gallery .grid figcaption,
 .project-gallery--static .grid figcaption {
   margin-top: 8px;
   font-size: 0.95rem;
@@ -917,16 +858,38 @@ footer {
   text-align: center;
 }
 
-/* Mobile: stack centered column for phones */
+/* Images: visible but inert (no clicks, no drag) */
+.project-gallery--static .grid img.work-img,
+.project-gallery--static .grid img.no-gallery,
+.project-gallery--static .grid img {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  cursor: default;            /* show not clickable */
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;       /* prevents mouse/touch activation */
+}
+
+/* Neutralize anchors if images are accidentally wrapped in <a> */
+.project-gallery--static .grid a {
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+}
+
+/* Responsive: stack on small screens and center the images */
 @media (max-width: 768px) {
-  .collapsible:first-of-type + .content .project-gallery .grid,
   .project-gallery--static .grid {
     grid-template-columns: 1fr;
     gap: 14px;
     padding-left: 0;
     padding-right: 0;
   }
-  .collapsible:first-of-type + .content .project-gallery .grid img,
   .project-gallery--static .grid img {
     width: 90%;
     max-width: 420px;
@@ -934,110 +897,59 @@ footer {
   }
 }
 
-/* Accessibility note: pointer-events:none prevents keyboard activation on anchors.
-   If you want keyboard focus removed from those anchors as well, add tabindex="-1"
-   to the anchor elements in HTML. Since you asked for CSS-only changes, we do not
-   modify HTML here. */
+/* ===========================
+   Hide / reveal behavior for the two specific collapsibles
+   - Uses IDs for robust targeting
+   - Uses max-height + opacity for smooth reveal
+   - Keeps images inert even when visible
+   =========================== */
 
-/* Defensive selector: in case your gallery script adds a specific class to images
-   to mark them as gallery-enabled (e.g., .work-thumb or .work-img), ensure those
-   classes are overridden in this static block */
-.collapsible:first-of-type + .content .project-gallery .grid .work-img,
-.project-gallery--static .grid .work-img {
+/* Hidden by default */
+#collapsible-1 + .content .project-gallery--static,
+#collapsible-3 + .content .project-gallery--static {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.28s cubic-bezier(.22,.9,.32,1), opacity 0.18s ease;
+  pointer-events: none; /* extra safety while hidden */
+}
+
+/* Reveal when opened (handles .active, aria-expanded or .content.open patterns) */
+#collapsible-1.active + .content .project-gallery--static,
+#collapsible-1[aria-expanded="true"] + .content .project-gallery--static,
+#collapsible-1 + .content.open .project-gallery--static,
+#collapsible-3.active + .content .project-gallery--static,
+#collapsible-3[aria-expanded="true"] + .content .project-gallery--static,
+#collapsible-3 + .content.open .project-gallery--static {
+  max-height: 1600px; /* large enough to contain the grid; adjust if necessary */
+  opacity: 1;
+  transition: max-height 0.38s cubic-bezier(.22,.9,.32,1), opacity 0.18s ease;
+  /* keep pointer-events none so images remain non-interactive even when visible */
+  pointer-events: none;
+}
+
+/* Extra mobile-defensive override in case something else tries to capture touch events */
+@media (max-width: 900px) {
+  #collapsible-1 + .content .project-gallery--static,
+  #collapsible-1 + .content .project-gallery--static *,
+  #collapsible-3 + .content .project-gallery--static,
+  #collapsible-3 + .content .project-gallery--static * {
+    pointer-events: none !important;
+    touch-action: none !important;
+    -webkit-user-drag: none !important;
+    user-select: none !important;
+  }
+}
+
+/* Defensive overrides: ensure common gallery classes don't re-enable clicks */
+#collapsible-1 + .content .project-gallery--static .work-thumb,
+#collapsible-3 + .content .project-gallery--static .work-thumb,
+#collapsible-1 + .content .project-gallery--static .work-img,
+#collapsible-3 + .content .project-gallery--static .work-img {
   cursor: default !important;
   pointer-events: none !important;
 }
 
-/* If you later change the first collapsible order or add a different ordering,
-   replace `.collapsible:first-of-type` with a unique ID or class on that specific
-   collapsible button for a safer, more robust selector (recommended). */
-
-/* === Force static thesis images to be non-interactive on mobile (fix touch) ===
-   Place this at the end of style.css (after previous static gallery rules).
-   This makes the entire static gallery inert on touch devices without JS. */
-@media (max-width: 900px) {
-  /* target either the dedicated class or the first-collapsible selectors */
-  .project-gallery--static,
-  .project-gallery--static * ,
-  .collapsible:first-of-type + .content .project-gallery,
-  .collapsible:first-of-type + .content .project-gallery * {
-    pointer-events: none !important;   /* disable all pointer interactions */
-    touch-action: none !important;     /* disable gestures/scroll-to-zoom interactions */
-    -webkit-user-drag: none !important;
-    user-select: none !important;
-  }
-
-  /* Keep figcaptions visually normal but non-interactive */
-  .project-gallery--static figcaption,
-  .collapsible:first-of-type + .content .project-gallery figcaption {
-    pointer-events: none !important;
-  }
-
-  /* keep layout/visuals unchanged */
-  .project-gallery--static .grid,
-  .collapsible:first-of-type + .content .project-gallery .grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-  }
-}
-/* --- Static gallery styling for 3rd collapsible (non-clickable) --- */
-.project-gallery--static { margin-top: 1rem; }
-
-/* grid: 3x3 desktop, stacked mobile */
-.project-gallery--static .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  align-items: center;
-  justify-items: center;
-  padding-top: 10px;
-}
-
-.project-gallery--static .grid figure { margin: 0; text-align: center; }
-
-.project-gallery--static .grid img.work-img,
-.project-gallery--static .grid img.no-gallery {
-  width: 100%;
-  max-width: 260px;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-  object-fit: cover;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-  cursor: default;           /* show not clickable */
-  user-select: none;
-  -webkit-user-drag: none;
-  pointer-events: none;      /* disable all pointer interactions */
-}
-
-/* captions */
-.project-gallery--static .grid figcaption {
-  margin-top: 8px;
-  font-size: 0.95rem;
-  color: #444;
-  text-align: center;
-}
-
-/* responsive stacking */
-@media (max-width: 768px) {
-  .project-gallery--static .grid { grid-template-columns: 1fr; gap: 14px; }
-  .project-gallery--static .grid img { width: 90%; max-width: 420px; margin: 0 auto; }
-}
-
-/* keep the static gallery hidden until the collapsible opens (fallback selectors) */
-.collapsible:nth-of-type(3) + .content .project-gallery--static,
-.collapsible[aria-expanded="false"] + .content .project-gallery--static {
-  display: none;
-  height: 0;
-  overflow: hidden;
-}
-.collapsible:nth-of-type(3).active + .content .project-gallery--static,
-.collapsible:nth-of-type(3)[aria-expanded="true"] + .content .project-gallery--static,
-.collapsible:nth-of-type(3) + .content.open .project-gallery--static {
-  display: block;
-  height: auto;
-}
 
 /* ===== Sticky Footer (Option 2) ===== */
 footer {
