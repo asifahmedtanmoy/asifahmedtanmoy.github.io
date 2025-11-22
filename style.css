@@ -110,6 +110,23 @@ nav {
   .nav-links li { margin: 10px 0; }
 }
 
+/* iPhone-friendly and stacking fixes for hamburger */
+.hamburger {
+  z-index: 3000;                 /* ensure hamburger sits on top */
+  touch-action: manipulation;    /* help mobile browsers trigger taps immediately */
+  -webkit-tap-highlight-color: transparent; /* remove gray tap highlight */
+  pointer-events: auto;          /* ensure it receives pointer events */
+}
+
+/* ensure nav menu sits below hamburger but above page content */
+.nav-links {
+  z-index: 2000;
+  -webkit-transform-origin: top; /* vendor prefix safety */
+  transform-origin: top;
+  /* existing rules (transform, transition) remain */
+}
+
+
 /* ========== Container ========== */
 .container {
   width: 90%;
