@@ -222,6 +222,55 @@ nav {
   font-size: 18px;
 }
 
+
+/* Project gallery: responsive 3-col desktop, stacked mobile */
+.project-gallery .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+/* each figure keeps caption beneath image */
+.project-gallery figure {
+  margin: 0;
+  text-align: left;
+}
+.project-gallery figure img.work-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(10,10,10,0.06);
+  cursor: zoom-in; /* indicates clickable for modal */
+}
+
+/* caption styling */
+.project-gallery figure figcaption {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #444;
+  text-align: center; /* center captions under images */
+}
+
+/* MOBILE: stack vertically and center images */
+@media (max-width: 768px) {
+  .project-gallery .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .project-gallery figure {
+    text-align: center;
+  }
+  .project-gallery figure img.work-img {
+    max-width: 92%;   /* gives breathing space on narrow screens */
+    margin: 0 auto;
+  }
+  .project-gallery figure figcaption {
+    text-align: center;
+  }
+}
+
 /* Keep existing image sizing for real logos intact */
 .contact-logo {
   width: 55px;
