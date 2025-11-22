@@ -951,3 +951,34 @@ footer {
 /* If you later change the first collapsible order or add a different ordering,
    replace `.collapsible:first-of-type` with a unique ID or class on that specific
    collapsible button for a safer, more robust selector (recommended). */
+
+/* === Force static thesis images to be non-interactive on mobile (fix touch) ===
+   Place this at the end of style.css (after previous static gallery rules).
+   This makes the entire static gallery inert on touch devices without JS. */
+@media (max-width: 900px) {
+  /* target either the dedicated class or the first-collapsible selectors */
+  .project-gallery--static,
+  .project-gallery--static * ,
+  .collapsible:first-of-type + .content .project-gallery,
+  .collapsible:first-of-type + .content .project-gallery * {
+    pointer-events: none !important;   /* disable all pointer interactions */
+    touch-action: none !important;     /* disable gestures/scroll-to-zoom interactions */
+    -webkit-user-drag: none !important;
+    user-select: none !important;
+  }
+
+  /* Keep figcaptions visually normal but non-interactive */
+  .project-gallery--static figcaption,
+  .collapsible:first-of-type + .content .project-gallery figcaption {
+    pointer-events: none !important;
+  }
+
+  /* keep layout/visuals unchanged */
+  .project-gallery--static .grid,
+  .collapsible:first-of-type + .content .project-gallery .grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+}
+
