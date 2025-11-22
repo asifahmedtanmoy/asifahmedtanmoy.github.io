@@ -223,28 +223,40 @@ nav {
 }
 
 
-/* Project gallery: responsive 3-col desktop, stacked mobile */
+/* ===== Desktop: normalize thumbnail heights (visual only) ===== */
 .project-gallery .grid {
+  --thumb-height: 220px; /* thumbnail height for desktop — adjust if you want taller/shorter */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   align-items: start;
 }
 
-/* each figure keeps caption beneath image */
 .project-gallery figure {
   margin: 0;
   text-align: left;
+  overflow: hidden; /* ensure cropped overflow is hidden */
+  border-radius: 6px;
 }
 .project-gallery figure img.work-img {
   width: 100%;
-  height: auto;
+  height: var(--thumb-height);   /* uniform thumbnail height on desktop */
+  object-fit: cover;             /* fills thumbnail area, crops as needed (no distortion) */
   display: block;
   border-radius: 6px;
+  transition: transform .25s ease;
   box-shadow: 0 6px 18px rgba(10,10,10,0.06);
   cursor: zoom-in; /* indicates clickable for modal */
 }
 
+/* subtle zoom on hover for desktop only */
+@media (min-width: 769px) {
+  .project-gallery figure:hover img.work-img {
+    transform: scale(1.03);
+  }
+}
+
+/* Project gallery: responsive 3-col desktop, stacked mobile (existing rules kept) */
 /* caption styling */
 .project-gallery figure figcaption {
   margin-top: 8px;
@@ -263,7 +275,10 @@ nav {
     text-align: center;
   }
   .project-gallery figure img.work-img {
-    max-width: 92%;   /* gives breathing space on narrow screens */
+    width: 100%;
+    height: auto;
+    max-height: 60vh;      /* keeps tall photos visible on phone */
+    object-fit: contain;   /* show whole image, no cropping */
     margin: 0 auto;
   }
   .project-gallery figure figcaption {
